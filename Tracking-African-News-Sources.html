@@ -1,0 +1,225 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Africa Real-Time News Tracker</title>
+<style>
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; margin:0; background:#0f172a; color:#e2e8f0; }
+header { padding:20px; background:#1e293b; position:sticky; top:0; z-index:10; }
+h1 { margin:0; font-size:1.5rem; }
+.filters { display:flex; gap:12px; margin-top:12px; flex-wrap:wrap; }
+select, input { padding:8px 12px; border-radius:8px; border:1px solid #334155; background:#0f172a; color:#e2e8f0; }
+.tabs { display:flex; gap:8px; margin:20px; }
+.tab { padding:10px 16px; background:#1e293b; border-radius:8px; cursor:pointer; }
+.tab.active { background:#3b82f6; }
+table { width:100%; border-collapse:collapse; }
+th, td { padding:10px; text-align:left; border-bottom:1px solid #334155; }
+th { background:#1e293b; position:sticky; top:132px; }
+tr:hover { background:#1e293b; }
+a { color:#60a5fa; text-decoration:none; }
+.container { padding:0 20px 40px; }
+.badge { background:#334155; padding:2px 6px; border-radius:4px; font-size:0.75rem; }
+</style>
+</head>
+<body>
+<header>
+<h1>Africa Real-Time News Tracker</h1>
+<div class="filters">
+<select id="regionFilter"><option value="">All Regions</option><option>West Africa</option><option>East Africa</option><option>Southern Africa</option><option>Central Africa</option><option>North Africa</option><option>Pan-African</option></select>
+<select id="langFilter"><option value="">All Languages</option><option>English</option><option>French</option><option>Arabic/French</option><option>Portuguese</option><option>English/Swahili</option></select>
+<input id="searchBox" placeholder="Search country or outlet...">
+<span class="badge" id="countBadge"></span>
+</div>
+</header>
+<div class="tabs">
+<div class="tab active" data-tab="news">News Sources (115)</div>
+<div class="tab" data-tab="chatter">Chatter Sources (17)</div>
+</div>
+<div class="container">
+<div id="newsPanel">
+<table id="newsTable">
+<thead><tr><th>Country</th><th>Outlet</th><th>Link</th><th>Region</th><th>Language</th></tr></thead>
+<tbody>
+<tr data-region='West Africa' data-country='Nigeria' data-lang='English'><td>Nigeria</td><td>Channels Television</td><td><a href='https://www.facebook.com/channelsforum' target='_blank'>Open</a></td><td>West Africa</td><td>English</td></tr>
+<tr data-region='West Africa' data-country='Nigeria' data-lang='English'><td>Nigeria</td><td>Punch Newspapers</td><td><a href='https://www.facebook.com/punchnewspaper' target='_blank'>Open</a></td><td>West Africa</td><td>English</td></tr>
+<tr data-region='West Africa' data-country='Nigeria' data-lang='English'><td>Nigeria</td><td>Premium Times</td><td><a href='https://www.facebook.com/Premiumtimes' target='_blank'>Open</a></td><td>West Africa</td><td>English</td></tr>
+<tr data-region='West Africa' data-country='Nigeria' data-lang='English'><td>Nigeria</td><td>Sahara Reporters</td><td><a href='https://www.facebook.com/SaharaReporters' target='_blank'>Open</a></td><td>West Africa</td><td>English</td></tr>
+<tr data-region='West Africa' data-country='Nigeria' data-lang='English'><td>Nigeria</td><td>Vanguard News</td><td><a href='https://www.facebook.com/vanguardngr' target='_blank'>Open</a></td><td>West Africa</td><td>English</td></tr>
+<tr data-region='West Africa' data-country='Nigeria' data-lang='English'><td>Nigeria</td><td>TheCable</td><td><a href='https://www.facebook.com/thecableng' target='_blank'>Open</a></td><td>West Africa</td><td>English</td></tr>
+<tr data-region='West Africa' data-country='Nigeria' data-lang='English'><td>Nigeria</td><td>Daily Trust</td><td><a href='https://www.facebook.com/DailyTrust' target='_blank'>Open</a></td><td>West Africa</td><td>English</td></tr>
+<tr data-region='West Africa' data-country='Nigeria' data-lang='English'><td>Nigeria</td><td>TVC News Nigeria</td><td><a href='https://www.facebook.com/tvcnewsng' target='_blank'>Open</a></td><td>West Africa</td><td>English</td></tr>
+<tr data-region='West Africa' data-country='Nigeria' data-lang='English'><td>Nigeria</td><td>Arise News</td><td><a href='https://www.facebook.com/ARISEtv' target='_blank'>Open</a></td><td>West Africa</td><td>English</td></tr>
+<tr data-region='West Africa' data-country='Nigeria' data-lang='English'><td>Nigeria</td><td>Legit.ng</td><td><a href='https://www.facebook.com/legitng' target='_blank'>Open</a></td><td>West Africa</td><td>English</td></tr>
+<tr data-region='West Africa' data-country='Nigeria' data-lang='English'><td>Nigeria</td><td>Leadership NGA</td><td><a href='https://www.facebook.com/LeadershipNGA' target='_blank'>Open</a></td><td>West Africa</td><td>English</td></tr>
+<tr data-region='West Africa' data-country='Nigeria' data-lang='English'><td>Nigeria</td><td>The Nation Nigeria</td><td><a href='https://www.facebook.com/thenationnigeria' target='_blank'>Open</a></td><td>West Africa</td><td>English</td></tr>
+<tr data-region='West Africa' data-country='Nigeria' data-lang='English'><td>Nigeria</td><td>Nigerian Tribune</td><td><a href='https://www.facebook.com/NigerianTribune' target='_blank'>Open</a></td><td>West Africa</td><td>English</td></tr>
+<tr data-region='West Africa' data-country='Nigeria' data-lang='English'><td>Nigeria</td><td>Guardian Nigeria</td><td><a href='https://www.facebook.com/guardianng' target='_blank'>Open</a></td><td>West Africa</td><td>English</td></tr>
+<tr data-region='West Africa' data-country='Nigeria' data-lang='English'><td>Nigeria</td><td>Independent Nigeria</td><td><a href='https://www.facebook.com/IndependentNgr' target='_blank'>Open</a></td><td>West Africa</td><td>English</td></tr>
+<tr data-region='West Africa' data-country='Ghana' data-lang='English'><td>Ghana</td><td>JoyNews</td><td><a href='https://www.facebook.com/joy997fm' target='_blank'>Open</a></td><td>West Africa</td><td>English</td></tr>
+<tr data-region='West Africa' data-country='Ghana' data-lang='English'><td>Ghana</td><td>Citi FM</td><td><a href='https://www.facebook.com/Citi973' target='_blank'>Open</a></td><td>West Africa</td><td>English</td></tr>
+<tr data-region='West Africa' data-country='Ghana' data-lang='English'><td>Ghana</td><td>GhanaWeb</td><td><a href='https://www.facebook.com/GhanaWeb' target='_blank'>Open</a></td><td>West Africa</td><td>English</td></tr>
+<tr data-region='West Africa' data-country='Ghana' data-lang='English'><td>Ghana</td><td>Peace FM</td><td><a href='https://www.facebook.com/Peace104.3FM' target='_blank'>Open</a></td><td>West Africa</td><td>English</td></tr>
+<tr data-region='West Africa' data-country='Ghana' data-lang='English'><td>Ghana</td><td>TV3 Ghana</td><td><a href='https://www.facebook.com/TV3Ghana' target='_blank'>Open</a></td><td>West Africa</td><td>English</td></tr>
+<tr data-region='West Africa' data-country='Côte d'Ivoire' data-lang='French'><td>Côte d'Ivoire</td><td>Abidjan.net</td><td><a href='https://www.facebook.com/Abidjan.net' target='_blank'>Open</a></td><td>West Africa</td><td>French</td></tr>
+<tr data-region='West Africa' data-country='Côte d'Ivoire' data-lang='French'><td>Côte d'Ivoire</td><td>RTI Info</td><td><a href='https://www.facebook.com/RTIofficiel' target='_blank'>Open</a></td><td>West Africa</td><td>French</td></tr>
+<tr data-region='West Africa' data-country='Côte d'Ivoire' data-lang='French'><td>Côte d'Ivoire</td><td>7info</td><td><a href='https://www.facebook.com/7info.ci' target='_blank'>Open</a></td><td>West Africa</td><td>French</td></tr>
+<tr data-region='West Africa' data-country='Senegal' data-lang='French'><td>Senegal</td><td>Seneweb</td><td><a href='https://www.facebook.com/seneweb' target='_blank'>Open</a></td><td>West Africa</td><td>French</td></tr>
+<tr data-region='West Africa' data-country='Senegal' data-lang='French'><td>Senegal</td><td>Dakaractu</td><td><a href='https://www.facebook.com/dakaractu' target='_blank'>Open</a></td><td>West Africa</td><td>French</td></tr>
+<tr data-region='West Africa' data-country='Senegal' data-lang='French'><td>Senegal</td><td>RTS Senegal</td><td><a href='https://www.facebook.com/rts1senegal' target='_blank'>Open</a></td><td>West Africa</td><td>French</td></tr>
+<tr data-region='West Africa' data-country='Mali' data-lang='French'><td>Mali</td><td>Maliweb</td><td><a href='https://www.facebook.com/maliweb' target='_blank'>Open</a></td><td>West Africa</td><td>French</td></tr>
+<tr data-region='West Africa' data-country='Mali' data-lang='French'><td>Mali</td><td>ORTM</td><td><a href='https://www.facebook.com/ortmofficiel' target='_blank'>Open</a></td><td>West Africa</td><td>French</td></tr>
+<tr data-region='West Africa' data-country='Burkina Faso' data-lang='French'><td>Burkina Faso</td><td>AIB</td><td><a href='https://www.facebook.com/aib.burkina' target='_blank'>Open</a></td><td>West Africa</td><td>French</td></tr>
+<tr data-region='West Africa' data-country='Burkina Faso' data-lang='French'><td>Burkina Faso</td><td>Burkina24</td><td><a href='https://www.facebook.com/burkina24' target='_blank'>Open</a></td><td>West Africa</td><td>French</td></tr>
+<tr data-region='West Africa' data-country='Burkina Faso' data-lang='French'><td>Burkina Faso</td><td>LeFaso.net</td><td><a href='https://www.facebook.com/lefaso.net' target='_blank'>Open</a></td><td>West Africa</td><td>French</td></tr>
+<tr data-region='West Africa' data-country='Niger' data-lang='French'><td>Niger</td><td>ActuNiger</td><td><a href='https://www.facebook.com/actuniger' target='_blank'>Open</a></td><td>West Africa</td><td>French</td></tr>
+<tr data-region='West Africa' data-country='Togo' data-lang='French'><td>Togo</td><td>Togo First</td><td><a href='https://www.facebook.com/togofirst' target='_blank'>Open</a></td><td>West Africa</td><td>French</td></tr>
+<tr data-region='West Africa' data-country='Benin' data-lang='French'><td>Benin</td><td>24 Heures au Bénin</td><td><a href='https://www.facebook.com/24haubenin' target='_blank'>Open</a></td><td>West Africa</td><td>French</td></tr>
+<tr data-region='West Africa' data-country='Sierra Leone' data-lang='English'><td>Sierra Leone</td><td>AYV News</td><td><a href='https://www.facebook.com/AYVNews' target='_blank'>Open</a></td><td>West Africa</td><td>English</td></tr>
+<tr data-region='West Africa' data-country='Liberia' data-lang='English'><td>Liberia</td><td>FrontPage Africa</td><td><a href='https://www.facebook.com/frontpageafrica' target='_blank'>Open</a></td><td>West Africa</td><td>English</td></tr>
+<tr data-region='West Africa' data-country='Guinea' data-lang='French'><td>Guinea</td><td>Guinéenews</td><td><a href='https://www.facebook.com/Guineenews' target='_blank'>Open</a></td><td>West Africa</td><td>French</td></tr>
+<tr data-region='West Africa' data-country='Guinea-Bissau' data-lang='Portuguese'><td>Guinea-Bissau</td><td>O Democrata GB</td><td><a href='https://www.facebook.com/odemocratagb' target='_blank'>Open</a></td><td>West Africa</td><td>Portuguese</td></tr>
+<tr data-region='West Africa' data-country='Cape Verde' data-lang='Portuguese'><td>Cape Verde</td><td>RTC</td><td><a href='https://www.facebook.com/rtc.cv' target='_blank'>Open</a></td><td>West Africa</td><td>Portuguese</td></tr>
+<tr data-region='West Africa' data-country='Gambia' data-lang='English'><td>Gambia</td><td>The Point</td><td><a href='https://www.facebook.com/thepointgambia' target='_blank'>Open</a></td><td>West Africa</td><td>English</td></tr>
+<tr data-region='West Africa' data-country='Gambia' data-lang='English'><td>Gambia</td><td>Kerr Fatou</td><td><a href='https://www.facebook.com/kerrfatou' target='_blank'>Open</a></td><td>West Africa</td><td>English</td></tr>
+<tr data-region='West Africa' data-country='Mauritania' data-lang='Arabic/French'><td>Mauritania</td><td>Alakhbar</td><td><a href='https://www.facebook.com/alakhbar.mr' target='_blank'>Open</a></td><td>West Africa</td><td>Arabic/French</td></tr>
+<tr data-region='East Africa' data-country='Kenya' data-lang='English'><td>Kenya</td><td>Daily Nation</td><td><a href='https://www.facebook.com/DailyNation' target='_blank'>Open</a></td><td>East Africa</td><td>English</td></tr>
+<tr data-region='East Africa' data-country='Kenya' data-lang='English'><td>Kenya</td><td>KTN News</td><td><a href='https://www.facebook.com/KTNKenya' target='_blank'>Open</a></td><td>East Africa</td><td>English</td></tr>
+<tr data-region='East Africa' data-country='Kenya' data-lang='English'><td>Kenya</td><td>NTV Kenya</td><td><a href='https://www.facebook.com/NTVKenya' target='_blank'>Open</a></td><td>East Africa</td><td>English</td></tr>
+<tr data-region='East Africa' data-country='Kenya' data-lang='English'><td>Kenya</td><td>Citizen TV</td><td><a href='https://www.facebook.com/CitizenTVKenya' target='_blank'>Open</a></td><td>East Africa</td><td>English</td></tr>
+<tr data-region='East Africa' data-country='Kenya' data-lang='English'><td>Kenya</td><td>The Standard</td><td><a href='https://www.facebook.com/standardkenya' target='_blank'>Open</a></td><td>East Africa</td><td>English</td></tr>
+<tr data-region='East Africa' data-country='Kenya' data-lang='English'><td>Kenya</td><td>The Star</td><td><a href='https://www.facebook.com/thestarkenya' target='_blank'>Open</a></td><td>East Africa</td><td>English</td></tr>
+<tr data-region='East Africa' data-country='Kenya' data-lang='English'><td>Kenya</td><td>Tuko.co.ke</td><td><a href='https://www.facebook.com/tuko.co.ke' target='_blank'>Open</a></td><td>East Africa</td><td>English</td></tr>
+<tr data-region='East Africa' data-country='Uganda' data-lang='English'><td>Uganda</td><td>NBS Television</td><td><a href='https://facebook.com/nbstelevision' target='_blank'>Open</a></td><td>East Africa</td><td>English</td></tr>
+<tr data-region='East Africa' data-country='Uganda' data-lang='English'><td>Uganda</td><td>NTV Uganda</td><td><a href='https://www.facebook.com/ntvuganda' target='_blank'>Open</a></td><td>East Africa</td><td>English</td></tr>
+<tr data-region='East Africa' data-country='Uganda' data-lang='English'><td>Uganda</td><td>Daily Monitor</td><td><a href='https://www.facebook.com/dailymonitor' target='_blank'>Open</a></td><td>East Africa</td><td>English</td></tr>
+<tr data-region='East Africa' data-country='Uganda' data-lang='English'><td>Uganda</td><td>New Vision</td><td><a href='https://www.facebook.com/thenewvision/' target='_blank'>Open</a></td><td>East Africa</td><td>English</td></tr>
+<tr data-region='East Africa' data-country='Uganda' data-lang='English'><td>Uganda</td><td>Nile Post</td><td><a href='https://www.facebook.com/nilepostnews' target='_blank'>Open</a></td><td>East Africa</td><td>English</td></tr>
+<tr data-region='East Africa' data-country='Tanzania' data-lang='English'><td>Tanzania</td><td>ITV Tanzania</td><td><a href='https://www.facebook.com/itvtz/' target='_blank'>Open</a></td><td>East Africa</td><td>English</td></tr>
+<tr data-region='East Africa' data-country='Tanzania' data-lang='English'><td>Tanzania</td><td>Azam TV</td><td><a href='https://www.facebook.com/azamtvtz' target='_blank'>Open</a></td><td>East Africa</td><td>English</td></tr>
+<tr data-region='East Africa' data-country='Tanzania' data-lang='English'><td>Tanzania</td><td>Mwananchi</td><td><a href='https://www.facebook.com/MwananchiDigital' target='_blank'>Open</a></td><td>East Africa</td><td>English</td></tr>
+<tr data-region='East Africa' data-country='Tanzania' data-lang='English'><td>Tanzania</td><td>Millard Ayo</td><td><a href='https://www.facebook.com/millardayo' target='_blank'>Open</a></td><td>East Africa</td><td>English</td></tr>
+<tr data-region='East Africa' data-country='Rwanda' data-lang='French/English'><td>Rwanda</td><td>The New Times</td><td><a href='https://www.facebook.com/TheNewTimesRwanda' target='_blank'>Open</a></td><td>East Africa</td><td>French/English</td></tr>
+<tr data-region='East Africa' data-country='Rwanda' data-lang='French/English'><td>Rwanda</td><td>IGIHE</td><td><a href='https://www.facebook.com/igihe' target='_blank'>Open</a></td><td>East Africa</td><td>French/English</td></tr>
+<tr data-region='East Africa' data-country='Ethiopia' data-lang='Amharic/English'><td>Ethiopia</td><td>FANA Broadcasting</td><td><a href='https://www.facebook.com/FanaBroadcastingCorporate' target='_blank'>Open</a></td><td>East Africa</td><td>Amharic/English</td></tr>
+<tr data-region='East Africa' data-country='Ethiopia' data-lang='Amharic/English'><td>Ethiopia</td><td>Addis Standard</td><td><a href='https://www.facebook.com/addisstandard' target='_blank'>Open</a></td><td>East Africa</td><td>Amharic/English</td></tr>
+<tr data-region='East Africa' data-country='Somalia' data-lang='Somali/Arabic'><td>Somalia</td><td>Goobjoog News</td><td><a href='https://www.facebook.com/GoobjoogNews' target='_blank'>Open</a></td><td>East Africa</td><td>Somali/Arabic</td></tr>
+<tr data-region='East Africa' data-country='Somalia' data-lang='Somali/Arabic'><td>Somalia</td><td>Garowe Online</td><td><a href='https://www.facebook.com/GaroweOnline' target='_blank'>Open</a></td><td>East Africa</td><td>Somali/Arabic</td></tr>
+<tr data-region='East Africa' data-country='South Sudan' data-lang='English'><td>South Sudan</td><td>Eye Radio</td><td><a href='https://www.facebook.com/eyeradiojuba' target='_blank'>Open</a></td><td>East Africa</td><td>English</td></tr>
+<tr data-region='East Africa' data-country='South Sudan' data-lang='English'><td>South Sudan</td><td>Radio Tamazuj</td><td><a href='https://www.facebook.com/radiotamazuj' target='_blank'>Open</a></td><td>East Africa</td><td>English</td></tr>
+<tr data-region='East Africa' data-country='Sudan' data-lang='English'><td>Sudan</td><td>Sudan Tribune</td><td><a href='https://www.facebook.com/sudantribune' target='_blank'>Open</a></td><td>East Africa</td><td>English</td></tr>
+<tr data-region='East Africa' data-country='Sudan' data-lang='English'><td>Sudan</td><td>Radio Dabanga</td><td><a href='https://www.facebook.com/radiodabanga' target='_blank'>Open</a></td><td>East Africa</td><td>English</td></tr>
+<tr data-region='Southern Africa' data-country='South Africa' data-lang='English'><td>South Africa</td><td>News24</td><td><a href='https://facebook.com/News24' target='_blank'>Open</a></td><td>Southern Africa</td><td>English</td></tr>
+<tr data-region='Southern Africa' data-country='South Africa' data-lang='English'><td>South Africa</td><td>eNCA</td><td><a href='https://facebook.com/eNCAnews' target='_blank'>Open</a></td><td>Southern Africa</td><td>English</td></tr>
+<tr data-region='Southern Africa' data-country='South Africa' data-lang='English'><td>South Africa</td><td>SABC News</td><td><a href='https://facebook.com/SABCNewsOnline' target='_blank'>Open</a></td><td>Southern Africa</td><td>English</td></tr>
+<tr data-region='Southern Africa' data-country='South Africa' data-lang='English'><td>South Africa</td><td>TimesLIVE</td><td><a href='https://facebook.com/TimesLIVE' target='_blank'>Open</a></td><td>Southern Africa</td><td>English</td></tr>
+<tr data-region='Southern Africa' data-country='South Africa' data-lang='English'><td>South Africa</td><td>EWN</td><td><a href='https://facebook.com/ewnreporter' target='_blank'>Open</a></td><td>Southern Africa</td><td>English</td></tr>
+<tr data-region='Southern Africa' data-country='South Africa' data-lang='English'><td>South Africa</td><td>Daily Maverick</td><td><a href='https://facebook.com/dailymaverick' target='_blank'>Open</a></td><td>Southern Africa</td><td>English</td></tr>
+<tr data-region='Southern Africa' data-country='South Africa' data-lang='English'><td>South Africa</td><td>SowetanLIVE</td><td><a href='https://facebook.com/SowetanLIVE' target='_blank'>Open</a></td><td>Southern Africa</td><td>English</td></tr>
+<tr data-region='Southern Africa' data-country='Namibia' data-lang='English'><td>Namibia</td><td>The Namibian</td><td><a href='https://facebook.com/TheNamibian' target='_blank'>Open</a></td><td>Southern Africa</td><td>English</td></tr>
+<tr data-region='Southern Africa' data-country='Namibia' data-lang='English'><td>Namibia</td><td>Namibian Sun</td><td><a href='https://facebook.com/NamibianSun' target='_blank'>Open</a></td><td>Southern Africa</td><td>English</td></tr>
+<tr data-region='Southern Africa' data-country='Botswana' data-lang='English'><td>Botswana</td><td>Mmegi Online</td><td><a href='https://facebook.com/MmegiOnline' target='_blank'>Open</a></td><td>Southern Africa</td><td>English</td></tr>
+<tr data-region='Southern Africa' data-country='Botswana' data-lang='English'><td>Botswana</td><td>Botswana Gazette</td><td><a href='https://facebook.com/BotswanaGazette' target='_blank'>Open</a></td><td>Southern Africa</td><td>English</td></tr>
+<tr data-region='Southern Africa' data-country='Zimbabwe' data-lang='English'><td>Zimbabwe</td><td>The Herald</td><td><a href='https://facebook.com/heraldzimbabwe' target='_blank'>Open</a></td><td>Southern Africa</td><td>English</td></tr>
+<tr data-region='Southern Africa' data-country='Zimbabwe' data-lang='English'><td>Zimbabwe</td><td>NewsDay</td><td><a href='https://facebook.com/NewsDayZimbabwe' target='_blank'>Open</a></td><td>Southern Africa</td><td>English</td></tr>
+<tr data-region='Southern Africa' data-country='Zimbabwe' data-lang='English'><td>Zimbabwe</td><td>263Chat</td><td><a href='https://facebook.com/263Chat' target='_blank'>Open</a></td><td>Southern Africa</td><td>English</td></tr>
+<tr data-region='Southern Africa' data-country='Zambia' data-lang='English'><td>Zambia</td><td>Mwebantu</td><td><a href='https://facebook.com/mwebantu' target='_blank'>Open</a></td><td>Southern Africa</td><td>English</td></tr>
+<tr data-region='Southern Africa' data-country='Zambia' data-lang='English'><td>Zambia</td><td>News Diggers</td><td><a href='https://facebook.com/DiggersNews' target='_blank'>Open</a></td><td>Southern Africa</td><td>English</td></tr>
+<tr data-region='Southern Africa' data-country='Malawi' data-lang='English'><td>Malawi</td><td>Nation Online</td><td><a href='https://facebook.com/NationOnlineMw' target='_blank'>Open</a></td><td>Southern Africa</td><td>English</td></tr>
+<tr data-region='Southern Africa' data-country='Malawi' data-lang='English'><td>Malawi</td><td>Times 360</td><td><a href='https://facebook.com/Times360Malawi' target='_blank'>Open</a></td><td>Southern Africa</td><td>English</td></tr>
+<tr data-region='Southern Africa' data-country='Mozambique' data-lang='Portuguese'><td>Mozambique</td><td>O País</td><td><a href='https://facebook.com/jornalopais' target='_blank'>Open</a></td><td>Southern Africa</td><td>Portuguese</td></tr>
+<tr data-region='Southern Africa' data-country='Mozambique' data-lang='Portuguese'><td>Mozambique</td><td>Carta de Moçambique</td><td><a href='https://facebook.com/cartamz' target='_blank'>Open</a></td><td>Southern Africa</td><td>Portuguese</td></tr>
+<tr data-region='Southern Africa' data-country='Lesotho' data-lang='English'><td>Lesotho</td><td>Lesotho Times</td><td><a href='https://facebook.com/LesothoTimes' target='_blank'>Open</a></td><td>Southern Africa</td><td>English</td></tr>
+<tr data-region='Southern Africa' data-country='Eswatini' data-lang='English'><td>Eswatini</td><td>Times of Eswatini</td><td><a href='https://facebook.com/TimesofEswatini' target='_blank'>Open</a></td><td>Southern Africa</td><td>English</td></tr>
+<tr data-region='Southern Africa' data-country='Angola' data-lang='Portuguese'><td>Angola</td><td>Jornal de Angola</td><td><a href='https://facebook.com/jornaldeangola' target='_blank'>Open</a></td><td>Southern Africa</td><td>Portuguese</td></tr>
+<tr data-region='Central Africa' data-country='Cameroon' data-lang='French/English'><td>Cameroon</td><td>CRTV</td><td><a href='https://www.facebook.com/CRTVweb/' target='_blank'>Open</a></td><td>Central Africa</td><td>French/English</td></tr>
+<tr data-region='Central Africa' data-country='Cameroon' data-lang='French/English'><td>Cameroon</td><td>Actu Cameroun</td><td><a href='https://www.facebook.com/actucameroun' target='_blank'>Open</a></td><td>Central Africa</td><td>French/English</td></tr>
+<tr data-region='Central Africa' data-country='Cameroon' data-lang='French/English'><td>Cameroon</td><td>Equinoxe TV</td><td><a href='https://www.facebook.com/equinoxe.television/' target='_blank'>Open</a></td><td>Central Africa</td><td>French/English</td></tr>
+<tr data-region='Central Africa' data-country='DRC' data-lang='French'><td>DRC</td><td>Radio Okapi</td><td><a href='https://www.facebook.com/radiookapi' target='_blank'>Open</a></td><td>Central Africa</td><td>French</td></tr>
+<tr data-region='Central Africa' data-country='DRC' data-lang='French'><td>DRC</td><td>Actualite.cd</td><td><a href='https://www.facebook.com/actualitecd' target='_blank'>Open</a></td><td>Central Africa</td><td>French</td></tr>
+<tr data-region='Central Africa' data-country='DRC' data-lang='French'><td>DRC</td><td>7sur7.cd</td><td><a href='https://www.facebook.com/7sur7cd' target='_blank'>Open</a></td><td>Central Africa</td><td>French</td></tr>
+<tr data-region='Central Africa' data-country='DRC' data-lang='French'><td>DRC</td><td>Mediacongo</td><td><a href='https://www.facebook.com/mediacongo' target='_blank'>Open</a></td><td>Central Africa</td><td>French</td></tr>
+<tr data-region='Central Africa' data-country='Congo Republic' data-lang='French'><td>Congo Republic</td><td>Les Dépêches de Brazzaville</td><td><a href='https://www.facebook.com/lesdepechesdebrazzaville' target='_blank'>Open</a></td><td>Central Africa</td><td>French</td></tr>
+<tr data-region='Central Africa' data-country='Gabon' data-lang='French'><td>Gabon</td><td>Gabon Media Time</td><td><a href='https://www.facebook.com/gabonmediatime' target='_blank'>Open</a></td><td>Central Africa</td><td>French</td></tr>
+<tr data-region='Central Africa' data-country='Gabon' data-lang='French'><td>Gabon</td><td>Info241</td><td><a href='https://www.facebook.com/info241' target='_blank'>Open</a></td><td>Central Africa</td><td>French</td></tr>
+<tr data-region='Central Africa' data-country='Chad' data-lang='French'><td>Chad</td><td>Tchadinfos</td><td><a href='https://www.facebook.com/tchadinfos' target='_blank'>Open</a></td><td>Central Africa</td><td>French</td></tr>
+<tr data-region='Central Africa' data-country='Central African Republic' data-lang='French'><td>Central African Republic</td><td>Radio Ndeke Luka</td><td><a href='https://www.facebook.com/RadioNdekeLuka' target='_blank'>Open</a></td><td>Central Africa</td><td>French</td></tr>
+<tr data-region='North Africa' data-country='Egypt' data-lang='Arabic/French'><td>Egypt</td><td>Youm7</td><td><a href='https://www.facebook.com/Youm7' target='_blank'>Open</a></td><td>North Africa</td><td>Arabic/French</td></tr>
+<tr data-region='North Africa' data-country='Egypt' data-lang='Arabic/French'><td>Egypt</td><td>Masrawy</td><td><a href='https://www.facebook.com/masrawy' target='_blank'>Open</a></td><td>North Africa</td><td>Arabic/French</td></tr>
+<tr data-region='North Africa' data-country='Egypt' data-lang='Arabic/French'><td>Egypt</td><td>Al-Masry Al-Youm</td><td><a href='https://www.facebook.com/AlMasryAlYoum' target='_blank'>Open</a></td><td>North Africa</td><td>Arabic/French</td></tr>
+<tr data-region='North Africa' data-country='Libya' data-lang='Arabic/French'><td>Libya</td><td>Akhbar Libya 24</td><td><a href='https://www.facebook.com/akhbarlibya24' target='_blank'>Open</a></td><td>North Africa</td><td>Arabic/French</td></tr>
+<tr data-region='North Africa' data-country='Libya' data-lang='Arabic/French'><td>Libya</td><td>Alwasat</td><td><a href='https://www.facebook.com/alwasatmlb' target='_blank'>Open</a></td><td>North Africa</td><td>Arabic/French</td></tr>
+<tr data-region='North Africa' data-country='Tunisia' data-lang='Arabic/French'><td>Tunisia</td><td>Mosaique FM</td><td><a href='https://www.facebook.com/MosaiqueFM' target='_blank'>Open</a></td><td>North Africa</td><td>Arabic/French</td></tr>
+<tr data-region='North Africa' data-country='Tunisia' data-lang='Arabic/French'><td>Tunisia</td><td>Shems FM</td><td><a href='https://www.facebook.com/ShemsFM' target='_blank'>Open</a></td><td>North Africa</td><td>Arabic/French</td></tr>
+<tr data-region='North Africa' data-country='Algeria' data-lang='Arabic/French'><td>Algeria</td><td>Ennahar TV</td><td><a href='https://www.facebook.com/EnnaharTv' target='_blank'>Open</a></td><td>North Africa</td><td>Arabic/French</td></tr>
+<tr data-region='North Africa' data-country='Algeria' data-lang='Arabic/French'><td>Algeria</td><td>TSA</td><td><a href='https://www.facebook.com/TSA.Algerie' target='_blank'>Open</a></td><td>North Africa</td><td>Arabic/French</td></tr>
+<tr data-region='North Africa' data-country='Morocco' data-lang='Arabic/French'><td>Morocco</td><td>Hespress</td><td><a href='https://www.facebook.com/hespress' target='_blank'>Open</a></td><td>North Africa</td><td>Arabic/French</td></tr>
+<tr data-region='North Africa' data-country='Morocco' data-lang='Arabic/French'><td>Morocco</td><td>Le360</td><td><a href='https://www.facebook.com/Le360fr' target='_blank'>Open</a></td><td>North Africa</td><td>Arabic/French</td></tr>
+<tr data-region='North Africa' data-country='Morocco' data-lang='Arabic/French'><td>Morocco</td><td>Chouf TV</td><td><a href='https://www.facebook.com/chouftv' target='_blank'>Open</a></td><td>North Africa</td><td>Arabic/French</td></tr>
+
+</tbody>
+</table>
+</div>
+<div id="chatterPanel" style="display:none">
+<table id="chatterTable">
+<thead><tr><th>Country</th><th>Outlet</th><th>Link</th><th>Followers/Notes</th><th>Language</th></tr></thead>
+<tbody>
+<tr data-region='West Africa' data-country='Nigeria' data-lang='English'><td>Nigeria</td><td>Instablog9ja</td><td><a href='https://facebook.com/instablog9ja' target='_blank'>Open</a></td><td>6.4M IG</td><td>English</td></tr>
+<tr data-region='West Africa' data-country='Nigeria' data-lang='English'><td>Nigeria</td><td>Yabaleftonline</td><td><a href='https://facebook.com/yabaleftonline' target='_blank'>Open</a></td><td>IG 6.07M, X 3M</td><td>English</td></tr>
+<tr data-region='West Africa' data-country='Nigeria' data-lang='English'><td>Nigeria</td><td>Gistlover</td><td><a href='https://facebook.com/gistloversblog11' target='_blank'>Open</a></td><td>~162k backup</td><td>English</td></tr>
+<tr data-region='West Africa' data-country='Nigeria' data-lang='English'><td>Nigeria</td><td>Linda Ikeji</td><td><a href='https://facebook.com/lindaikejiblog' target='_blank'>Open</a></td><td>6.9M IG</td><td>English</td></tr>
+<tr data-region='West Africa' data-country='Nigeria' data-lang='English'><td>Nigeria</td><td>Sahara Reporters</td><td><a href='https://facebook.com/SaharaReporters' target='_blank'>Open</a></td><td>X 5.5M</td><td>English</td></tr>
+<tr data-region='West Africa' data-country='Nigeria' data-lang='English'><td>Nigeria</td><td>Gossip Mill TV</td><td><a href='https://facebook.com/GossipMillNaija' target='_blank'>Open</a></td><td>5.6M IG</td><td>English</td></tr>
+<tr data-region='West Africa' data-country='Ghana' data-lang='English'><td>Ghana</td><td>ZionFelix</td><td><a href='https://facebook.com/zionfelixdotcom' target='_blank'>Open</a></td><td>1M IG</td><td>English</td></tr>
+<tr data-region='West Africa' data-country='Ghana' data-lang='English'><td>Ghana</td><td>GhPage</td><td><a href='https://facebook.com/GhPageCom' target='_blank'>Open</a></td><td></td><td>English</td></tr>
+<tr data-region='East Africa' data-country='Kenya' data-lang='English/Swahili'><td>Kenya</td><td>Nairobi Gossip Club</td><td><a href='https://facebook.com/NairobiGossipClub' target='_blank'>Open</a></td><td>2.9M IG</td><td>English/Swahili</td></tr>
+<tr data-region='East Africa' data-country='Kenya' data-lang='English/Swahili'><td>Kenya</td><td>Mpasho</td><td><a href='https://facebook.com/MpashoNews' target='_blank'>Open</a></td><td>1.1M IG</td><td>English/Swahili</td></tr>
+<tr data-region='East Africa' data-country='Kenya' data-lang='English/Swahili'><td>Kenya</td><td>Edgar Obare</td><td><a href='https://t.me/edgarobare' target='_blank'>Open</a></td><td>Telegram backup</td><td>English/Swahili</td></tr>
+<tr data-region='Southern Africa' data-country='South Africa' data-lang='English'><td>South Africa</td><td>Musa Khawula</td><td><a href='https://facebook.com/MusaKhawulaScandal' target='_blank'>Open</a></td><td></td><td>English</td></tr>
+<tr data-region='Southern Africa' data-country='South Africa' data-lang='English'><td>South Africa</td><td>MDN News</td><td><a href='https://facebook.com/MDNnewssouthafrica' target='_blank'>Open</a></td><td></td><td>English</td></tr>
+<tr data-region='Southern Africa' data-country='South Africa' data-lang='English'><td>South Africa</td><td>Kurrently</td><td><a href='https://facebook.com/kurrentlyza' target='_blank'>Open</a></td><td>514k FB</td><td>English</td></tr>
+<tr data-region='East Africa' data-country='Uganda' data-lang='English'><td>Uganda</td><td>Chano8</td><td><a href='https://facebook.com/Chano8Ug' target='_blank'>Open</a></td><td></td><td>English</td></tr>
+<tr data-region='East Africa' data-country='Uganda' data-lang='English'><td>Uganda</td><td>Sqoop Uganda</td><td><a href='https://facebook.com/SqoopUg' target='_blank'>Open</a></td><td></td><td>English</td></tr>
+<tr data-region='Pan-African' data-country='Pan-African' data-lang='English'><td>Pan-African</td><td>Africa Facts Zone</td><td><a href='https://facebook.com/AfricaFactsZone' target='_blank'>Open</a></td><td></td><td>English</td></tr>
+
+</tbody>
+</table>
+</div>
+</div>
+<script>
+const regionFilter = document.getElementById('regionFilter');
+const langFilter = document.getElementById('langFilter');
+const searchBox = document.getElementById('searchBox');
+const countBadge = document.getElementById('countBadge');
+
+function filterTables() {
+  const region = regionFilter.value.toLowerCase();
+  const lang = langFilter.value.toLowerCase();
+  const search = searchBox.value.toLowerCase();
+  document.querySelectorAll('tbody tr').forEach(tr => {
+    const matchesRegion = !region || tr.dataset.region.toLowerCase().includes(region);
+    const matchesLang = !lang || tr.dataset.lang.toLowerCase().includes(lang);
+    const matchesSearch = !search || tr.innerText.toLowerCase().includes(search);
+    tr.style.display = (matchesRegion && matchesLang && matchesSearch) ? '' : 'none';
+  });
+  updateCount();
+}
+function updateCount() {
+  const visible = document.querySelectorAll('#newsPanel tbody tr:not([style*="display: none"]), #chatterPanel tbody tr:not([style*="display: none"])').length;
+  countBadge.textContent = visible + ' visible';
+}
+regionFilter.onchange = langFilter.onchange = searchBox.oninput = filterTables;
+document.querySelectorAll('.tab').forEach(tab => {
+  tab.onclick = () => {
+    document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById('newsPanel').style.display = tab.dataset.tab==='news' ? '' : 'none';
+    document.getElementById('chatterPanel').style.display = tab.dataset.tab==='chatter' ? '' : 'none';
+    updateCount();
+  };
+});
+filterTables();
+setInterval(()=>{ /* auto-refresh hint - reload links every 5 min */ }, 300000);
+</script>
+</body>
+</html>
