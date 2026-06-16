@@ -1,225 +1,1232 @@
-
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
 <head>
-<meta charset="UTF-8">
-<title>Africa Real-Time News Tracker</title>
-<style>
-body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; margin:0; background:#0f172a; color:#e2e8f0; }
-header { padding:20px; background:#1e293b; position:sticky; top:0; z-index:10; }
-h1 { margin:0; font-size:1.5rem; }
-.filters { display:flex; gap:12px; margin-top:12px; flex-wrap:wrap; }
-select, input { padding:8px 12px; border-radius:8px; border:1px solid #334155; background:#0f172a; color:#e2e8f0; }
-.tabs { display:flex; gap:8px; margin:20px; }
-.tab { padding:10px 16px; background:#1e293b; border-radius:8px; cursor:pointer; }
-.tab.active { background:#3b82f6; }
-table { width:100%; border-collapse:collapse; }
-th, td { padding:10px; text-align:left; border-bottom:1px solid #334155; }
-th { background:#1e293b; position:sticky; top:132px; }
-tr:hover { background:#1e293b; }
-a { color:#60a5fa; text-decoration:none; }
-.container { padding:0 20px 40px; }
-.badge { background:#334155; padding:2px 6px; border-radius:4px; font-size:0.75rem; }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Africa Media Watch Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { 
+            background-color: #0f172a; 
+            color: #e2e8f0; 
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+        /* Custom scrollbar for horizontal table scrolling */
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: #0f172a; }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #475569; }
+        
+        .sort-icon { width: 14px; height: 14px; display: inline-block; vertical-align: middle; margin-left: 4px; color: #64748b; }
+        th.sortable:hover { background-color: #334155; cursor: pointer; color: #ffffff; }
+        
+        /* Highlight matched search text safely */
+        mark { background-color: rgba(59, 130, 246, 0.35); color: #ffffff; border-radius: 0.125rem; padding: 0 0.125rem; }
+    </style>
 </head>
-<body>
-<header>
-<h1>Africa Real-Time News Tracker</h1>
-<div class="filters">
-<select id="regionFilter"><option value="">All Regions</option><option>West Africa</option><option>East Africa</option><option>Southern Africa</option><option>Central Africa</option><option>North Africa</option><option>Pan-African</option></select>
-<select id="langFilter"><option value="">All Languages</option><option>English</option><option>French</option><option>Arabic/French</option><option>Portuguese</option><option>English/Swahili</option></select>
-<input id="searchBox" placeholder="Search country or outlet...">
-<span class="badge" id="countBadge"></span>
-</div>
-</header>
-<div class="tabs">
-<div class="tab active" data-tab="news">News Sources (115)</div>
-<div class="tab" data-tab="chatter">Chatter Sources (17)</div>
-</div>
-<div class="container">
-<div id="newsPanel">
-<table id="newsTable">
-<thead><tr><th>Country</th><th>Outlet</th><th>Link</th><th>Region</th><th>Language</th></tr></thead>
-<tbody>
-<tr data-region='West Africa' data-country='Nigeria' data-lang='English'><td>Nigeria</td><td>Channels Television</td><td><a href='https://www.facebook.com/channelsforum' target='_blank'>Open</a></td><td>West Africa</td><td>English</td></tr>
-<tr data-region='West Africa' data-country='Nigeria' data-lang='English'><td>Nigeria</td><td>Punch Newspapers</td><td><a href='https://www.facebook.com/punchnewspaper' target='_blank'>Open</a></td><td>West Africa</td><td>English</td></tr>
-<tr data-region='West Africa' data-country='Nigeria' data-lang='English'><td>Nigeria</td><td>Premium Times</td><td><a href='https://www.facebook.com/Premiumtimes' target='_blank'>Open</a></td><td>West Africa</td><td>English</td></tr>
-<tr data-region='West Africa' data-country='Nigeria' data-lang='English'><td>Nigeria</td><td>Sahara Reporters</td><td><a href='https://www.facebook.com/SaharaReporters' target='_blank'>Open</a></td><td>West Africa</td><td>English</td></tr>
-<tr data-region='West Africa' data-country='Nigeria' data-lang='English'><td>Nigeria</td><td>Vanguard News</td><td><a href='https://www.facebook.com/vanguardngr' target='_blank'>Open</a></td><td>West Africa</td><td>English</td></tr>
-<tr data-region='West Africa' data-country='Nigeria' data-lang='English'><td>Nigeria</td><td>TheCable</td><td><a href='https://www.facebook.com/thecableng' target='_blank'>Open</a></td><td>West Africa</td><td>English</td></tr>
-<tr data-region='West Africa' data-country='Nigeria' data-lang='English'><td>Nigeria</td><td>Daily Trust</td><td><a href='https://www.facebook.com/DailyTrust' target='_blank'>Open</a></td><td>West Africa</td><td>English</td></tr>
-<tr data-region='West Africa' data-country='Nigeria' data-lang='English'><td>Nigeria</td><td>TVC News Nigeria</td><td><a href='https://www.facebook.com/tvcnewsng' target='_blank'>Open</a></td><td>West Africa</td><td>English</td></tr>
-<tr data-region='West Africa' data-country='Nigeria' data-lang='English'><td>Nigeria</td><td>Arise News</td><td><a href='https://www.facebook.com/ARISEtv' target='_blank'>Open</a></td><td>West Africa</td><td>English</td></tr>
-<tr data-region='West Africa' data-country='Nigeria' data-lang='English'><td>Nigeria</td><td>Legit.ng</td><td><a href='https://www.facebook.com/legitng' target='_blank'>Open</a></td><td>West Africa</td><td>English</td></tr>
-<tr data-region='West Africa' data-country='Nigeria' data-lang='English'><td>Nigeria</td><td>Leadership NGA</td><td><a href='https://www.facebook.com/LeadershipNGA' target='_blank'>Open</a></td><td>West Africa</td><td>English</td></tr>
-<tr data-region='West Africa' data-country='Nigeria' data-lang='English'><td>Nigeria</td><td>The Nation Nigeria</td><td><a href='https://www.facebook.com/thenationnigeria' target='_blank'>Open</a></td><td>West Africa</td><td>English</td></tr>
-<tr data-region='West Africa' data-country='Nigeria' data-lang='English'><td>Nigeria</td><td>Nigerian Tribune</td><td><a href='https://www.facebook.com/NigerianTribune' target='_blank'>Open</a></td><td>West Africa</td><td>English</td></tr>
-<tr data-region='West Africa' data-country='Nigeria' data-lang='English'><td>Nigeria</td><td>Guardian Nigeria</td><td><a href='https://www.facebook.com/guardianng' target='_blank'>Open</a></td><td>West Africa</td><td>English</td></tr>
-<tr data-region='West Africa' data-country='Nigeria' data-lang='English'><td>Nigeria</td><td>Independent Nigeria</td><td><a href='https://www.facebook.com/IndependentNgr' target='_blank'>Open</a></td><td>West Africa</td><td>English</td></tr>
-<tr data-region='West Africa' data-country='Ghana' data-lang='English'><td>Ghana</td><td>JoyNews</td><td><a href='https://www.facebook.com/joy997fm' target='_blank'>Open</a></td><td>West Africa</td><td>English</td></tr>
-<tr data-region='West Africa' data-country='Ghana' data-lang='English'><td>Ghana</td><td>Citi FM</td><td><a href='https://www.facebook.com/Citi973' target='_blank'>Open</a></td><td>West Africa</td><td>English</td></tr>
-<tr data-region='West Africa' data-country='Ghana' data-lang='English'><td>Ghana</td><td>GhanaWeb</td><td><a href='https://www.facebook.com/GhanaWeb' target='_blank'>Open</a></td><td>West Africa</td><td>English</td></tr>
-<tr data-region='West Africa' data-country='Ghana' data-lang='English'><td>Ghana</td><td>Peace FM</td><td><a href='https://www.facebook.com/Peace104.3FM' target='_blank'>Open</a></td><td>West Africa</td><td>English</td></tr>
-<tr data-region='West Africa' data-country='Ghana' data-lang='English'><td>Ghana</td><td>TV3 Ghana</td><td><a href='https://www.facebook.com/TV3Ghana' target='_blank'>Open</a></td><td>West Africa</td><td>English</td></tr>
-<tr data-region='West Africa' data-country='Côte d'Ivoire' data-lang='French'><td>Côte d'Ivoire</td><td>Abidjan.net</td><td><a href='https://www.facebook.com/Abidjan.net' target='_blank'>Open</a></td><td>West Africa</td><td>French</td></tr>
-<tr data-region='West Africa' data-country='Côte d'Ivoire' data-lang='French'><td>Côte d'Ivoire</td><td>RTI Info</td><td><a href='https://www.facebook.com/RTIofficiel' target='_blank'>Open</a></td><td>West Africa</td><td>French</td></tr>
-<tr data-region='West Africa' data-country='Côte d'Ivoire' data-lang='French'><td>Côte d'Ivoire</td><td>7info</td><td><a href='https://www.facebook.com/7info.ci' target='_blank'>Open</a></td><td>West Africa</td><td>French</td></tr>
-<tr data-region='West Africa' data-country='Senegal' data-lang='French'><td>Senegal</td><td>Seneweb</td><td><a href='https://www.facebook.com/seneweb' target='_blank'>Open</a></td><td>West Africa</td><td>French</td></tr>
-<tr data-region='West Africa' data-country='Senegal' data-lang='French'><td>Senegal</td><td>Dakaractu</td><td><a href='https://www.facebook.com/dakaractu' target='_blank'>Open</a></td><td>West Africa</td><td>French</td></tr>
-<tr data-region='West Africa' data-country='Senegal' data-lang='French'><td>Senegal</td><td>RTS Senegal</td><td><a href='https://www.facebook.com/rts1senegal' target='_blank'>Open</a></td><td>West Africa</td><td>French</td></tr>
-<tr data-region='West Africa' data-country='Mali' data-lang='French'><td>Mali</td><td>Maliweb</td><td><a href='https://www.facebook.com/maliweb' target='_blank'>Open</a></td><td>West Africa</td><td>French</td></tr>
-<tr data-region='West Africa' data-country='Mali' data-lang='French'><td>Mali</td><td>ORTM</td><td><a href='https://www.facebook.com/ortmofficiel' target='_blank'>Open</a></td><td>West Africa</td><td>French</td></tr>
-<tr data-region='West Africa' data-country='Burkina Faso' data-lang='French'><td>Burkina Faso</td><td>AIB</td><td><a href='https://www.facebook.com/aib.burkina' target='_blank'>Open</a></td><td>West Africa</td><td>French</td></tr>
-<tr data-region='West Africa' data-country='Burkina Faso' data-lang='French'><td>Burkina Faso</td><td>Burkina24</td><td><a href='https://www.facebook.com/burkina24' target='_blank'>Open</a></td><td>West Africa</td><td>French</td></tr>
-<tr data-region='West Africa' data-country='Burkina Faso' data-lang='French'><td>Burkina Faso</td><td>LeFaso.net</td><td><a href='https://www.facebook.com/lefaso.net' target='_blank'>Open</a></td><td>West Africa</td><td>French</td></tr>
-<tr data-region='West Africa' data-country='Niger' data-lang='French'><td>Niger</td><td>ActuNiger</td><td><a href='https://www.facebook.com/actuniger' target='_blank'>Open</a></td><td>West Africa</td><td>French</td></tr>
-<tr data-region='West Africa' data-country='Togo' data-lang='French'><td>Togo</td><td>Togo First</td><td><a href='https://www.facebook.com/togofirst' target='_blank'>Open</a></td><td>West Africa</td><td>French</td></tr>
-<tr data-region='West Africa' data-country='Benin' data-lang='French'><td>Benin</td><td>24 Heures au Bénin</td><td><a href='https://www.facebook.com/24haubenin' target='_blank'>Open</a></td><td>West Africa</td><td>French</td></tr>
-<tr data-region='West Africa' data-country='Sierra Leone' data-lang='English'><td>Sierra Leone</td><td>AYV News</td><td><a href='https://www.facebook.com/AYVNews' target='_blank'>Open</a></td><td>West Africa</td><td>English</td></tr>
-<tr data-region='West Africa' data-country='Liberia' data-lang='English'><td>Liberia</td><td>FrontPage Africa</td><td><a href='https://www.facebook.com/frontpageafrica' target='_blank'>Open</a></td><td>West Africa</td><td>English</td></tr>
-<tr data-region='West Africa' data-country='Guinea' data-lang='French'><td>Guinea</td><td>Guinéenews</td><td><a href='https://www.facebook.com/Guineenews' target='_blank'>Open</a></td><td>West Africa</td><td>French</td></tr>
-<tr data-region='West Africa' data-country='Guinea-Bissau' data-lang='Portuguese'><td>Guinea-Bissau</td><td>O Democrata GB</td><td><a href='https://www.facebook.com/odemocratagb' target='_blank'>Open</a></td><td>West Africa</td><td>Portuguese</td></tr>
-<tr data-region='West Africa' data-country='Cape Verde' data-lang='Portuguese'><td>Cape Verde</td><td>RTC</td><td><a href='https://www.facebook.com/rtc.cv' target='_blank'>Open</a></td><td>West Africa</td><td>Portuguese</td></tr>
-<tr data-region='West Africa' data-country='Gambia' data-lang='English'><td>Gambia</td><td>The Point</td><td><a href='https://www.facebook.com/thepointgambia' target='_blank'>Open</a></td><td>West Africa</td><td>English</td></tr>
-<tr data-region='West Africa' data-country='Gambia' data-lang='English'><td>Gambia</td><td>Kerr Fatou</td><td><a href='https://www.facebook.com/kerrfatou' target='_blank'>Open</a></td><td>West Africa</td><td>English</td></tr>
-<tr data-region='West Africa' data-country='Mauritania' data-lang='Arabic/French'><td>Mauritania</td><td>Alakhbar</td><td><a href='https://www.facebook.com/alakhbar.mr' target='_blank'>Open</a></td><td>West Africa</td><td>Arabic/French</td></tr>
-<tr data-region='East Africa' data-country='Kenya' data-lang='English'><td>Kenya</td><td>Daily Nation</td><td><a href='https://www.facebook.com/DailyNation' target='_blank'>Open</a></td><td>East Africa</td><td>English</td></tr>
-<tr data-region='East Africa' data-country='Kenya' data-lang='English'><td>Kenya</td><td>KTN News</td><td><a href='https://www.facebook.com/KTNKenya' target='_blank'>Open</a></td><td>East Africa</td><td>English</td></tr>
-<tr data-region='East Africa' data-country='Kenya' data-lang='English'><td>Kenya</td><td>NTV Kenya</td><td><a href='https://www.facebook.com/NTVKenya' target='_blank'>Open</a></td><td>East Africa</td><td>English</td></tr>
-<tr data-region='East Africa' data-country='Kenya' data-lang='English'><td>Kenya</td><td>Citizen TV</td><td><a href='https://www.facebook.com/CitizenTVKenya' target='_blank'>Open</a></td><td>East Africa</td><td>English</td></tr>
-<tr data-region='East Africa' data-country='Kenya' data-lang='English'><td>Kenya</td><td>The Standard</td><td><a href='https://www.facebook.com/standardkenya' target='_blank'>Open</a></td><td>East Africa</td><td>English</td></tr>
-<tr data-region='East Africa' data-country='Kenya' data-lang='English'><td>Kenya</td><td>The Star</td><td><a href='https://www.facebook.com/thestarkenya' target='_blank'>Open</a></td><td>East Africa</td><td>English</td></tr>
-<tr data-region='East Africa' data-country='Kenya' data-lang='English'><td>Kenya</td><td>Tuko.co.ke</td><td><a href='https://www.facebook.com/tuko.co.ke' target='_blank'>Open</a></td><td>East Africa</td><td>English</td></tr>
-<tr data-region='East Africa' data-country='Uganda' data-lang='English'><td>Uganda</td><td>NBS Television</td><td><a href='https://facebook.com/nbstelevision' target='_blank'>Open</a></td><td>East Africa</td><td>English</td></tr>
-<tr data-region='East Africa' data-country='Uganda' data-lang='English'><td>Uganda</td><td>NTV Uganda</td><td><a href='https://www.facebook.com/ntvuganda' target='_blank'>Open</a></td><td>East Africa</td><td>English</td></tr>
-<tr data-region='East Africa' data-country='Uganda' data-lang='English'><td>Uganda</td><td>Daily Monitor</td><td><a href='https://www.facebook.com/dailymonitor' target='_blank'>Open</a></td><td>East Africa</td><td>English</td></tr>
-<tr data-region='East Africa' data-country='Uganda' data-lang='English'><td>Uganda</td><td>New Vision</td><td><a href='https://www.facebook.com/thenewvision/' target='_blank'>Open</a></td><td>East Africa</td><td>English</td></tr>
-<tr data-region='East Africa' data-country='Uganda' data-lang='English'><td>Uganda</td><td>Nile Post</td><td><a href='https://www.facebook.com/nilepostnews' target='_blank'>Open</a></td><td>East Africa</td><td>English</td></tr>
-<tr data-region='East Africa' data-country='Tanzania' data-lang='English'><td>Tanzania</td><td>ITV Tanzania</td><td><a href='https://www.facebook.com/itvtz/' target='_blank'>Open</a></td><td>East Africa</td><td>English</td></tr>
-<tr data-region='East Africa' data-country='Tanzania' data-lang='English'><td>Tanzania</td><td>Azam TV</td><td><a href='https://www.facebook.com/azamtvtz' target='_blank'>Open</a></td><td>East Africa</td><td>English</td></tr>
-<tr data-region='East Africa' data-country='Tanzania' data-lang='English'><td>Tanzania</td><td>Mwananchi</td><td><a href='https://www.facebook.com/MwananchiDigital' target='_blank'>Open</a></td><td>East Africa</td><td>English</td></tr>
-<tr data-region='East Africa' data-country='Tanzania' data-lang='English'><td>Tanzania</td><td>Millard Ayo</td><td><a href='https://www.facebook.com/millardayo' target='_blank'>Open</a></td><td>East Africa</td><td>English</td></tr>
-<tr data-region='East Africa' data-country='Rwanda' data-lang='French/English'><td>Rwanda</td><td>The New Times</td><td><a href='https://www.facebook.com/TheNewTimesRwanda' target='_blank'>Open</a></td><td>East Africa</td><td>French/English</td></tr>
-<tr data-region='East Africa' data-country='Rwanda' data-lang='French/English'><td>Rwanda</td><td>IGIHE</td><td><a href='https://www.facebook.com/igihe' target='_blank'>Open</a></td><td>East Africa</td><td>French/English</td></tr>
-<tr data-region='East Africa' data-country='Ethiopia' data-lang='Amharic/English'><td>Ethiopia</td><td>FANA Broadcasting</td><td><a href='https://www.facebook.com/FanaBroadcastingCorporate' target='_blank'>Open</a></td><td>East Africa</td><td>Amharic/English</td></tr>
-<tr data-region='East Africa' data-country='Ethiopia' data-lang='Amharic/English'><td>Ethiopia</td><td>Addis Standard</td><td><a href='https://www.facebook.com/addisstandard' target='_blank'>Open</a></td><td>East Africa</td><td>Amharic/English</td></tr>
-<tr data-region='East Africa' data-country='Somalia' data-lang='Somali/Arabic'><td>Somalia</td><td>Goobjoog News</td><td><a href='https://www.facebook.com/GoobjoogNews' target='_blank'>Open</a></td><td>East Africa</td><td>Somali/Arabic</td></tr>
-<tr data-region='East Africa' data-country='Somalia' data-lang='Somali/Arabic'><td>Somalia</td><td>Garowe Online</td><td><a href='https://www.facebook.com/GaroweOnline' target='_blank'>Open</a></td><td>East Africa</td><td>Somali/Arabic</td></tr>
-<tr data-region='East Africa' data-country='South Sudan' data-lang='English'><td>South Sudan</td><td>Eye Radio</td><td><a href='https://www.facebook.com/eyeradiojuba' target='_blank'>Open</a></td><td>East Africa</td><td>English</td></tr>
-<tr data-region='East Africa' data-country='South Sudan' data-lang='English'><td>South Sudan</td><td>Radio Tamazuj</td><td><a href='https://www.facebook.com/radiotamazuj' target='_blank'>Open</a></td><td>East Africa</td><td>English</td></tr>
-<tr data-region='East Africa' data-country='Sudan' data-lang='English'><td>Sudan</td><td>Sudan Tribune</td><td><a href='https://www.facebook.com/sudantribune' target='_blank'>Open</a></td><td>East Africa</td><td>English</td></tr>
-<tr data-region='East Africa' data-country='Sudan' data-lang='English'><td>Sudan</td><td>Radio Dabanga</td><td><a href='https://www.facebook.com/radiodabanga' target='_blank'>Open</a></td><td>East Africa</td><td>English</td></tr>
-<tr data-region='Southern Africa' data-country='South Africa' data-lang='English'><td>South Africa</td><td>News24</td><td><a href='https://facebook.com/News24' target='_blank'>Open</a></td><td>Southern Africa</td><td>English</td></tr>
-<tr data-region='Southern Africa' data-country='South Africa' data-lang='English'><td>South Africa</td><td>eNCA</td><td><a href='https://facebook.com/eNCAnews' target='_blank'>Open</a></td><td>Southern Africa</td><td>English</td></tr>
-<tr data-region='Southern Africa' data-country='South Africa' data-lang='English'><td>South Africa</td><td>SABC News</td><td><a href='https://facebook.com/SABCNewsOnline' target='_blank'>Open</a></td><td>Southern Africa</td><td>English</td></tr>
-<tr data-region='Southern Africa' data-country='South Africa' data-lang='English'><td>South Africa</td><td>TimesLIVE</td><td><a href='https://facebook.com/TimesLIVE' target='_blank'>Open</a></td><td>Southern Africa</td><td>English</td></tr>
-<tr data-region='Southern Africa' data-country='South Africa' data-lang='English'><td>South Africa</td><td>EWN</td><td><a href='https://facebook.com/ewnreporter' target='_blank'>Open</a></td><td>Southern Africa</td><td>English</td></tr>
-<tr data-region='Southern Africa' data-country='South Africa' data-lang='English'><td>South Africa</td><td>Daily Maverick</td><td><a href='https://facebook.com/dailymaverick' target='_blank'>Open</a></td><td>Southern Africa</td><td>English</td></tr>
-<tr data-region='Southern Africa' data-country='South Africa' data-lang='English'><td>South Africa</td><td>SowetanLIVE</td><td><a href='https://facebook.com/SowetanLIVE' target='_blank'>Open</a></td><td>Southern Africa</td><td>English</td></tr>
-<tr data-region='Southern Africa' data-country='Namibia' data-lang='English'><td>Namibia</td><td>The Namibian</td><td><a href='https://facebook.com/TheNamibian' target='_blank'>Open</a></td><td>Southern Africa</td><td>English</td></tr>
-<tr data-region='Southern Africa' data-country='Namibia' data-lang='English'><td>Namibia</td><td>Namibian Sun</td><td><a href='https://facebook.com/NamibianSun' target='_blank'>Open</a></td><td>Southern Africa</td><td>English</td></tr>
-<tr data-region='Southern Africa' data-country='Botswana' data-lang='English'><td>Botswana</td><td>Mmegi Online</td><td><a href='https://facebook.com/MmegiOnline' target='_blank'>Open</a></td><td>Southern Africa</td><td>English</td></tr>
-<tr data-region='Southern Africa' data-country='Botswana' data-lang='English'><td>Botswana</td><td>Botswana Gazette</td><td><a href='https://facebook.com/BotswanaGazette' target='_blank'>Open</a></td><td>Southern Africa</td><td>English</td></tr>
-<tr data-region='Southern Africa' data-country='Zimbabwe' data-lang='English'><td>Zimbabwe</td><td>The Herald</td><td><a href='https://facebook.com/heraldzimbabwe' target='_blank'>Open</a></td><td>Southern Africa</td><td>English</td></tr>
-<tr data-region='Southern Africa' data-country='Zimbabwe' data-lang='English'><td>Zimbabwe</td><td>NewsDay</td><td><a href='https://facebook.com/NewsDayZimbabwe' target='_blank'>Open</a></td><td>Southern Africa</td><td>English</td></tr>
-<tr data-region='Southern Africa' data-country='Zimbabwe' data-lang='English'><td>Zimbabwe</td><td>263Chat</td><td><a href='https://facebook.com/263Chat' target='_blank'>Open</a></td><td>Southern Africa</td><td>English</td></tr>
-<tr data-region='Southern Africa' data-country='Zambia' data-lang='English'><td>Zambia</td><td>Mwebantu</td><td><a href='https://facebook.com/mwebantu' target='_blank'>Open</a></td><td>Southern Africa</td><td>English</td></tr>
-<tr data-region='Southern Africa' data-country='Zambia' data-lang='English'><td>Zambia</td><td>News Diggers</td><td><a href='https://facebook.com/DiggersNews' target='_blank'>Open</a></td><td>Southern Africa</td><td>English</td></tr>
-<tr data-region='Southern Africa' data-country='Malawi' data-lang='English'><td>Malawi</td><td>Nation Online</td><td><a href='https://facebook.com/NationOnlineMw' target='_blank'>Open</a></td><td>Southern Africa</td><td>English</td></tr>
-<tr data-region='Southern Africa' data-country='Malawi' data-lang='English'><td>Malawi</td><td>Times 360</td><td><a href='https://facebook.com/Times360Malawi' target='_blank'>Open</a></td><td>Southern Africa</td><td>English</td></tr>
-<tr data-region='Southern Africa' data-country='Mozambique' data-lang='Portuguese'><td>Mozambique</td><td>O País</td><td><a href='https://facebook.com/jornalopais' target='_blank'>Open</a></td><td>Southern Africa</td><td>Portuguese</td></tr>
-<tr data-region='Southern Africa' data-country='Mozambique' data-lang='Portuguese'><td>Mozambique</td><td>Carta de Moçambique</td><td><a href='https://facebook.com/cartamz' target='_blank'>Open</a></td><td>Southern Africa</td><td>Portuguese</td></tr>
-<tr data-region='Southern Africa' data-country='Lesotho' data-lang='English'><td>Lesotho</td><td>Lesotho Times</td><td><a href='https://facebook.com/LesothoTimes' target='_blank'>Open</a></td><td>Southern Africa</td><td>English</td></tr>
-<tr data-region='Southern Africa' data-country='Eswatini' data-lang='English'><td>Eswatini</td><td>Times of Eswatini</td><td><a href='https://facebook.com/TimesofEswatini' target='_blank'>Open</a></td><td>Southern Africa</td><td>English</td></tr>
-<tr data-region='Southern Africa' data-country='Angola' data-lang='Portuguese'><td>Angola</td><td>Jornal de Angola</td><td><a href='https://facebook.com/jornaldeangola' target='_blank'>Open</a></td><td>Southern Africa</td><td>Portuguese</td></tr>
-<tr data-region='Central Africa' data-country='Cameroon' data-lang='French/English'><td>Cameroon</td><td>CRTV</td><td><a href='https://www.facebook.com/CRTVweb/' target='_blank'>Open</a></td><td>Central Africa</td><td>French/English</td></tr>
-<tr data-region='Central Africa' data-country='Cameroon' data-lang='French/English'><td>Cameroon</td><td>Actu Cameroun</td><td><a href='https://www.facebook.com/actucameroun' target='_blank'>Open</a></td><td>Central Africa</td><td>French/English</td></tr>
-<tr data-region='Central Africa' data-country='Cameroon' data-lang='French/English'><td>Cameroon</td><td>Equinoxe TV</td><td><a href='https://www.facebook.com/equinoxe.television/' target='_blank'>Open</a></td><td>Central Africa</td><td>French/English</td></tr>
-<tr data-region='Central Africa' data-country='DRC' data-lang='French'><td>DRC</td><td>Radio Okapi</td><td><a href='https://www.facebook.com/radiookapi' target='_blank'>Open</a></td><td>Central Africa</td><td>French</td></tr>
-<tr data-region='Central Africa' data-country='DRC' data-lang='French'><td>DRC</td><td>Actualite.cd</td><td><a href='https://www.facebook.com/actualitecd' target='_blank'>Open</a></td><td>Central Africa</td><td>French</td></tr>
-<tr data-region='Central Africa' data-country='DRC' data-lang='French'><td>DRC</td><td>7sur7.cd</td><td><a href='https://www.facebook.com/7sur7cd' target='_blank'>Open</a></td><td>Central Africa</td><td>French</td></tr>
-<tr data-region='Central Africa' data-country='DRC' data-lang='French'><td>DRC</td><td>Mediacongo</td><td><a href='https://www.facebook.com/mediacongo' target='_blank'>Open</a></td><td>Central Africa</td><td>French</td></tr>
-<tr data-region='Central Africa' data-country='Congo Republic' data-lang='French'><td>Congo Republic</td><td>Les Dépêches de Brazzaville</td><td><a href='https://www.facebook.com/lesdepechesdebrazzaville' target='_blank'>Open</a></td><td>Central Africa</td><td>French</td></tr>
-<tr data-region='Central Africa' data-country='Gabon' data-lang='French'><td>Gabon</td><td>Gabon Media Time</td><td><a href='https://www.facebook.com/gabonmediatime' target='_blank'>Open</a></td><td>Central Africa</td><td>French</td></tr>
-<tr data-region='Central Africa' data-country='Gabon' data-lang='French'><td>Gabon</td><td>Info241</td><td><a href='https://www.facebook.com/info241' target='_blank'>Open</a></td><td>Central Africa</td><td>French</td></tr>
-<tr data-region='Central Africa' data-country='Chad' data-lang='French'><td>Chad</td><td>Tchadinfos</td><td><a href='https://www.facebook.com/tchadinfos' target='_blank'>Open</a></td><td>Central Africa</td><td>French</td></tr>
-<tr data-region='Central Africa' data-country='Central African Republic' data-lang='French'><td>Central African Republic</td><td>Radio Ndeke Luka</td><td><a href='https://www.facebook.com/RadioNdekeLuka' target='_blank'>Open</a></td><td>Central Africa</td><td>French</td></tr>
-<tr data-region='North Africa' data-country='Egypt' data-lang='Arabic/French'><td>Egypt</td><td>Youm7</td><td><a href='https://www.facebook.com/Youm7' target='_blank'>Open</a></td><td>North Africa</td><td>Arabic/French</td></tr>
-<tr data-region='North Africa' data-country='Egypt' data-lang='Arabic/French'><td>Egypt</td><td>Masrawy</td><td><a href='https://www.facebook.com/masrawy' target='_blank'>Open</a></td><td>North Africa</td><td>Arabic/French</td></tr>
-<tr data-region='North Africa' data-country='Egypt' data-lang='Arabic/French'><td>Egypt</td><td>Al-Masry Al-Youm</td><td><a href='https://www.facebook.com/AlMasryAlYoum' target='_blank'>Open</a></td><td>North Africa</td><td>Arabic/French</td></tr>
-<tr data-region='North Africa' data-country='Libya' data-lang='Arabic/French'><td>Libya</td><td>Akhbar Libya 24</td><td><a href='https://www.facebook.com/akhbarlibya24' target='_blank'>Open</a></td><td>North Africa</td><td>Arabic/French</td></tr>
-<tr data-region='North Africa' data-country='Libya' data-lang='Arabic/French'><td>Libya</td><td>Alwasat</td><td><a href='https://www.facebook.com/alwasatmlb' target='_blank'>Open</a></td><td>North Africa</td><td>Arabic/French</td></tr>
-<tr data-region='North Africa' data-country='Tunisia' data-lang='Arabic/French'><td>Tunisia</td><td>Mosaique FM</td><td><a href='https://www.facebook.com/MosaiqueFM' target='_blank'>Open</a></td><td>North Africa</td><td>Arabic/French</td></tr>
-<tr data-region='North Africa' data-country='Tunisia' data-lang='Arabic/French'><td>Tunisia</td><td>Shems FM</td><td><a href='https://www.facebook.com/ShemsFM' target='_blank'>Open</a></td><td>North Africa</td><td>Arabic/French</td></tr>
-<tr data-region='North Africa' data-country='Algeria' data-lang='Arabic/French'><td>Algeria</td><td>Ennahar TV</td><td><a href='https://www.facebook.com/EnnaharTv' target='_blank'>Open</a></td><td>North Africa</td><td>Arabic/French</td></tr>
-<tr data-region='North Africa' data-country='Algeria' data-lang='Arabic/French'><td>Algeria</td><td>TSA</td><td><a href='https://www.facebook.com/TSA.Algerie' target='_blank'>Open</a></td><td>North Africa</td><td>Arabic/French</td></tr>
-<tr data-region='North Africa' data-country='Morocco' data-lang='Arabic/French'><td>Morocco</td><td>Hespress</td><td><a href='https://www.facebook.com/hespress' target='_blank'>Open</a></td><td>North Africa</td><td>Arabic/French</td></tr>
-<tr data-region='North Africa' data-country='Morocco' data-lang='Arabic/French'><td>Morocco</td><td>Le360</td><td><a href='https://www.facebook.com/Le360fr' target='_blank'>Open</a></td><td>North Africa</td><td>Arabic/French</td></tr>
-<tr data-region='North Africa' data-country='Morocco' data-lang='Arabic/French'><td>Morocco</td><td>Chouf TV</td><td><a href='https://www.facebook.com/chouftv' target='_blank'>Open</a></td><td>North Africa</td><td>Arabic/French</td></tr>
+<body class="p-4 md:p-6 lg:p-8 max-w-screen-2xl mx-auto flex flex-col gap-6">
 
-</tbody>
-</table>
-</div>
-<div id="chatterPanel" style="display:none">
-<table id="chatterTable">
-<thead><tr><th>Country</th><th>Outlet</th><th>Link</th><th>Followers/Notes</th><th>Language</th></tr></thead>
-<tbody>
-<tr data-region='West Africa' data-country='Nigeria' data-lang='English'><td>Nigeria</td><td>Instablog9ja</td><td><a href='https://facebook.com/instablog9ja' target='_blank'>Open</a></td><td>6.4M IG</td><td>English</td></tr>
-<tr data-region='West Africa' data-country='Nigeria' data-lang='English'><td>Nigeria</td><td>Yabaleftonline</td><td><a href='https://facebook.com/yabaleftonline' target='_blank'>Open</a></td><td>IG 6.07M, X 3M</td><td>English</td></tr>
-<tr data-region='West Africa' data-country='Nigeria' data-lang='English'><td>Nigeria</td><td>Gistlover</td><td><a href='https://facebook.com/gistloversblog11' target='_blank'>Open</a></td><td>~162k backup</td><td>English</td></tr>
-<tr data-region='West Africa' data-country='Nigeria' data-lang='English'><td>Nigeria</td><td>Linda Ikeji</td><td><a href='https://facebook.com/lindaikejiblog' target='_blank'>Open</a></td><td>6.9M IG</td><td>English</td></tr>
-<tr data-region='West Africa' data-country='Nigeria' data-lang='English'><td>Nigeria</td><td>Sahara Reporters</td><td><a href='https://facebook.com/SaharaReporters' target='_blank'>Open</a></td><td>X 5.5M</td><td>English</td></tr>
-<tr data-region='West Africa' data-country='Nigeria' data-lang='English'><td>Nigeria</td><td>Gossip Mill TV</td><td><a href='https://facebook.com/GossipMillNaija' target='_blank'>Open</a></td><td>5.6M IG</td><td>English</td></tr>
-<tr data-region='West Africa' data-country='Ghana' data-lang='English'><td>Ghana</td><td>ZionFelix</td><td><a href='https://facebook.com/zionfelixdotcom' target='_blank'>Open</a></td><td>1M IG</td><td>English</td></tr>
-<tr data-region='West Africa' data-country='Ghana' data-lang='English'><td>Ghana</td><td>GhPage</td><td><a href='https://facebook.com/GhPageCom' target='_blank'>Open</a></td><td></td><td>English</td></tr>
-<tr data-region='East Africa' data-country='Kenya' data-lang='English/Swahili'><td>Kenya</td><td>Nairobi Gossip Club</td><td><a href='https://facebook.com/NairobiGossipClub' target='_blank'>Open</a></td><td>2.9M IG</td><td>English/Swahili</td></tr>
-<tr data-region='East Africa' data-country='Kenya' data-lang='English/Swahili'><td>Kenya</td><td>Mpasho</td><td><a href='https://facebook.com/MpashoNews' target='_blank'>Open</a></td><td>1.1M IG</td><td>English/Swahili</td></tr>
-<tr data-region='East Africa' data-country='Kenya' data-lang='English/Swahili'><td>Kenya</td><td>Edgar Obare</td><td><a href='https://t.me/edgarobare' target='_blank'>Open</a></td><td>Telegram backup</td><td>English/Swahili</td></tr>
-<tr data-region='Southern Africa' data-country='South Africa' data-lang='English'><td>South Africa</td><td>Musa Khawula</td><td><a href='https://facebook.com/MusaKhawulaScandal' target='_blank'>Open</a></td><td></td><td>English</td></tr>
-<tr data-region='Southern Africa' data-country='South Africa' data-lang='English'><td>South Africa</td><td>MDN News</td><td><a href='https://facebook.com/MDNnewssouthafrica' target='_blank'>Open</a></td><td></td><td>English</td></tr>
-<tr data-region='Southern Africa' data-country='South Africa' data-lang='English'><td>South Africa</td><td>Kurrently</td><td><a href='https://facebook.com/kurrentlyza' target='_blank'>Open</a></td><td>514k FB</td><td>English</td></tr>
-<tr data-region='East Africa' data-country='Uganda' data-lang='English'><td>Uganda</td><td>Chano8</td><td><a href='https://facebook.com/Chano8Ug' target='_blank'>Open</a></td><td></td><td>English</td></tr>
-<tr data-region='East Africa' data-country='Uganda' data-lang='English'><td>Uganda</td><td>Sqoop Uganda</td><td><a href='https://facebook.com/SqoopUg' target='_blank'>Open</a></td><td></td><td>English</td></tr>
-<tr data-region='Pan-African' data-country='Pan-African' data-lang='English'><td>Pan-African</td><td>Africa Facts Zone</td><td><a href='https://facebook.com/AfricaFactsZone' target='_blank'>Open</a></td><td></td><td>English</td></tr>
+    <!-- Header -->
+    <header class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+        <div>
+            <h1 class="text-2xl md:text-3xl font-bold text-white tracking-tight">Africa Media Watch Dashboard</h1>
+            <p class="text-slate-400 mt-1 text-sm">Curated database of real-time regional news channels and high-velocity discourse spaces.</p>
+        </div>
+        <div class="flex items-center gap-3 text-sm text-slate-400 bg-slate-800/50 px-3 py-1.5 rounded-lg border border-slate-700">
+            <svg class="w-4 h-4 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            <span>Keyboard shortcut: Press <kbd class="bg-slate-700 px-1.5 py-0.5 rounded text-xs text-slate-300 font-mono">/</kbd> to search</span>
+        </div>
+    </header>
 
-</tbody>
-</table>
-</div>
-</div>
-<script>
-const regionFilter = document.getElementById('regionFilter');
-const langFilter = document.getElementById('langFilter');
-const searchBox = document.getElementById('searchBox');
-const countBadge = document.getElementById('countBadge');
+    <!-- Summary Cards -->
+    <section class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div class="bg-slate-800 rounded-xl p-4 border border-slate-700 shadow-sm flex flex-col">
+            <span class="text-slate-400 text-xs font-semibold uppercase tracking-wider mb-1">Total Sources</span>
+            <span class="text-3xl font-bold text-white" id="statTotal">0</span>
+        </div>
+        <div class="bg-slate-800 rounded-xl p-4 border border-slate-700 shadow-sm flex flex-col">
+            <span class="text-slate-400 text-xs font-semibold uppercase tracking-wider mb-1">News / Chatter</span>
+            <span class="text-3xl font-bold text-blue-400"><span id="statNews">0</span> <span class="text-slate-500 text-xl font-normal mx-1">/</span> <span class="text-purple-400" id="statChatter">0</span></span>
+        </div>
+        <div class="bg-slate-800 rounded-xl p-4 border border-slate-700 shadow-sm flex flex-col">
+            <span class="text-slate-400 text-xs font-semibold uppercase tracking-wider mb-1">Regions Covered</span>
+            <span class="text-3xl font-bold text-white" id="statRegions">0</span>
+        </div>
+        <div class="bg-slate-800 rounded-xl p-4 border border-slate-700 shadow-sm flex flex-col">
+            <span class="text-slate-400 text-xs font-semibold uppercase tracking-wider mb-1">Languages Monitored</span>
+            <span class="text-3xl font-bold text-white" id="statLanguages">0</span>
+        </div>
+    </section>
 
-function filterTables() {
-  const region = regionFilter.value.toLowerCase();
-  const lang = langFilter.value.toLowerCase();
-  const search = searchBox.value.toLowerCase();
-  document.querySelectorAll('tbody tr').forEach(tr => {
-    const matchesRegion = !region || tr.dataset.region.toLowerCase().includes(region);
-    const matchesLang = !lang || tr.dataset.lang.toLowerCase().includes(lang);
-    const matchesSearch = !search || tr.innerText.toLowerCase().includes(search);
-    tr.style.display = (matchesRegion && matchesLang && matchesSearch) ? '' : 'none';
-  });
-  updateCount();
-}
-function updateCount() {
-  const visible = document.querySelectorAll('#newsPanel tbody tr:not([style*="display: none"]), #chatterPanel tbody tr:not([style*="display: none"])').length;
-  countBadge.textContent = visible + ' visible';
-}
-regionFilter.onchange = langFilter.onchange = searchBox.oninput = filterTables;
-document.querySelectorAll('.tab').forEach(tab => {
-  tab.onclick = () => {
-    document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
-    tab.classList.add('active');
-    document.getElementById('newsPanel').style.display = tab.dataset.tab==='news' ? '' : 'none';
-    document.getElementById('chatterPanel').style.display = tab.dataset.tab==='chatter' ? '' : 'none';
-    updateCount();
-  };
-});
-filterTables();
-setInterval(()=>{ /* auto-refresh hint - reload links every 5 min */ }, 300000);
-</script>
+    <!-- Methodology Accordion -->
+    <details class="bg-slate-800 rounded-xl border border-slate-700 shadow-sm group [&_summary::-webkit-details-marker]:hidden">
+        <summary class="flex items-center justify-between cursor-pointer p-4 font-medium text-slate-200 hover:text-white select-none">
+            <div class="flex items-center gap-2">
+                <svg class="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                About this Directory & Methodology
+            </div>
+            <span class="transition group-open:rotate-180 text-slate-400">
+                <svg fill="none" height="24" shape-rendering="geometricPrecision" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewBox="0 0 24 24" width="24"><path d="M6 9l6 6 6-6"></path></svg>
+            </span>
+        </summary>
+        <div class="p-4 border-t border-slate-700 text-sm text-slate-400 leading-relaxed grid md:grid-cols-3 gap-6">
+            <div>
+                <h4 class="text-slate-200 font-semibold mb-2">Definitions & Scope</h4>
+                <ul class="list-disc pl-5 space-y-1">
+                    <li><strong class="text-slate-300">News Sources:</strong> Established media outlets, state broadcasters, and recognized digital-native publishers with formal editorial processes.</li>
+                    <li><strong class="text-slate-300">Chatter Sources:</strong> Gossip blogs, influential social media aggregators, and alternative media driving local citizen discourse.</li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-slate-200 font-semibold mb-2">Hybrid Positioning & Link Policy</h4>
+                <p class="mb-2">Certain channels (e.g., <strong class="text-slate-300">Sahara Reporters</strong>) are designated as <strong class="text-purple-400">Hybrid</strong>. These bridge direct investigative reporting with crowd-sourced social chatter, making them essential for real-time risk evaluation.</p>
+                <p><strong class="text-slate-300">Linking Strategy:</strong> News profiles target official websites; Chatter profiles link directly to their most active social feed or official website, depending on which represents the higher-velocity observation surface for real-time monitoring.</p>
+            </div>
+            <div>
+                <h4 class="text-slate-200 font-semibold mb-2">Revision & Curation Logs</h4>
+                <ul class="space-y-1.5 text-xs text-slate-400">
+                    <li class="flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse"></span> <strong>v2.3 AI Release:</strong> Integrated Gemini AI Analyst Copilot for monitoring briefing generation.</li>
+                    <li class="flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> <strong>v2.2 Release:</strong> Aligned link policies, upgraded secure HTTPS targets, and expanded platform search.</li>
+                    <li class="flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-slate-500"></span> <strong>Review Cycle:</strong> Curated weekly by regional media analysts.</li>
+                </ul>
+            </div>
+        </div>
+    </details>
+
+    <!-- Controls (Filters & Search) -->
+    <section class="bg-slate-800 rounded-xl p-4 border border-slate-700 shadow-sm flex flex-col lg:flex-row gap-4 items-center">
+        <div class="relative w-full lg:w-1/3">
+            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <svg class="w-5 h-5 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+            </div>
+            <input type="text" id="searchInput" placeholder="Search outlet, country, type, platform, or keyword..." 
+                   class="w-full bg-slate-900 border border-slate-600 text-slate-200 rounded-lg pl-10 pr-4 py-2 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors placeholder-slate-500">
+        </div>
+        
+        <div class="flex flex-wrap w-full lg:w-auto flex-1 gap-3">
+            <select id="countryFilter" class="bg-slate-900 border border-slate-600 text-slate-200 rounded-lg px-3 py-2 focus:outline-none focus:border-blue-500 flex-1 min-w-[140px] cursor-pointer">
+                <option value="">All Countries</option>
+            </select>
+            <select id="regionFilter" class="bg-slate-900 border border-slate-600 text-slate-200 rounded-lg px-3 py-2 focus:outline-none focus:border-blue-500 flex-1 min-w-[140px] cursor-pointer">
+                <option value="">All Regions</option>
+            </select>
+            <select id="langFilter" class="bg-slate-900 border border-slate-600 text-slate-200 rounded-lg px-3 py-2 focus:outline-none focus:border-blue-500 flex-1 min-w-[140px] cursor-pointer">
+                <option value="">All Languages</option>
+            </select>
+            <select id="typeFilter" class="bg-slate-900 border border-slate-600 text-slate-200 rounded-lg px-3 py-2 focus:outline-none focus:border-blue-500 flex-1 min-w-[140px] cursor-pointer">
+                <option value="">All Source Types</option>
+            </select>
+            <select id="scopeFilter" class="bg-slate-900 border border-slate-600 text-slate-200 rounded-lg px-3 py-2 focus:outline-none focus:border-blue-500 flex-1 min-w-[140px] cursor-pointer">
+                <option value="">All Scopes</option>
+            </select>
+            <button id="clearFiltersBtn" class="bg-slate-700 hover:bg-slate-600 text-white rounded-lg px-4 py-2 text-sm transition-colors border border-slate-600 whitespace-nowrap flex items-center gap-2">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                Clear
+            </button>
+        </div>
+    </section>
+
+    <!-- Tabs Container -->
+    <section>
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between border-b border-slate-700 mb-4 gap-4" role="tablist" aria-label="Source Categories">
+            <div class="flex flex-wrap">
+                <button id="tab-news" role="tab" aria-selected="true" aria-controls="tableContainer" class="flex items-center gap-2 px-6 py-3 border-b-2 border-blue-500 text-blue-400 font-medium transition-colors hover:bg-slate-800/50">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"></path></svg>
+                    News Sources
+                    <span id="tabBadgeNews" class="bg-blue-500/20 text-blue-300 py-0.5 px-2 rounded-full text-xs ml-1">0</span>
+                </button>
+                <button id="tab-chatter" role="tab" aria-selected="false" aria-controls="tableContainer" class="flex items-center gap-2 px-6 py-3 border-b-2 border-transparent text-slate-400 font-medium transition-colors hover:text-slate-200 hover:bg-slate-800/50">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z"></path></svg>
+                    Chatter Sources
+                    <span id="tabBadgeChatter" class="bg-slate-700 text-slate-300 py-0.5 px-2 rounded-full text-xs ml-1">0</span>
+                </button>
+                <button id="tab-copilot" role="tab" aria-selected="false" aria-controls="copilotPanel" class="flex items-center gap-2 px-6 py-3 border-b-2 border-transparent text-slate-400 font-medium transition-colors hover:text-blue-400 hover:bg-slate-800/50 relative">
+                    <svg class="w-5 h-5 text-indigo-400 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                    AI Analyst Copilot
+                    <span class="absolute top-1.5 right-1.5 flex h-2.5 w-2.5">
+                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-75"></span>
+                        <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-indigo-500"></span>
+                    </span>
+                </button>
+            </div>
+
+            <!-- Row Density & Action Controls -->
+            <div id="densityAndActions" class="flex flex-wrap items-center gap-3 self-end md:self-auto pb-2 md:pb-0 px-2 text-sm">
+                <button id="sendToCopilotBtn" class="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white rounded-lg px-4 py-1.5 font-semibold text-xs flex items-center gap-1.5 shadow-md shadow-indigo-900/30 transition-all border border-indigo-500/30">
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                    Analyze Filtered with AI
+                </button>
+                <span class="text-slate-500 h-4 w-px bg-slate-700 hidden sm:block"></span>
+                <span class="text-slate-400 hidden sm:inline">Display:</span>
+                <button id="densityComfortable" class="bg-blue-600 text-white rounded-lg px-3 py-1 font-medium text-xs transition-colors border border-blue-500">Comfortable</button>
+                <button id="densityCompact" class="bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg px-3 py-1 text-xs transition-colors border border-slate-700">Compact</button>
+            </div>
+        </div>
+
+        <!-- Viewing Status -->
+        <div id="viewingStatusWrapper" class="flex justify-between items-center mb-3 px-1">
+            <span id="viewingStatus" class="text-sm text-slate-400 font-medium">Loading sources...</span>
+        </div>
+
+        <!-- Main Directory Table Wrapper -->
+        <div id="tableContainer" role="tabpanel" aria-labelledby="tab-news" class="bg-slate-800 rounded-xl border border-slate-700 shadow-sm overflow-hidden">
+            <div class="overflow-x-auto w-full">
+                <table class="w-full text-left border-collapse whitespace-nowrap">
+                    <thead class="bg-slate-900/50 text-slate-300 text-sm border-b border-slate-700" id="tableHeader">
+                        <!-- Header injected dynamically -->
+                    </thead>
+                    <tbody id="tableBody" class="text-sm divide-y divide-slate-700/50">
+                        <!-- Rows injected dynamically -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- AI Analyst Copilot Panel (Initially Hidden) -->
+        <div id="copilotPanel" role="tabpanel" aria-labelledby="tab-copilot" class="hidden grid grid-cols-1 lg:grid-cols-12 gap-6 bg-slate-900 border border-slate-800 rounded-2xl p-4 md:p-6 shadow-xl">
+            <!-- Left Side: Configuration Controls -->
+            <div class="lg:col-span-4 flex flex-col gap-4 border-b lg:border-b-0 lg:border-r border-slate-800 pb-6 lg:pb-0 lg:pr-6">
+                <div>
+                    <h3 class="text-lg font-bold text-white flex items-center gap-2">
+                        <svg class="w-5 h-5 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path></svg>
+                        Intelligence Command
+                    </h3>
+                    <p class="text-xs text-slate-400 mt-1">Configure parameters to direct the Gemini AI briefing system or chat directly.</p>
+                </div>
+
+                <!-- Copilot Operations Mode Selector -->
+                <div class="flex bg-slate-950 p-1 rounded-lg border border-slate-800">
+                    <button id="modeBriefingBtn" class="flex-1 text-center py-1.5 text-xs font-semibold rounded bg-indigo-600 text-white transition-all">
+                        Briefing Generator
+                    </button>
+                    <button id="modeChatBtn" class="flex-1 text-center py-1.5 text-xs font-semibold rounded text-slate-400 hover:text-white transition-all">
+                        Interactive Chat
+                    </button>
+                </div>
+
+                <!-- Mode 1 Container: Briefing Configuration -->
+                <div id="briefingConfigContainer" class="flex flex-col gap-4">
+                    <div class="flex flex-col gap-1.5">
+                        <label class="text-xs font-bold uppercase tracking-wider text-slate-400">Target Sources</label>
+                        <div class="bg-slate-950 px-3 py-2 rounded-lg border border-slate-800 flex justify-between items-center">
+                            <span class="text-xs text-slate-300 font-medium" id="copilotSelectedCount">0 sources filtered</span>
+                            <span class="text-[10px] bg-indigo-950/50 text-indigo-400 border border-indigo-800/30 px-2 py-0.5 rounded-full" id="copilotScopeLabel">Active View</span>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col gap-1.5">
+                        <label class="text-xs font-bold uppercase tracking-wider text-slate-400">Analytical Theme</label>
+                        <select id="briefingTheme" class="bg-slate-950 border border-slate-800 text-slate-200 rounded-lg p-2.5 text-sm focus:outline-none focus:border-indigo-500 cursor-pointer w-full">
+                            <option value="Sahel Security & Geopolitical Shifts">Sahel Security & Geopolitical Monitoring</option>
+                            <option value="Macroeconomic Narratives & Trade Policy">Macroeconomic & Trade Integration Analysis</option>
+                            <option value="Information Operations & Disinformation Campaigns">Safer Elections & Disinformation Vectors</option>
+                            <option value="Custom Analyst Inquiry">Custom Analyst Briefing Outline</option>
+                        </select>
+                    </div>
+
+                    <div class="flex flex-col gap-1.5 hidden" id="customInquiryWrapper">
+                        <label class="text-xs font-bold uppercase tracking-wider text-slate-400">Custom Briefing Directives</label>
+                        <textarea id="customBriefingPrompt" rows="3" placeholder="Enter custom monitoring objectives, threat vectors, or specific regional focus areas..." class="bg-slate-950 border border-slate-800 text-slate-200 rounded-lg p-2.5 text-xs focus:outline-none focus:border-indigo-500 w-full resize-none placeholder-slate-600"></textarea>
+                    </div>
+
+                    <button id="generateBriefingBtn" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-sm py-2.5 px-4 rounded-lg shadow-lg shadow-indigo-950/50 transition-colors flex items-center justify-center gap-2">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                        Synthesize Intelligence
+                    </button>
+                </div>
+
+                <!-- Mode 2 Container: Interactive Chat Config info -->
+                <div id="chatConfigContainer" class="flex flex-col gap-3 hidden">
+                    <div class="bg-slate-950/40 border border-slate-800/80 rounded-xl p-3 text-xs text-slate-400 leading-relaxed">
+                        <p class="font-semibold text-slate-300 mb-1">Knowledge Guardrails:</p>
+                        The AI assistant has complete access to the metadata parameters, notes, and platform locations of all 130+ sources cataloged in this registry. 
+                        <p class="mt-2">Use the chat box on the right to perform landscape queries, search recommendations, and strategic audits.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Side: AI Response / Chat Area -->
+            <div class="lg:col-span-8 flex flex-col gap-4 min-h-[450px]">
+                <!-- Briefing Mode View Container -->
+                <div id="briefingOutputContainer" class="flex-1 flex flex-col gap-3">
+                    <div class="flex justify-between items-center">
+                        <h4 class="text-xs font-bold uppercase tracking-wider text-slate-400">Generated Media Intelligence Outline</h4>
+                        <button id="copyBriefingBtn" class="text-xs text-slate-400 hover:text-white bg-slate-800 hover:bg-slate-700 border border-slate-700 rounded-lg px-2.5 py-1 flex items-center gap-1 transition-colors">
+                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg>
+                            Copy to Clipboard
+                        </button>
+                    </div>
+
+                    <!-- Output display card -->
+                    <div id="briefingContentArea" class="flex-1 bg-slate-950 rounded-xl border border-slate-800 p-4 md:p-6 overflow-y-auto max-h-[380px] text-sm leading-relaxed text-slate-300">
+                        <div class="flex flex-col items-center justify-center text-center h-full text-slate-500 py-12">
+                            <svg class="w-12 h-12 mb-3 text-slate-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                            <p class="font-medium text-slate-400">No Intelligence briefing has been synthesized yet.</p>
+                            <p class="text-xs max-w-sm mt-1">Select your sources using the directory filter, pick an analytical focus theme, and hit "Synthesize Intelligence" to draft a curated report.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Chat Mode View Container (Initially Hidden) -->
+                <div id="chatOutputContainer" class="flex-1 flex flex-col gap-3 hidden">
+                    <div class="flex justify-between items-center">
+                        <h4 class="text-xs font-bold uppercase tracking-wider text-slate-400">Interactive Analyst Chat Log</h4>
+                        <button id="clearChatBtn" class="text-xs text-red-400 hover:text-red-300 transition-colors">Clear Log</button>
+                    </div>
+
+                    <!-- Chat History Pane -->
+                    <div id="chatHistoryBox" class="flex-1 bg-slate-950 rounded-xl border border-slate-800 p-4 overflow-y-auto max-h-[320px] flex flex-col gap-3">
+                        <div class="text-xs text-indigo-400 bg-indigo-950/30 border border-indigo-900/50 rounded-lg p-3 leading-relaxed mb-2">
+                            <strong>System Context Loaded:</strong> Hello Analyst! I am preloaded with the tracking details of the entire 130+ regional directory. Ask me things like <em>"Draft a monitoring group for South Africa conflict coverage"</em> or <em>"Compare the trust classifications of Sahara Reporters and Premium Times"</em>.
+                        </div>
+                    </div>
+
+                    <!-- Chat Input Controls -->
+                    <div class="flex gap-2">
+                        <input type="text" id="chatInput" placeholder="Ask about regional coverage, search profiles, or draft strategy outlines..." class="flex-1 bg-slate-950 border border-slate-800 text-slate-200 rounded-lg px-4 py-2 text-sm focus:outline-none focus:border-indigo-500 placeholder-slate-600">
+                        <button id="sendChatBtn" class="bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-sm px-4 py-2 rounded-lg transition-colors flex items-center justify-center">
+                            Send
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="mt-8 pt-6 border-t border-slate-800 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-slate-500 pb-8">
+        <div class="flex items-center gap-2">
+            <svg class="w-4 h-4 text-emerald-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+            Last verified & updated: <strong>16 Jun 2026</strong>
+        </div>
+        <div>
+            Maintained by <span class="font-medium text-slate-400">Africa Media Watch Team</span> • v2.3 AI
+        </div>
+    </footer>
+
+    <!-- JavaScript Data & Logic -->
+    <script>
+        const sourcesData = [
+            // West Africa - News
+            { id: 'wa-waw', country: 'Nigeria', scope: 'National', outlet: 'West Africa Weekly', link: 'https://westafricaweekly.com', region: 'West Africa', language: 'English', category: 'news', type: 'Digital-Native', platforms: { youtube: '@westafricaweekly', x: '@westafricaweekly' }, audience: 'High Engagement', monitoringNotes: 'Good for fast-moving political, security, and economic investigations.', classNotes: 'Independent digital journalism network.' },
+            { id: 'wa-channels', country: 'Nigeria', scope: 'National', outlet: 'Channels Television', link: 'https://www.channelstv.com', region: 'West Africa', language: 'English', category: 'news', type: 'Mainstream', platforms: { facebook: 'channelsforum' }, audience: 'Mainstream Reach', monitoringNotes: 'Primary terrestrial broadcaster breaking news across Nigeria.', classNotes: 'State-aligned national media portal.' },
+            { id: 'wa-punch', country: 'Nigeria', scope: 'National', outlet: 'Punch Newspapers', link: 'https://punchng.com', region: 'West Africa', language: 'English', category: 'news', type: 'Mainstream', platforms: { facebook: 'punchnewspaper' }, audience: 'Mass Market', monitoringNotes: 'High-frequency daily print and web syndication.', classNotes: 'Independent private daily newspaper.' },
+            { id: 'wa-premium', country: 'Nigeria', scope: 'National', outlet: 'Premium Times', link: 'https://www.premiumtimesng.com', region: 'West Africa', language: 'English', category: 'news', type: 'Digital-Native', platforms: { facebook: 'Premiumtimes' }, audience: 'Intellectual/Diplomatic', monitoringNotes: 'Excellent investigative work and policy tracing.', classNotes: 'Private digital native outlet.' },
+            { id: 'wa-sahara', country: 'Nigeria', scope: 'National', outlet: 'Sahara Reporters', link: 'https://saharareporters.com', region: 'West Africa', language: 'English', category: 'news', type: 'Hybrid', platforms: { facebook: 'SaharaReporters' }, audience: 'Mass Activist', monitoringNotes: 'Primary whistleblower node. Highly rapid but requires curation.', classNotes: 'Cross-listed as news and chatter.' },
+            { id: 'wa-vanguard', country: 'Nigeria', scope: 'National', outlet: 'Vanguard News', link: 'https://www.vanguardngr.com', region: 'West Africa', language: 'English', category: 'news', type: 'Mainstream', platforms: { facebook: 'vanguardngr' }, audience: 'Mass Market', monitoringNotes: 'General coverage of southern Nigeria development.', classNotes: 'Established print publication.' },
+            { id: 'wa-thecable', country: 'Nigeria', scope: 'National', outlet: 'TheCable', link: 'https://www.thecable.ng', region: 'West Africa', language: 'English', category: 'news', type: 'Digital-Native', platforms: { facebook: 'thecableng' }, audience: 'Business/Govt', monitoringNotes: 'Rapid economy and oil sector policy updates.', classNotes: 'Private digital publication.' },
+            { id: 'wa-trust', country: 'Nigeria', scope: 'National', outlet: 'Daily Trust', link: 'https://dailytrust.com', region: 'West Africa', language: 'English', category: 'news', type: 'Mainstream', platforms: { facebook: 'DailyTrust' }, audience: 'Northern Focus', monitoringNotes: 'Key insight into northern geopolitical dynamics.', classNotes: 'Established print media.' },
+            { id: 'wa-tvc', country: 'Nigeria', scope: 'National', outlet: 'TVC News Nigeria', link: 'https://tvcnews.tv', region: 'West Africa', language: 'English', category: 'news', type: 'Mainstream', platforms: { facebook: 'tvcnewsng' }, audience: 'Mainstream Reach', monitoringNotes: 'Fast breaking video streams and satellite coverage.', classNotes: 'Commercial television network.' },
+            { id: 'wa-arise', country: 'Nigeria', scope: 'National', outlet: 'Arise News', link: 'https://www.arise.tv', region: 'West Africa', language: 'English', category: 'news', type: 'Mainstream', platforms: { facebook: 'ARISEtv' }, audience: 'Elite/Global', monitoringNotes: 'Global-facing broadcast covering politics and macroeconomics.', classNotes: 'International network.' },
+            { id: 'wa-legit', country: 'Nigeria', scope: 'National', outlet: 'Legit.ng', link: 'https://www.legit.ng', region: 'West Africa', language: 'English', category: 'news', type: 'Digital-Native', platforms: { facebook: 'legitng' }, audience: 'Mass Youth', monitoringNotes: 'Fast, search-optimized reporting on trending events.', classNotes: 'Digital media portal.' },
+            { id: 'wa-leadership', country: 'Nigeria', scope: 'National', outlet: 'Leadership NGA', link: 'https://leadership.ng', region: 'West Africa', language: 'English', category: 'news', type: 'Mainstream', platforms: { facebook: 'LeadershipNGA' }, audience: 'Business/Politics', monitoringNotes: 'Substantial coverage of executive policy and trade issues.', classNotes: 'General interest daily.' },
+            { id: 'wa-nation', country: 'Nigeria', scope: 'National', outlet: 'The Nation Nigeria', link: 'https://thenationonlineng.net', region: 'West Africa', language: 'English', category: 'news', type: 'Mainstream', platforms: { facebook: 'thenationnigeria' }, audience: 'Mass Market', monitoringNotes: 'Strong coverage of status political engines in Lagos.', classNotes: 'Commercial print.' },
+            { id: 'wa-tribune', country: 'Nigeria', scope: 'National', outlet: 'Nigerian Tribune', link: 'https://tribuneonlineng.com', region: 'West Africa', language: 'English', category: 'news', type: 'Mainstream', platforms: { facebook: 'NigerianTribune' }, audience: 'Historical Base', monitoringNotes: 'National reporting from an Ibadan-anchored platform.', classNotes: 'Legacy daily.' },
+            { id: 'wa-guardian', country: 'Nigeria', scope: 'National', outlet: 'Guardian Nigeria', link: 'https://guardian.ng', region: 'West Africa', language: 'English', category: 'news', type: 'Mainstream', platforms: { facebook: 'guardianng' }, audience: 'Elite Opinion', monitoringNotes: 'Strong editorial essays and long-form analysis.', classNotes: 'Private broadsheet.' },
+            { id: 'wa-independent', country: 'Nigeria', scope: 'National', outlet: 'Independent Nigeria', link: 'https://independent.ng', region: 'West Africa', language: 'English', category: 'news', type: 'Mainstream', platforms: { facebook: 'IndependentNgr' }, audience: 'General Interest', monitoringNotes: 'National wire and corporate reporting.', classNotes: 'Standard daily.' },
+            { id: 'wa-joy', country: 'Ghana', scope: 'National', outlet: 'JoyNews', link: 'https://www.myjoyonline.com', region: 'West Africa', language: 'English', category: 'news', type: 'Mainstream', platforms: { facebook: 'joy997fm' }, audience: 'Mass Market', monitoringNotes: 'Flagship radio/television broadcast network for Accra.', classNotes: 'Commercial broadcaster.' },
+            { id: 'wa-citi', country: 'Ghana', scope: 'National', outlet: 'Citi FM', link: 'https://citinewsroom.com', region: 'West Africa', language: 'English', category: 'news', type: 'Mainstream', platforms: { facebook: 'Citi973' }, audience: 'Middle Class/Urban', monitoringNotes: 'Fast online portal with strong political interview content.', classNotes: 'Private radio.' },
+            { id: 'wa-ghanaweb', country: 'Ghana', scope: 'National', outlet: 'GhanaWeb', link: 'https://www.ghanaweb.com', region: 'West Africa', language: 'English', category: 'news', type: 'Digital-Native', platforms: { facebook: 'GhanaWeb' }, audience: 'Mass Market', monitoringNotes: 'Large-scale aggregator of local radio, print, and community news.', classNotes: 'Digital aggregator.' },
+            { id: 'wa-peace', country: 'Ghana', scope: 'National', outlet: 'Peace FM', link: 'https://www.peacefmonline.com', region: 'West Africa', language: 'English', category: 'news', type: 'Mainstream', platforms: { facebook: 'Peace104.3FM' }, audience: 'Mass Market', monitoringNotes: 'Strong local-language radio focus.', classNotes: 'Standard commercial.' },
+            { id: 'wa-tv3', country: 'Ghana', scope: 'National', outlet: 'TV3 Ghana', link: 'https://3news.com', region: 'West Africa', language: 'English', category: 'news', type: 'Mainstream', platforms: { facebook: 'TV3Ghana' }, audience: 'Broad National', monitoringNotes: 'Hourly news alerts and video features.', classNotes: 'Commercial television.' },
+            { id: 'wa-abidjan', country: 'Côte d\'Ivoire', scope: 'National', outlet: 'Abidjan.net', link: 'https://www.abidjan.net', region: 'West Africa', language: 'French', category: 'news', type: 'Digital-Native', platforms: { facebook: 'Abidjan.net' }, audience: 'Dominant Digital', monitoringNotes: 'Primary portal for Ivorian news, business, and directory tracking.', classNotes: 'Digital portal.' },
+            { id: 'wa-rti', country: 'Côte d\'Ivoire', scope: 'National', outlet: 'RTI Info', link: 'https://www.rti.info', region: 'West Africa', language: 'French', category: 'news', type: 'State Media', platforms: { facebook: 'RTIofficiel' }, audience: 'National Reach', monitoringNotes: 'Official national broadcaster. Best for formal state alerts.', classNotes: 'State media network.' },
+            { id: 'wa-7info', country: 'Côte d\'Ivoire', scope: 'National', outlet: '7info', link: 'https://www.7info.ci', region: 'West Africa', language: 'French', category: 'news', type: 'Digital-Native', platforms: { facebook: '7info.ci' }, audience: 'Urban Youth', monitoringNotes: 'Slick video-driven journalism and social alerts.', classNotes: 'Private media.' },
+            { id: 'wa-seneweb', country: 'Senegal', scope: 'National', outlet: 'Seneweb', link: 'https://www.seneweb.com', region: 'West Africa', language: 'French', category: 'news', type: 'Digital-Native', platforms: { facebook: 'seneweb' }, audience: 'Dominant Digital', monitoringNotes: 'Senegal’s most-visited digital native portal.', classNotes: 'Private digital.' },
+            { id: 'wa-dakaractu', country: 'Senegal', scope: 'National', outlet: 'Dakaractu', link: 'https://www.dakaractu.com', region: 'West Africa', language: 'French', category: 'news', type: 'Digital-Native', platforms: { facebook: 'dakaractu' }, audience: 'Policy/Political', monitoringNotes: 'Highly active political news tracking site.', classNotes: 'Digital native.' },
+            { id: 'wa-rts', country: 'Senegal', scope: 'National', outlet: 'RTS Senegal', link: 'https://www.rts.sn', region: 'West Africa', language: 'French', category: 'news', type: 'State Media', platforms: { facebook: 'rts1senegal' }, audience: 'National Reach', monitoringNotes: 'Official state broadcaster of Senegal.', classNotes: 'State broadcaster.' },
+            { id: 'wa-maliweb', country: 'Mali', scope: 'National', outlet: 'Maliweb', link: 'https://www.maliweb.net', region: 'West Africa', language: 'French', category: 'news', type: 'Digital-Native', platforms: { facebook: 'maliweb' }, audience: 'National Focus', monitoringNotes: 'Primary online database for news from Bamako.', classNotes: 'Private native.' },
+            { id: 'wa-ortm', country: 'Mali', scope: 'National', outlet: 'ORTM', link: 'https://www.ortm.ml', region: 'West Africa', language: 'French', category: 'news', type: 'State Media', platforms: { facebook: 'ortmofficiel' }, audience: 'National Reach', monitoringNotes: 'Official military/government broadcasting network.', classNotes: 'State media.' },
+            { id: 'wa-aib', country: 'Burkina Faso', scope: 'National', outlet: 'AIB', link: 'https://www.aib.media', region: 'West Africa', language: 'French', category: 'news', type: 'State Media', platforms: { facebook: 'aib.burkina' }, audience: 'Official Feed', monitoringNotes: 'Burkina Faso national press agency; state announcements.', classNotes: 'State news agency.' },
+            { id: 'wa-burkina24', country: 'Burkina Faso', scope: 'National', outlet: 'Burkina24', link: 'https://burkina24.com', region: 'West Africa', language: 'French', category: 'news', type: 'Digital-Native', platforms: { facebook: 'burkina24' }, audience: 'Active Web', monitoringNotes: 'Fast digital coverage of Sahelian development.', classNotes: 'Private digital.' },
+            { id: 'wa-lefaso', country: 'Burkina Faso', scope: 'National', outlet: 'LeFaso.net', link: 'https://lefaso.net', region: 'West Africa', language: 'French', category: 'news', type: 'Digital-Native', platforms: { facebook: 'lefaso.net' }, audience: 'Active Web', monitoringNotes: 'Popular news clearinghouse and political opinion board.', classNotes: 'Digital native.' },
+            { id: 'wa-actuniger', country: 'Niger', scope: 'National', outlet: 'ActuNiger', link: 'https://www.actuniger.com', region: 'West Africa', language: 'French', category: 'news', type: 'Digital-Native', platforms: { facebook: 'actuniger' }, audience: 'National Focus', monitoringNotes: 'Reliable reporting on Niamey political shifts.', classNotes: 'Private portal.' },
+            { id: 'wa-togofirst', country: 'Togo', scope: 'National', outlet: 'Togo First', link: 'https://www.togofirst.com', region: 'West Africa', language: 'French', category: 'news', type: 'Digital-Native', platforms: { facebook: 'togofirst' }, audience: 'Business Focus', monitoringNotes: 'Strong development and economic metrics tracker.', classNotes: 'Private digital.' },
+            { id: 'wa-benin', country: 'Benin', scope: 'National', outlet: '24 Heures au Bénin', link: 'https://www.24haubenin.info', region: 'West Africa', language: 'French', category: 'news', type: 'Mainstream', platforms: { facebook: '24haubenin' }, audience: 'National Reach', monitoringNotes: 'General daily news, legal and business updates.', classNotes: 'Established digital news.' },
+            { id: 'wa-sl', country: 'Sierra Leone', scope: 'National', outlet: 'AYV News', link: 'https://www.ayvnews.com', region: 'West Africa', language: 'English', category: 'news', type: 'Mainstream', platforms: { facebook: 'AYVNews' }, audience: 'Broad National', monitoringNotes: 'Leading private television broadcaster in Freetown.', classNotes: 'Commercial media.' },
+            { id: 'wa-liberia', country: 'Liberia', scope: 'National', outlet: 'FrontPage Africa', link: 'https://frontpageafricaonline.com', region: 'West Africa', language: 'English', category: 'news', type: 'Mainstream', platforms: { facebook: 'frontpageafrica' }, audience: 'Policy/Political', monitoringNotes: 'Leading investigative journal in Liberia.', classNotes: 'Independent newspaper.' },
+            { id: 'wa-guinea', country: 'Guinea', scope: 'National', outlet: 'Guinéenews', link: 'https://guineenews.org', region: 'West Africa', language: 'French', category: 'news', type: 'Digital-Native', platforms: { facebook: 'Guineenews' }, audience: 'National Focus', monitoringNotes: 'Popular news updates from Conakry.', classNotes: 'Digital portal.' },
+            { id: 'wa-bissau', country: 'Guinea-Bissau', scope: 'National', outlet: 'O Democrata GB', link: 'https://www.odemocratagb.com', region: 'West Africa', language: 'Portuguese', category: 'news', type: 'Mainstream', platforms: { facebook: 'odemocratagb' }, audience: 'National Focus', monitoringNotes: 'Critical portal for tracking executive and army shifts.', classNotes: 'Private press.' },
+            { id: 'wa-cv', country: 'Cape Verde', scope: 'National', outlet: 'RTC', link: 'https://www.rtc.cv', region: 'West Africa', language: 'Portuguese', category: 'news', type: 'State Media', platforms: { facebook: 'rtc.cv' }, audience: 'National Reach', monitoringNotes: 'National public broadcaster of Cape Verde.', classNotes: 'State media.' },
+            { id: 'wa-point', country: 'Gambia', scope: 'National', outlet: 'The Point', link: 'https://thepoint.gm', region: 'West Africa', language: 'English', category: 'news', type: 'Mainstream', platforms: { facebook: 'thepointgambia' }, audience: 'National Focus', monitoringNotes: 'Established independent national print paper.', classNotes: 'Independent daily.' },
+            { id: 'wa-kerr', country: 'Gambia', scope: 'National', outlet: 'Kerr Fatou', link: 'https://www.kerrfatou.com', region: 'West Africa', language: 'English', category: 'news', type: 'Digital-Native', platforms: { facebook: 'kerrfatou' }, audience: 'Youth Active', monitoringNotes: 'Slick multimedia streaming and live-broadcasting.', classNotes: 'Digital native.' },
+            { id: 'wa-alakhbar', country: 'Mauritania', scope: 'National', outlet: 'Alakhbar', link: 'https://www.alakhbar.info', region: 'West Africa', language: 'Arabic/French', category: 'news', type: 'Digital-Native', platforms: { facebook: 'alakhbar.mr' }, audience: 'Security/Politics', monitoringNotes: 'Leading independent agency monitoring security and mining updates.', classNotes: 'Independent agency.' },
+            
+            // East Africa - News
+            { id: 'ea-voice', country: 'Kenya', scope: 'National', outlet: 'The Eastleigh Voice', link: 'https://eastleighvoice.co.ke', region: 'East Africa', language: 'English', category: 'news', type: 'Digital-Native', platforms: { youtube: '@TheEastleighVoice' }, audience: 'Regional Focus', monitoringNotes: 'Very useful for Kenya/Nairobi plus regional East Africa spillover with hourly headlines.', classNotes: 'Fast-moving localized publication.' },
+            { id: 'ea-eastafrican', country: 'Multi-National', scope: 'Regional', outlet: 'The EastAfrican', link: 'https://theeastafrican.co.ke', region: 'East Africa', language: 'English', category: 'news', type: 'Mainstream', platforms: { telegram: 'theeastafrican' }, audience: 'Elite/Regional', monitoringNotes: 'Strong regional lens across East Africa, focusing on politics, EAC integration, and cross-border trade.', classNotes: 'Nation Media Group property.' },
+            { id: 'ea-dailynation', country: 'Kenya', scope: 'National', outlet: 'Daily Nation', link: 'https://nation.africa', region: 'East Africa', language: 'English', category: 'news', type: 'Mainstream', platforms: { facebook: 'DailyNation' }, audience: 'Mass Market', monitoringNotes: 'Kenya’s largest daily paper. Standard baseline database.', classNotes: 'Commercial print.' },
+            { id: 'ea-ktn', country: 'Kenya', scope: 'National', outlet: 'KTN News', link: 'https://www.standardmedia.co.ke/ktnnews', region: 'East Africa', language: 'English', category: 'news', type: 'Mainstream', platforms: { facebook: 'KTNKenya' }, audience: 'National Reach', monitoringNotes: '24-hour national TV broadcast. Highly active.', classNotes: 'Standard Group broadcaster.' },
+            { id: 'ea-ntv', country: 'Kenya', scope: 'National', outlet: 'NTV Kenya', link: 'https://ntvkenya.co.ke', region: 'East Africa', language: 'English', category: 'news', type: 'Mainstream', platforms: { facebook: 'NTVKenya' }, audience: 'National Reach', monitoringNotes: 'Highly structured television reporting and analysis.', classNotes: 'Nation Media Group.' },
+            { id: 'ea-citizen', country: 'Kenya', scope: 'National', outlet: 'Citizen TV', link: 'https://citizen.digital', region: 'East Africa', language: 'English', category: 'news', type: 'Mainstream', platforms: { facebook: 'CitizenTVKenya' }, audience: 'Dominant TV', monitoringNotes: 'Kenya’s highest-rated television channel; dominant online portal.', classNotes: 'Royal Media Services.' },
+            { id: 'ea-standard', country: 'Kenya', scope: 'National', outlet: 'The Standard', link: 'https://www.standardmedia.co.ke', region: 'East Africa', language: 'English', category: 'news', type: 'Mainstream', platforms: { facebook: 'standardkenya' }, audience: 'Mass Market', monitoringNotes: 'Second-largest newspaper. Good local business tracing.', classNotes: 'Commercial daily.' },
+            { id: 'ea-star', country: 'Kenya', scope: 'National', outlet: 'The Star', link: 'https://www.the-star.co.ke', region: 'East Africa', language: 'English', category: 'news', type: 'Mainstream', platforms: { facebook: 'thestarkenya' }, audience: 'Insider/Politics', monitoringNotes: 'Excellent political rumor, intelligence, and insider leaks.', classNotes: 'Private tabloid style.' },
+            { id: 'ea-tuko', country: 'Kenya', scope: 'National', outlet: 'Tuko.co.ke', link: 'https://www.tuko.co.ke', region: 'East Africa', language: 'English', category: 'news', type: 'Digital-Native', platforms: { facebook: 'tuko.co.ke' }, audience: 'Mass Youth', monitoringNotes: 'High-frequency digital native aggregation.', classNotes: 'Digital media portal.' },
+            { id: 'ea-nbs', country: 'Uganda', scope: 'National', outlet: 'NBS Television', link: 'https://nbs.co.ug', region: 'East Africa', language: 'English', category: 'news', type: 'Mainstream', platforms: { facebook: 'nbstelevision' }, audience: 'Mass Market', monitoringNotes: 'Highly active live video stream and Kampala local reports.', classNotes: 'Next Media Services.' },
+            { id: 'ea-ntvug', country: 'Uganda', scope: 'National', outlet: 'NTV Uganda', link: 'https://www.ntv.co.ug', region: 'East Africa', language: 'English', category: 'news', type: 'Mainstream', platforms: { facebook: 'ntvuganda' }, audience: 'Broad National', monitoringNotes: 'Quality reporting on Ugandan executive policy.', classNotes: 'Commercial TV.' },
+            { id: 'ea-monitor', country: 'Uganda', scope: 'National', outlet: 'Daily Monitor', link: 'https://www.monitor.co.ug', region: 'East Africa', language: 'English', category: 'news', type: 'Mainstream', platforms: { facebook: 'dailymonitor' }, audience: 'Critical Intel', monitoringNotes: 'Leading independent newspaper in Uganda.', classNotes: 'Independent daily.' },
+            { id: 'ea-vision', country: 'Uganda', scope: 'National', outlet: 'New Vision', link: 'https://www.newvision.co.ug', region: 'East Africa', language: 'English', category: 'news', type: 'State Media', platforms: { facebook: 'thenewvision/' }, audience: 'National Reach', monitoringNotes: 'State-aligned national media giant.', classNotes: 'State-owned corporate.' },
+            { id: 'ea-nile', country: 'Uganda', scope: 'National', outlet: 'Nile Post', link: 'https://nilepost.co.ug', region: 'East Africa', language: 'English', category: 'news', type: 'Digital-Native', platforms: { facebook: 'nilepostnews' }, audience: 'Active Web', monitoringNotes: 'Quick political and security alerts.', classNotes: 'Digital native.' },
+            { id: 'ea-itv', country: 'Tanzania', scope: 'National', outlet: 'ITV Tanzania', link: 'https://www.itv.co.tz', region: 'East Africa', language: 'English', category: 'news', type: 'Mainstream', platforms: { facebook: 'itvtz/' }, audience: 'National Reach', monitoringNotes: 'IPP Media flagship channel. Major Tanzanian voice.', classNotes: 'Commercial media.' },
+            { id: 'ea-azam', country: 'Tanzania', scope: 'National', outlet: 'Azam TV', link: 'https://www.azamtv.co.tz', region: 'East Africa', language: 'English', category: 'news', type: 'Mainstream', platforms: { facebook: 'azamtvtz' }, audience: 'Dominant Satellite', monitoringNotes: 'Fast satellite sports and breaking regional news.', classNotes: 'Private satellite.' },
+            { id: 'ea-mwananchi', country: 'Tanzania', scope: 'National', outlet: 'Mwananchi', link: 'https://www.mwananchi.co.tz', region: 'East Africa', language: 'English', category: 'news', type: 'Mainstream', platforms: { facebook: 'MwananchiDigital' }, audience: 'Intellectual/Daily', monitoringNotes: 'Tanzania’s highest-circulation Swahili/English daily.', classNotes: 'Nation Media affiliate.' },
+            { id: 'ea-ayo', country: 'Tanzania', scope: 'National', outlet: 'Millard Ayo', link: 'https://millardayo.com', region: 'East Africa', language: 'English', category: 'news', type: 'Digital-Native', platforms: { facebook: 'millardayo' }, audience: 'Mass Market', monitoringNotes: 'Rapid digital native reporting on local community happenings.', classNotes: 'Independent portal.' },
+            { id: 'ea-newtimes', country: 'Rwanda', scope: 'National', outlet: 'The New Times', link: 'https://www.newtimes.co.rw', region: 'East Africa', language: 'French/English', category: 'news', type: 'Mainstream', platforms: { facebook: 'TheNewTimesRwanda' }, audience: 'Official English', monitoringNotes: 'State-aligned English daily. Direct look at Kigali policy.', classNotes: 'State-aligned newspaper.' },
+            { id: 'ea-igihe', country: 'Rwanda', scope: 'National', outlet: 'IGIHE', link: 'https://www.igihe.com', region: 'East Africa', language: 'French/English', category: 'news', type: 'Digital-Native', platforms: { facebook: 'igihe' }, audience: 'Dominant Kinyarwanda', monitoringNotes: 'Most popular local language and French digital portal.', classNotes: 'Private digital.' },
+            { id: 'ea-fana', country: 'Ethiopia', scope: 'National', outlet: 'FANA Broadcasting', link: 'https://www.fanabc.com', region: 'East Africa', language: 'Amharic/English', category: 'news', type: 'State Media', platforms: { facebook: 'FanaBroadcastingCorporate' }, audience: 'National Reach', monitoringNotes: 'State broadcasting apparatus. Best for tracking military deployments.', classNotes: 'State broadcaster.' },
+            { id: 'ea-addis', country: 'Ethiopia', scope: 'National', outlet: 'Addis Standard', link: 'https://addisstandard.com', region: 'East Africa', language: 'Amharic/English', category: 'news', type: 'Digital-Native', platforms: { facebook: 'addisstandard' }, audience: 'Diplomatic/Critical', monitoringNotes: 'Independent reporting tracking federal and regional crises.', classNotes: 'Private journal.' },
+            { id: 'ea-goobjoog', country: 'Somalia', scope: 'National', outlet: 'Goobjoog News', link: 'https://goobjoog.com', region: 'East Africa', language: 'Somali/Arabic', category: 'news', type: 'Mainstream', platforms: { facebook: 'GoobjoogNews' }, audience: 'Mogadishu Base', monitoringNotes: 'Excellent live reporting and security updates from Mogadishu.', classNotes: 'Private media.' },
+            { id: 'ea-garowe', country: 'Somalia', scope: 'National', outlet: 'Garowe Online', link: 'https://www.garoweonline.com', region: 'East Africa', language: 'Somali/Arabic', category: 'news', type: 'Mainstream', platforms: { facebook: 'GaroweOnline' }, audience: 'Puntland Focus', monitoringNotes: 'Crucial for tracking Puntland political negotiations.', classNotes: 'Private digital.' },
+            { id: 'ea-eye', country: 'South Sudan', scope: 'National', outlet: 'Eye Radio', link: 'https://www.eyeradio.org', region: 'East Africa', language: 'English', category: 'news', type: 'Mainstream', platforms: { facebook: 'eyeradiojuba' }, audience: 'Juba Baseline', monitoringNotes: 'Most active radio voice monitoring South Sudan conflict metrics.', classNotes: 'Donor-funded radio.' },
+            { id: 'ea-tamazuj', country: 'South Sudan', scope: 'National', outlet: 'Radio Tamazuj', link: 'https://www.radiotamazuj.org', region: 'East Africa', language: 'English', category: 'news', type: 'Digital-Native', platforms: { facebook: 'radiodabanga' }, audience: 'Critical/Regional', monitoringNotes: 'Excellent border conflict reporting (Abyei/Blue Nile).', classNotes: 'Independent portal.' },
+            { id: 'ea-sudan', country: 'Sudan', scope: 'National', outlet: 'Sudan Tribune', link: 'https://sudantribune.com', region: 'East Africa', language: 'English', category: 'news', type: 'Digital-Native', platforms: { facebook: 'sudantribune' }, audience: 'Policy Focus', monitoringNotes: 'Essential database for political negotiations.', classNotes: 'Independent digital.' },
+            { id: 'ea-dabanga', country: 'Sudan', scope: 'National', outlet: 'Radio Dabanga', link: 'https://www.dabangasudan.org', region: 'East Africa', language: 'English', category: 'news', type: 'Digital-Native', platforms: { facebook: 'radiodabanga' }, audience: 'Crisis Tracking', monitoringNotes: 'Best live coverage of Darfur and war operations in Khartoum.', classNotes: 'Independent radio.' },
+
+            // Southern Africa - News
+            { id: 'sa-zimlive', country: 'Zimbabwe', scope: 'National', outlet: 'ZimLive', link: 'https://zimlive.com', region: 'Southern Africa', language: 'English', category: 'news', type: 'Digital-Native', platforms: { }, audience: 'Fast Breaking', monitoringNotes: 'Fast Zimbabwe coverage with politics, breaking incidents, business and Africa spillover.', classNotes: 'Breaking-news specialty property.' },
+            { id: 'sa-nyasa', country: 'Malawi', scope: 'National', outlet: 'Nyasa Times', link: 'https://nyasatimes.com', region: 'Southern Africa', language: 'English', category: 'news', type: 'Digital-Native', platforms: { }, audience: '24 Hour Update', monitoringNotes: 'Strong Malawi coverage, updating 24 hours a day on regional South Africa-linked developments.', classNotes: 'Independent Malawian voice.' },
+            { id: 'sa-southafrican', country: 'South Africa', scope: 'National', outlet: 'The South African', link: 'https://thesouthafrican.com/news', region: 'Southern Africa', language: 'English', category: 'news', type: 'Digital-Native', platforms: { }, audience: 'Spillover Angles', monitoringNotes: 'Useful for SA plus Africa-wide developments (e.g., migration/trade).', classNotes: 'Active private digital native.' },
+            { id: 'sa-citizen', country: 'South Africa', scope: 'National', outlet: 'The Citizen', link: 'https://citizen.co.za', region: 'Southern Africa', language: 'English', category: 'news', type: 'Mainstream', platforms: { youtube: '@thecitizen_news' }, audience: 'Broad Daily', monitoringNotes: 'Broad coverage of South African political developments and regional corporate news.', classNotes: 'Commercial daily.' },
+            { id: 'sa-news24', country: 'South Africa', scope: 'National', outlet: 'News24', link: 'https://www.news24.com', region: 'Southern Africa', language: 'English', category: 'news', type: 'Mainstream', platforms: { facebook: 'News24' }, audience: 'Dominant Digital', monitoringNotes: 'South Africa’s premier breaking news portal. Robust regional desk.', classNotes: 'Naspers subsidiary.' },
+            { id: 'sa-enca', country: 'South Africa', scope: 'National', outlet: 'eNCA', link: 'https://www.enca.com', region: 'Southern Africa', language: 'English', category: 'news', type: 'Mainstream', platforms: { facebook: 'eNCAnews' }, audience: 'National TV', monitoringNotes: 'Commercial satellite broadcaster with rapid-update schedules.', classNotes: 'Commercial TV network.' },
+            { id: 'sa-sabc', country: 'South Africa', scope: 'National', outlet: 'SABC News', link: 'https://www.sabcnews.com', region: 'Southern Africa', language: 'English', category: 'news', type: 'State Media', platforms: { facebook: 'SABCNewsOnline' }, audience: 'National Reach', monitoringNotes: 'State public broadcaster. Highest reach across all SA languages.', classNotes: 'Public state broadcaster.' },
+            { id: 'sa-times', country: 'South Africa', scope: 'National', outlet: 'TimesLIVE', link: 'https://www.timeslive.co.za', region: 'Southern Africa', language: 'English', category: 'news', type: 'Mainstream', platforms: { facebook: 'TimesLIVE' }, audience: 'Mass Digital', monitoringNotes: 'Digital sibling of the Sunday Times. Quality legal investigative work.', classNotes: 'Arena Holdings daily.' },
+            { id: 'sa-ewn', country: 'South Africa', scope: 'National', outlet: 'EWN', link: 'https://ewn.co.za', region: 'Southern Africa', language: 'English', category: 'news', type: 'Mainstream', platforms: { facebook: 'ewnreporter' }, audience: 'Urban Radio', monitoringNotes: 'Eyewitness News. High-speed urban radio updates (702/CapeTalk).', classNotes: 'Primedia broadcasting.' },
+            { id: 'sa-maverick', country: 'South Africa', scope: 'National', outlet: 'Daily Maverick', link: 'https://www.dailymaverick.co.za', region: 'Southern Africa', language: 'English', category: 'news', type: 'Digital-Native', platforms: { facebook: 'dailymaverick' }, audience: 'Intellectual/Elite', monitoringNotes: 'Best deep-dive investigations (Gupta leaks, state capture).', classNotes: 'Independent digital.' },
+            { id: 'sa-sowetan', country: 'South Africa', scope: 'National', outlet: 'SowetanLIVE', link: 'https://www.sowetanlive.co.za', region: 'Southern Africa', language: 'English', category: 'news', type: 'Mainstream', platforms: { facebook: 'SowetanLIVE' }, audience: 'Urban Working Class', monitoringNotes: 'Strong community advocacy and political reporting.', classNotes: 'Established daily.' },
+            { id: 'sa-namibian', country: 'Namibia', scope: 'National', outlet: 'The Namibian', link: 'https://www.namibian.com.na', region: 'Southern Africa', language: 'English', category: 'news', type: 'Mainstream', platforms: { facebook: 'TheNamibian' }, audience: 'National Focus', monitoringNotes: 'Highly critical, established legacy voice in Windhoek.', classNotes: 'Independent paper.' },
+            { id: 'sa-namsun', country: 'Namibia', scope: 'National', outlet: 'Namibian Sun', link: 'https://www.namibiansun.com', region: 'Southern Africa', language: 'English', category: 'news', type: 'Mainstream', platforms: { facebook: 'NamibianSun' }, audience: 'General Interest', monitoringNotes: 'General business, mining, and legal tracking.', classNotes: 'Commercial daily.' },
+            { id: 'sa-mmegi', country: 'Botswana', scope: 'National', outlet: 'Mmegi Online', link: 'https://www.mmegi.bw', region: 'Southern Africa', language: 'English', category: 'news', type: 'Mainstream', platforms: { facebook: 'MmegiOnline' }, audience: 'National Focus', monitoringNotes: 'Main independent voice in Gaborone tracking mineral policy.', classNotes: 'Independent daily.' },
+            { id: 'sa-botgazette', country: 'Botswana', scope: 'National', outlet: 'Botswana Gazette', link: 'https://www.thegazette.news', region: 'Southern Africa', language: 'English', category: 'news', type: 'Mainstream', platforms: { facebook: 'BotswanaGazette' }, audience: 'Policy Focus', monitoringNotes: 'General national reporting and legislative updates.', classNotes: 'Independent broadsheet.' },
+            { id: 'sa-herald', country: 'Zimbabwe', scope: 'National', outlet: 'The Herald', link: 'https://www.herald.co.zw', region: 'Southern Africa', language: 'English', category: 'news', type: 'State Media', platforms: { facebook: 'heraldzimbabwe' }, audience: 'State Reach', monitoringNotes: 'State media flagship. Essential for tracking ZANU-PF policies.', classNotes: 'Zimpapers property.' },
+            { id: 'sa-newsday', country: 'Zimbabwe', scope: 'National', outlet: 'NewsDay', link: 'https://www.newsday.co.zw', region: 'Southern Africa', language: 'English', category: 'news', type: 'Mainstream', platforms: { facebook: 'NewsDayZimbabwe' }, audience: 'Critical Focus', monitoringNotes: 'Independent paper reporting on economic and inflation crises.', classNotes: 'Alpha Media Holdings.' },
+            { id: 'sa-263', country: 'Zimbabwe', scope: 'National', outlet: '263Chat', link: 'https://www.263chat.com', region: 'Southern Africa', language: 'English', category: 'news', type: 'Digital-Native', platforms: { facebook: '263Chat' }, audience: 'Urban Active', monitoringNotes: 'Pioneered interactive SMS and digital news in Harare.', classNotes: 'Digital native.' },
+            { id: 'sa-mwebantu', country: 'Zambia', scope: 'National', outlet: 'Mwebantu', link: 'https://www.mwebantu.com', region: 'Southern Africa', language: 'English', category: 'news', type: 'Digital-Native', platforms: { facebook: 'mwebantu' }, audience: 'Mass Digital', monitoringNotes: 'Most popular Zambian social news aggregator and direct broadcaster.', classNotes: 'Private digital portal.' },
+            { id: 'sa-diggers', country: 'Zambia', scope: 'National', outlet: 'News Diggers', link: 'https://diggers.news', region: 'Southern Africa', language: 'English', category: 'news', type: 'Mainstream', platforms: { facebook: 'DiggersNews' }, audience: 'Critical Intel', monitoringNotes: 'Fiercely independent investigative portal monitoring copper policies.', classNotes: 'Independent private daily.' },
+            { id: 'sa-mwnation', country: 'Malawi', scope: 'National', outlet: 'Nation Online', link: 'https://mwnation.com', region: 'Southern Africa', language: 'English', category: 'news', type: 'Mainstream', platforms: { facebook: 'NationOnlineMw' }, audience: 'National Reach', monitoringNotes: 'General coverage of Lilongwe and Blantyre development.', classNotes: 'Established print daily.' },
+            { id: 'sa-timesmw', country: 'Malawi', scope: 'National', outlet: 'Times 360', link: 'https://times.mw', region: 'Southern Africa', language: 'English', category: 'news', type: 'Mainstream', platforms: { facebook: 'Times360Malawi' }, audience: 'Mass Market', monitoringNotes: 'Highly active political news tracking site.', classNotes: 'Standard daily.' },
+            { id: 'sa-opais', country: 'Mozambique', scope: 'National', outlet: 'O País', link: 'https://opais.co.mz', region: 'Southern Africa', language: 'Portuguese', category: 'news', type: 'Mainstream', platforms: { facebook: 'jornalopais' }, audience: 'Broad National', monitoringNotes: 'Major Maputo Portuguese portal tracking LNG security shifts.', classNotes: 'Commercial broadsheet.' },
+            { id: 'sa-cartamz', country: 'Mozambique', scope: 'National', outlet: 'Carta de Moçambique', link: 'https://cartamz.com', region: 'Southern Africa', language: 'Portuguese', category: 'news', type: 'Digital-Native', platforms: { facebook: 'cartamz' }, audience: 'Cabo Delgado Intel', monitoringNotes: 'Superb local reporting tracking northern security metrics.', classNotes: 'Private digital native.' },
+            { id: 'sa-lesotho', country: 'Lesotho', scope: 'National', outlet: 'Lesotho Times', link: 'https://lestimes.com', region: 'Southern Africa', language: 'English', category: 'news', type: 'Mainstream', platforms: { facebook: 'LesothoTimes' }, audience: 'National Focus', monitoringNotes: 'General broadsheet coverage of the constitutional monarchy.', classNotes: 'General daily broadsheet.' },
+            { id: 'sa-eswatini', country: 'Eswatini', scope: 'National', outlet: 'Times of Eswatini', link: 'https://www.times.co.sz', region: 'Southern Africa', language: 'English', category: 'news', type: 'Mainstream', platforms: { facebook: 'TimesofEswatini' }, audience: 'National Focus', monitoringNotes: 'Only independent paper in Eswatini; careful monarchy tracking.', classNotes: 'Private daily.' },
+            { id: 'sa-angola', country: 'Angola', scope: 'National', outlet: 'Jornal de Angola', link: 'https://www.jornaldeangola.ao', region: 'Southern Africa', language: 'Portuguese', category: 'news', type: 'State Media', platforms: { facebook: 'jornaldeangola' }, audience: 'State Reach', monitoringNotes: 'Official state organ of Angola. Best for tracking military acts.', classNotes: 'State media outlet.' },
+
+            // Central Africa - News
+            { id: 'ca-jdc', country: 'Cameroon', scope: 'National', outlet: 'Journal du Cameroun', link: 'https://journalducameroun.com', region: 'Central Africa', language: 'French/English', category: 'news', type: 'Digital-Native', platforms: { telegram: 'jdcFR' }, audience: 'Bilingual Base', monitoringNotes: 'French and English Central Africa regional updates, focusing on CEMAC updates.', classNotes: 'Private digital publication.' },
+            { id: 'ca-crtv', country: 'Cameroon', scope: 'National', outlet: 'CRTV', link: 'https://www.crtv.cm', region: 'Central Africa', language: 'French/English', category: 'news', type: 'State Media', platforms: { facebook: 'CRTVweb/' }, audience: 'National Reach', monitoringNotes: 'Official Cameroon public broadcaster. Best for presidential notices.', classNotes: 'State broadcaster.' },
+            { id: 'ca-actucam', country: 'Cameroon', scope: 'National', outlet: 'Actu Cameroun', link: 'https://actucameroun.com', region: 'Central Africa', language: 'French/English', category: 'news', type: 'Digital-Native', platforms: { facebook: 'actucameroun' }, audience: 'Mass Market', monitoringNotes: 'Fast online aggregator of Anglophone/Francophone news.', classNotes: 'Digital native.' },
+            { id: 'ca-equinoxe', country: 'Cameroon', scope: 'National', outlet: 'Equinoxe TV', link: 'https://equinoxetv.com', region: 'Central Africa', language: 'French/English', category: 'news', type: 'Mainstream', platforms: { facebook: 'equinoxe.television/' }, audience: 'Critical Broadcaster', monitoringNotes: 'Highly active private broadcaster; tracks Anglophone region.', classNotes: 'Commercial TV.' },
+            { id: 'ca-okapi', country: 'DRC', scope: 'National', outlet: 'Radio Okapi', link: 'https://www.radiookapi.net', region: 'Central Africa', language: 'French', category: 'news', type: 'Mainstream', platforms: { facebook: 'radiookapi' }, audience: 'Dominant National', monitoringNotes: 'UN-backed broadcaster; highest credibility for eastern DRC tracking.', classNotes: 'UN Monusco broadcaster.' },
+            { id: 'ca-actualite', country: 'DRC', scope: 'National', outlet: 'Actualite.cd', link: 'https://actualite.cd', region: 'Central Africa', language: 'French', category: 'news', type: 'Digital-Native', platforms: { facebook: 'actualitecd' }, audience: 'Intellectual/Critical', monitoringNotes: 'Superb political reporting from Kinshasa.', classNotes: 'Private digital native.' },
+            { id: 'ca-7sur7', country: 'DRC', scope: 'National', outlet: '7sur7.cd', link: 'https://7sur7.cd', region: 'Central Africa', language: 'French', category: 'news', type: 'Digital-Native', platforms: { facebook: '7sur7cd' }, audience: 'Mass Market', monitoringNotes: 'High-frequency digital aggregation portal.', classNotes: 'Private digital.' },
+            { id: 'ca-mediacongo', country: 'DRC', scope: 'National', outlet: 'Mediacongo', link: 'https://www.mediacongo.net', region: 'Central Africa', language: 'French', category: 'news', type: 'Digital-Native', platforms: { facebook: 'mediacongo' }, audience: 'Active Web', monitoringNotes: 'Popular directory, classifieds, and daily news feed.', classNotes: 'Digital portal.' },
+            { id: 'ca-brazzaville', country: 'Congo Republic', scope: 'National', outlet: 'Les Dépêches de Brazzaville', link: 'https://www.lesdepechesdebrazzaville.fr', region: 'Central Africa', language: 'French', category: 'news', type: 'State Media', platforms: { facebook: 'lesdepechesdebrazzaville' }, audience: 'State Reach', monitoringNotes: 'Official-leaning press tracking Brazzaville administration.', classNotes: 'State-aligned daily.' },
+            { id: 'ca-gabonmedia', country: 'Gabon', scope: 'National', outlet: 'Gabon Media Time', link: 'https://www.gabonmediatime.com', region: 'Central Africa', language: 'French', category: 'news', type: 'Digital-Native', platforms: { facebook: 'gabonmediatime' }, audience: 'National Focus', monitoringNotes: 'Tracking transition council and government updates.', classNotes: 'Private digital.' },
+            { id: 'ca-info241', country: 'Gabon', scope: 'National', outlet: 'Info241', link: 'https://info241.com', region: 'Central Africa', language: 'French', category: 'news', type: 'Digital-Native', platforms: { facebook: 'info241' }, audience: 'General Interest', monitoringNotes: 'General Gabon and Central Africa news database.', classNotes: 'Digital native.' },
+            { id: 'ca-tchadinfos', country: 'Chad', scope: 'National', outlet: 'Tchadinfos', link: 'https://tchadinfos.com', region: 'Central Africa', language: 'French', category: 'news', type: 'Digital-Native', platforms: { facebook: 'tchadinfos' }, audience: 'National Focus', monitoringNotes: 'Primary online node tracking N\'Djamena security affairs.', classNotes: 'Private digital portal.' },
+            { id: 'ca-ndeke', country: 'Central African Republic', scope: 'National', outlet: 'Radio Ndeke Luka', link: 'https://www.radiondekeluka.org', region: 'Central Africa', language: 'French', category: 'news', type: 'Mainstream', platforms: { facebook: 'RadioNdekeLuka' }, audience: 'Broad National', monitoringNotes: 'UN-funded broadcaster; best local safety monitoring engine.', classNotes: 'Public foundation radio.' },
+
+            // North Africa - News
+            { id: 'na-nap', country: 'Multi-National', scope: 'Regional', outlet: 'The North Africa Post', link: 'https://northafricapost.com', region: 'North Africa', language: 'English', category: 'news', type: 'Digital-Native', platforms: { youtube: '@northafricapost' }, audience: 'Regional Focus', monitoringNotes: 'Highly useful English-language regional coverage updated daily.', classNotes: 'Private regional media.' },
+            { id: 'na-minutes', country: 'Multi-National', scope: 'Regional', outlet: 'Maghreb Minutes', link: 'https://maghrebminutes.com', region: 'North Africa', language: 'English', category: 'news', type: 'Digital-Native', platforms: { }, audience: 'Context Driven', monitoringNotes: 'Focused on breaking summaries and context-driven reporting across the Maghreb.', classNotes: 'Independent digital.' },
+            { id: 'na-mag', country: 'Multi-National', scope: 'Regional', outlet: 'Maghreb Magazine', link: 'https://maghrebmagazine.com', region: 'North Africa', language: 'English', category: 'news', type: 'Digital-Native', platforms: { }, audience: 'Active Web', monitoringNotes: 'Broader political and economic updates spanning Northwest Africa.', classNotes: 'Independent broadsheet.' },
+            { id: 'na-youm7', country: 'Egypt', scope: 'National', outlet: 'Youm7', link: 'https://www.youm7.com', region: 'North Africa', language: 'Arabic/French', category: 'news', type: 'Mainstream', platforms: { facebook: 'Youm7' }, audience: 'Mass Market', monitoringNotes: 'Egypt’s largest private paper. High-velocity general news.', classNotes: 'Commercial publisher.' },
+            { id: 'na-masrawy', country: 'Egypt', scope: 'National', outlet: 'Masrawy', link: 'https://www.masrawy.com', region: 'North Africa', language: 'Arabic/French', category: 'news', type: 'Digital-Native', platforms: { facebook: 'masrawy' }, audience: 'Mass Market', monitoringNotes: 'Pioneering general news aggregator and portal.', classNotes: 'Digital portal.' },
+            { id: 'na-almasry', country: 'Egypt', scope: 'National', outlet: 'Al-Masry Al-Youm', link: 'https://www.almasryalyoum.com', region: 'North Africa', language: 'Arabic/French', category: 'news', type: 'Mainstream', platforms: { facebook: 'AlMasryAlYoum' }, audience: 'Elite Opinion', monitoringNotes: 'Substantial daily news, columns, and analytical features.', classNotes: 'Private broadsheet.' },
+            { id: 'na-libya24', country: 'Libya', scope: 'National', outlet: 'Akhbar Libya 24', link: 'https://akhbarlibya24.net', region: 'North Africa', language: 'Arabic/French', category: 'news', type: 'Digital-Native', platforms: { facebook: 'akhbarlibya24' }, audience: 'National Focus', monitoringNotes: 'Real-time security tracker reporting from Benghazi.', classNotes: 'Digital news.' },
+            { id: 'na-wasat', country: 'Libya', scope: 'National', outlet: 'Alwasat', link: 'https://alwasat.ly', region: 'North Africa', language: 'Arabic/French', category: 'news', type: 'Mainstream', platforms: { facebook: 'alwasatmlb' }, audience: 'Trusted General', monitoringNotes: 'High-speed monitoring of the Tripoli administration.', classNotes: 'Independent daily.' },
+            { id: 'na-mosaique', country: 'Tunisia', scope: 'National', outlet: 'Mosaique FM', link: 'https://www.mosaiquefm.net', region: 'North Africa', language: 'Arabic/French', category: 'news', type: 'Mainstream', platforms: { facebook: 'MosaiqueFM' }, audience: 'Dominant Radio', monitoringNotes: 'Leading private radio station. Essential for local social tracking.', classNotes: 'Private broadcaster.' },
+            { id: 'na-shems', country: 'Tunisia', scope: 'National', outlet: 'Shems FM', link: 'https://www.shemsfm.net', region: 'North Africa', language: 'Arabic/French', category: 'news', type: 'Mainstream', platforms: { facebook: 'ShemsFM' }, audience: 'General Interest', monitoringNotes: 'General political news and live sports commentaries.', classNotes: 'Commercial station.' },
+            { id: 'na-ennahar', country: 'Algeria', scope: 'National', outlet: 'Ennahar TV', link: 'https://www.ennaharonline.com', region: 'North Africa', language: 'Arabic/French', category: 'news', type: 'Mainstream', platforms: { facebook: 'EnnaharTv' }, audience: 'Dominant TV', monitoringNotes: 'Highly rapid, sensationalist, but crucial security updates.', classNotes: 'Private commercial.' },
+            { id: 'na-tsa', country: 'Algeria', scope: 'National', outlet: 'TSA', link: 'https://www.tsa-algerie.com', region: 'North Africa', language: 'Arabic/French', category: 'news', type: 'Digital-Native', platforms: { facebook: 'TSA.Algerie' }, audience: 'Intellectual/French', monitoringNotes: 'Tout sur l\'Algérie. Substantial policy and trade tracking.', classNotes: 'Independent digital.' },
+            { id: 'na-hespress', country: 'Morocco', scope: 'National', outlet: 'Hespress', link: 'https://www.hespress.com', region: 'North Africa', language: 'Arabic/French', category: 'news', type: 'Digital-Native', platforms: { facebook: 'hespress' }, audience: 'Dominant Digital', monitoringNotes: 'Morocco’s largest digital media network; tracks royal palace news.', classNotes: 'Private portal.' },
+            { id: 'na-le360', country: 'Morocco', scope: 'National', outlet: 'Le360', link: 'https://fr.le360.ma', region: 'North Africa', language: 'Arabic/French', category: 'news', type: 'Digital-Native', platforms: { facebook: 'Le360fr' }, audience: 'State Aligned', monitoringNotes: 'General coverage of national development and Saharan politics.', classNotes: 'State-aligned digital.' },
+            { id: 'na-chouftv', country: 'Morocco', scope: 'National', outlet: 'Chouf TV', link: 'https://chouftv.ma', region: 'North Africa', language: 'Arabic/French', category: 'news', type: 'Tabloid', platforms: { facebook: 'chouftv' }, audience: 'Mass Market', monitoringNotes: 'Sensational citizen journalism and rapid crime alerts.', classNotes: 'Commercial video portal.' },
+
+            // Pan-African - News
+            { id: 'pa-feeds', country: 'Multi-National', scope: 'Pan-African', outlet: 'Africa Feeds', link: 'https://africafeeds.com', region: 'Pan-African', language: 'English', category: 'news', type: 'Digital-Native', platforms: { facebook: 'theafricafeeds', youtube: '@africafeeds5613' }, audience: 'Continent Wide', monitoringNotes: 'Maintains highly active West Africa and regional focus areas.', classNotes: 'Digital journalism pool.' },
+            { id: 'pa-news', country: 'Multi-National', scope: 'Pan-African', outlet: 'Africanews', link: 'https://africanews.com', region: 'Pan-African', language: 'English/French', category: 'news', type: 'Mainstream', platforms: { }, audience: 'Global Broad', monitoringNotes: 'Actively updated continental news tracking layer with direct video feeds.', classNotes: 'Euronews subsidiary.' },
+            { id: 'pa-apa', country: 'Multi-National', scope: 'Pan-African', outlet: 'APAnews', link: 'https://apanews.net', region: 'Pan-African', language: 'English/French', category: 'news', type: 'Digital-Native', platforms: { facebook: 'apanews', youtube: '@APAnewsTV' }, audience: 'Wire Service', monitoringNotes: 'Posts by local bureau cities, offering deep East/Central updates.', classNotes: 'Continental wire service.' },
+            { id: 'pa-allafrica', country: 'Multi-National', scope: 'Pan-African', outlet: 'allAfrica', link: 'https://allafrica.com', region: 'Pan-African', language: 'English', category: 'news', type: 'Aggregator', platforms: { telegram: 'allafrica' }, audience: 'Massive Archive', monitoringNotes: 'Primary aggregator of over 140 regional news publishers on the continent.', classNotes: 'Commercial aggregator.' },
+
+            // Chatter Sources
+            { id: 'ch-bella', country: 'Multi-National', scope: 'Regional', outlet: 'BellaNaija', link: 'https://bellanaija.com', region: 'West Africa', language: 'English', category: 'chatter', type: 'Entertainment', platforms: { x: '@bellanaija', facebook: 'bellanaija' }, audience: '10M+ Across Platforms', monitoringNotes: 'Superb for rapid tracking of West African visual media, culture, and viral talking points.', classNotes: 'Urban culture publisher.' },
+            { id: 'ch-pulsegh', country: 'Ghana', scope: 'National', outlet: 'Pulse Ghana', link: 'https://pulse.com.gh', region: 'West Africa', language: 'English', category: 'chatter', type: 'Entertainment', platforms: { }, audience: 'High Virality', monitoringNotes: 'High-speed celebrity and community trend aggregator.', classNotes: 'Commercial lifestyle portal.' },
+            { id: 'ch-pulsenig', country: 'Nigeria', scope: 'National', outlet: 'Pulse Nigeria', link: 'https://pulse.ng', region: 'West Africa', language: 'English', category: 'chatter', type: 'Entertainment', platforms: { }, audience: 'High Virality', monitoringNotes: 'Slick daily youth and entertainment reports that often drive broader political discourse.', classNotes: 'Commercial digital publisher.' },
+            { id: 'ch-tnx', country: 'Multi-National', scope: 'Regional', outlet: 'TNX Africa', link: 'https://tnx.africa', region: 'East Africa', language: 'English', category: 'chatter', type: 'Entertainment', platforms: { facebook: 'TNXAfrica', youtube: '@tnxafrica' }, audience: 'East Africa Buzz', monitoringNotes: 'Gossip, showbiz, and viral citizen streams covering the Horn and Great Lakes.', classNotes: 'Independent digital producer.' },
+            { id: 'ch-insta', country: 'Nigeria', scope: 'National', outlet: 'Instablog9ja', link: 'https://www.instagram.com/instablog9ja', region: 'West Africa', language: 'English', category: 'chatter', type: 'Gossip', platforms: { facebook: 'instablog9ja' }, audience: '6.4M IG', monitoringNotes: 'Extremely fast citizen-driven street alerts and political gossip.', classNotes: 'Social media tabloid.' },
+            { id: 'ch-yaba', country: 'Nigeria', scope: 'National', outlet: 'Yabaleftonline', link: 'https://yabaleftonline.ng', region: 'West Africa', language: 'English', category: 'chatter', type: 'Gossip', platforms: { facebook: 'yabaleftonline' }, audience: '6M+ IG | 3M X', monitoringNotes: 'Highly active viral trend aggregator covering youth affairs.', classNotes: 'Independent tabloid.' },
+            { id: 'ch-gist', country: 'Nigeria', scope: 'National', outlet: 'Gistlover', link: 'https://gistloversblog.com', region: 'West Africa', language: 'English', category: 'chatter', type: 'Gossip', platforms: { facebook: 'gistloversblog11' }, audience: '162k Backup Node', monitoringNotes: 'Anarchist leaks, high legal controversy, but breaks scandals early.', classNotes: 'Decentralized blog.' },
+            { id: 'ch-linda', country: 'Nigeria', scope: 'National', outlet: 'Linda Ikeji', link: 'https://www.lindaikejisblog.com', region: 'West Africa', language: 'English', category: 'chatter', type: 'Gossip', platforms: { facebook: 'lindaikejiblog' }, audience: '6.9M IG', monitoringNotes: 'The foundational pioneer of Nigerian blogosphere gossip.', classNotes: 'Private lifestyle blog.' },
+            { id: 'ch-sahara-chat', country: 'Nigeria', scope: 'National', outlet: 'Sahara Reporters (Chatter)', link: 'https://saharareporters.com', region: 'West Africa', language: 'English', category: 'chatter', type: 'Hybrid', platforms: { facebook: 'SaharaReporters' }, audience: '5.5M X', monitoringNotes: 'Highly rapid, activist-leaning alternative stream.', classNotes: 'Cross-listed as news/chatter.' },
+            { id: 'ch-mill', country: 'Nigeria', scope: 'National', outlet: 'Gossip Mill TV', link: 'https://gossipmill.com', region: 'West Africa', language: 'English', category: 'chatter', type: 'Gossip', platforms: { facebook: 'GossipMillNaija' }, audience: '5.6M IG', monitoringNotes: 'Slick graphic video updates and citizen-reported street incidents.', classNotes: 'Social-first tabloid.' },
+            { id: 'ch-felix', country: 'Ghana', scope: 'National', outlet: 'ZionFelix', link: 'https://www.zionfelix.net', region: 'West Africa', language: 'English', category: 'chatter', type: 'Gossip', platforms: { facebook: 'zionfelixdotcom' }, audience: '1M IG', monitoringNotes: 'Fast celebrity interviews and Accra community buzz.', classNotes: 'Private showbiz portal.' },
+            { id: 'ch-ghpage', country: 'Ghana', scope: 'National', outlet: 'GhPage', link: 'https://www.facebook.com/GhPageCom', region: 'West Africa', language: 'English', category: 'chatter', type: 'Gossip', platforms: { telegram: 'ghpageofficial' }, audience: 'Fast Breaking', monitoringNotes: 'High-speed local video reporting of community alerts.', classNotes: 'Social native.' },
+            { id: 'ch-nairobi', country: 'Kenya', scope: 'National', outlet: 'Nairobi Gossip Club', link: 'https://mpasho.co.ke', region: 'East Africa', language: 'English/Swahili', category: 'chatter', type: 'Gossip', platforms: { telegram: 'nairobigossipupdate' }, audience: '2.9M IG', monitoringNotes: 'Highly dynamic real-time local chat alerts on East African affairs.', classNotes: 'Leading Kenyan chat node.' },
+            { id: 'ch-mpasho', country: 'Kenya', scope: 'National', outlet: 'Mpasho', link: 'https://mpasho.co.ke', region: 'East Africa', language: 'English/Swahili', category: 'chatter', type: 'Gossip', platforms: { telegram: 'mpashokenya' }, audience: '1.1M IG', monitoringNotes: 'Highly active political gossip, lifestyle shifts, and urban chatter.', classNotes: 'Standard Group gossip engine.' },
+            { id: 'ch-edgar', country: 'Kenya', scope: 'National', outlet: 'Edgar Obare', link: 'https://t.me/edgarobare', region: 'East Africa', language: 'English/Swahili', category: 'chatter', type: 'Gossip', platforms: { telegram: 'edgarobare' }, audience: 'Telegram Primary', monitoringNotes: 'Crowd-sourced, whistleblower investigations in the Kenyan executive sphere.', classNotes: 'Independent gossip blogger.' },
+            { id: 'ch-musa', country: 'South Africa', scope: 'National', outlet: 'Musa Khawula', link: 'https://twitter.com/khawula_musa', region: 'Southern Africa', language: 'English', category: 'chatter', type: 'Gossip', platforms: { facebook: 'MusaKhawulaScandal' }, audience: 'High Controversy', monitoringNotes: 'Fast, celebrity-scandal and pop-culture chatter monitoring.', classNotes: 'Independent whistleblower/tabloid.' },
+            { id: 'ch-mdn', country: 'South Africa', scope: 'National', outlet: 'MDN News', link: 'https://twitter.com/MDNnewss', region: 'Southern Africa', language: 'English', category: 'chatter', type: 'Aggregator', platforms: { facebook: 'MDNnewssouthafrica' }, audience: 'Rapid Growth', monitoringNotes: 'Rapid citizen aggregator tracing SA municipal and corporate incidents.', classNotes: 'Social aggregator.' },
+            { id: 'ch-kurrently', country: 'South Africa', scope: 'National', outlet: 'Kurrently', link: 'https://kurrently.co.za', region: 'Southern Africa', language: 'English', category: 'chatter', type: 'Aggregator', platforms: { facebook: 'kurrentlyza' }, audience: '514k FB', monitoringNotes: 'Local municipal alerts, community reports, and general social conversation.', classNotes: 'Digital community.' },
+            { id: 'ch-chano', country: 'Uganda', scope: 'National', outlet: 'Chano8', link: 'https://chano8.com', region: 'East Africa', language: 'English', category: 'chatter', type: 'Entertainment', platforms: { facebook: 'Chano8Ug' }, audience: 'Kampala Buzz', monitoringNotes: 'Celebrity lifestyle, music, and urban social trend tracking.', classNotes: 'Commercial portal.' },
+            { id: 'ch-sqoop', country: 'Uganda', scope: 'National', outlet: 'Sqoop Uganda', link: 'https://www.sqoop.co.ug', region: 'East Africa', language: 'English', category: 'chatter', type: 'Entertainment', platforms: { facebook: 'SqoopUg' }, audience: 'Active Web', monitoringNotes: 'Kampala showbiz, event alerts, and lifestyle reporting.', classNotes: 'Monitor Publications affiliate.' },
+            { id: 'ch-zone', country: 'Multi-National', scope: 'Pan-African', outlet: 'Africa Facts Zone', link: 'https://twitter.com/AfricaFactsZone', region: 'Pan-African', language: 'English', category: 'chatter', type: 'Aggregator', platforms: { facebook: 'AfricaFactsZone' }, audience: 'High X Engagement', monitoringNotes: 'Highly viral historical, development, and social trivia matching continental discourse.', classNotes: 'Continental aggregator.' }
+        ];
+
+        // --- STREAMING_CHUNK: Initializing state tracking parameters... ---
+        let state = {
+            activeTab: 'news', // 'news', 'chatter', 'copilot'
+            copilotMode: 'briefing', // 'briefing', 'chat'
+            search: '',
+            filters: { country: '', region: '', lang: '', type: '', scope: '' },
+            sortCol: 'country',
+            sortDir: 'asc',
+            debounceTimer: null,
+            expandedRows: new Set(), 
+            density: 'comfortable',  
+            chatHistory: [] // To store full multi-turn assistant session
+        };
+
+        // --- STREAMING_CHUNK: Setting up dropdown dynamic content... ---
+        function init() {
+            populateDropdowns();
+            updateSummaryCards();
+            bindEvents();
+            renderTable();
+            updateCopilotSelectedCount();
+        }
+
+        function populateDropdowns() {
+            // Extract true countries only (exclude supra-national scopes)
+            const getUniqueCountries = () => {
+                const countries = sourcesData
+                    .filter(item => item.scope === 'National')
+                    .map(item => item.country);
+                return [...new Set(countries)].sort();
+            };
+
+            const getUniqueRegions = () => {
+                const regions = sourcesData.map(item => item.region);
+                return [...new Set(regions)].sort();
+            };
+
+            const getUniqueLangs = () => {
+                const languages = sourcesData.map(item => item.language);
+                return [...new Set(languages)].sort();
+            };
+
+            const getUniqueTypes = () => {
+                const types = sourcesData.map(item => item.type);
+                return [...new Set(types)].sort();
+            };
+
+            const getUniqueScopes = () => {
+                const scopes = sourcesData.map(item => item.scope);
+                return [...new Set(scopes)].sort();
+            };
+            
+            getUniqueCountries().forEach(country => els.countryFilter.add(new Option(country, country)));
+            getUniqueRegions().forEach(region => els.regionFilter.add(new Option(region, region)));
+            getUniqueLangs().forEach(lang => els.langFilter.add(new Option(lang, lang)));
+            getUniqueTypes().forEach(type => els.typeFilter.add(new Option(type, type)));
+            getUniqueScopes().forEach(scope => els.scopeFilter.add(new Option(scope, scope)));
+        }
+
+        // --- STREAMING_CHUNK: Binding interface event listeners... ---
+        function bindEvents() {
+            // Search Debounce
+            els.searchBox.addEventListener('input', (e) => {
+                clearTimeout(state.debounceTimer);
+                state.debounceTimer = setTimeout(() => {
+                    state.search = e.target.value.toLowerCase();
+                    renderTable();
+                    updateCopilotSelectedCount();
+                }, 300);
+            });
+
+            // Filters
+            els.countryFilter.addEventListener('change', e => { state.filters.country = e.target.value; renderTable(); updateCopilotSelectedCount(); });
+            els.regionFilter.addEventListener('change', e => { state.filters.region = e.target.value; renderTable(); updateCopilotSelectedCount(); });
+            els.langFilter.addEventListener('change', e => { state.filters.lang = e.target.value; renderTable(); updateCopilotSelectedCount(); });
+            els.typeFilter.addEventListener('change', e => { state.filters.type = e.target.value; renderTable(); updateCopilotSelectedCount(); });
+            els.scopeFilter.addEventListener('change', e => { state.filters.scope = e.target.value; renderTable(); updateCopilotSelectedCount(); });
+
+            // Clear Button via window global for direct click access
+            window.clearFilters = () => {
+                els.searchBox.value = '';
+                els.countryFilter.value = '';
+                els.regionFilter.value = '';
+                els.langFilter.value = '';
+                els.typeFilter.value = '';
+                els.scopeFilter.value = '';
+                state.search = '';
+                state.filters = { country: '', region: '', lang: '', type: '', scope: '' };
+                renderTable();
+                updateCopilotSelectedCount();
+            };
+            els.clearBtn.addEventListener('click', window.clearFilters);
+
+            // Tab Buttons
+            const tabButtons = [
+                { id: 'tab-news', key: 'news' },
+                { id: 'tab-chatter', key: 'chatter' },
+                { id: 'tab-copilot', key: 'copilot' }
+            ];
+
+            tabButtons.forEach(btnConfig => {
+                document.getElementById(btnConfig.id).addEventListener('click', () => {
+                    switchTab(btnConfig.key);
+                });
+            });
+
+            // Action: Send currently filtered sources directly to AI analysis
+            document.getElementById('sendToCopilotBtn').addEventListener('click', () => {
+                switchTab('copilot');
+                setCopilotMode('briefing');
+                triggerAIBriefingSynthesis();
+            });
+
+            // Density Controls
+            const btnComfortable = document.getElementById('densityComfortable');
+            const btnCompact = document.getElementById('densityCompact');
+
+            btnComfortable.addEventListener('click', () => {
+                state.density = 'comfortable';
+                btnComfortable.className = "bg-blue-600 text-white rounded-lg px-3 py-1 font-medium text-xs transition-colors border border-blue-500";
+                btnCompact.className = "bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg px-3 py-1 text-xs transition-colors border border-slate-700";
+                renderTable();
+            });
+
+            btnCompact.addEventListener('click', () => {
+                state.density = 'compact';
+                btnCompact.className = "bg-blue-600 text-white rounded-lg px-3 py-1 font-medium text-xs transition-colors border border-blue-500";
+                btnComfortable.className = "bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg px-3 py-1 text-xs transition-colors border border-slate-700";
+                renderTable();
+            });
+
+            // Keyboard Shortcuts
+            document.addEventListener('keydown', e => {
+                if (e.key === '/' && document.activeElement !== els.searchBox) {
+                    e.preventDefault();
+                    els.searchBox.focus();
+                }
+            });
+
+            // Copilot controls
+            document.getElementById('modeBriefingBtn').addEventListener('click', () => setCopilotMode('briefing'));
+            document.getElementById('modeChatBtn').addEventListener('click', () => setCopilotMode('chat'));
+            document.getElementById('briefingTheme').addEventListener('change', (e) => {
+                const customPromptWrapper = document.getElementById('customInquiryWrapper');
+                if (e.target.value === 'Custom Analyst Inquiry') {
+                    customPromptWrapper.classList.remove('hidden');
+                } else {
+                    customPromptWrapper.classList.add('hidden');
+                }
+            });
+
+            document.getElementById('generateBriefingBtn').addEventListener('click', () => triggerAIBriefingSynthesis());
+            document.getElementById('copyBriefingBtn').addEventListener('click', () => copyCopilotResponse());
+            
+            // Chat Interactions
+            document.getElementById('sendChatBtn').addEventListener('click', () => triggerAIChatTurn());
+            document.getElementById('chatInput').addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') triggerAIChatTurn();
+            });
+            document.getElementById('clearChatBtn').addEventListener('click', () => {
+                state.chatHistory = [];
+                document.getElementById('chatHistoryBox').innerHTML = `
+                    <div class="text-xs text-indigo-400 bg-indigo-950/30 border border-indigo-900/50 rounded-lg p-3 leading-relaxed mb-2">
+                        <strong>System Context Loaded:</strong> Hello Analyst! I am preloaded with the tracking details of the entire 130+ regional directory. Ask me things like <em>"Draft a monitoring group for South Africa conflict coverage"</em> or <em>"Compare the trust classifications of Sahara Reporters and Premium Times"</em>.
+                    </div>
+                `;
+            });
+        }
+
+        // --- STREAMING_CHUNK: Filtering the normalized database... ---
+        function getFilteredData() {
+            return sourcesData.filter(item => {
+                const searchStr = state.search;
+                const platformValues = Object.values(item.platforms || {}).map(v => v.toLowerCase());
+                const matchPlatform = platformValues.some(val => val.includes(searchStr));
+
+                const matchSearch = !searchStr || 
+                    item.outlet.toLowerCase().includes(searchStr) || 
+                    item.country.toLowerCase().includes(searchStr) ||
+                    item.region.toLowerCase().includes(searchStr) ||
+                    item.language.toLowerCase().includes(searchStr) ||
+                    item.type.toLowerCase().includes(searchStr) ||
+                    item.category.toLowerCase().includes(searchStr) ||
+                    item.monitoringNotes.toLowerCase().includes(searchStr) ||
+                    item.classNotes.toLowerCase().includes(searchStr) ||
+                    matchPlatform;
+                const matchCountry = !state.filters.country || item.country === state.filters.country;
+                const matchRegion = !state.filters.region || item.region === state.filters.region;
+                const matchLang = !state.filters.lang || item.language === state.filters.lang;
+                const matchType = !state.filters.type || item.type === state.filters.type;
+                const matchScope = !state.filters.scope || item.scope === state.filters.scope;
+                
+                return matchSearch && matchCountry && matchRegion && matchLang && matchType && matchScope;
+            });
+        }
+
+        // --- STREAMING_CHUNK: Managing tab UI views... ---
+        function switchTab(tabKey) {
+            state.activeTab = tabKey;
+            const buttons = ['tab-news', 'tab-chatter', 'tab-copilot'];
+            buttons.forEach(btnId => {
+                const btn = document.getElementById(btnId);
+                btn.setAttribute('aria-selected', 'false');
+                btn.classList.replace('border-blue-500', 'border-transparent');
+                btn.classList.replace('text-blue-400', 'text-slate-400');
+            });
+
+            const activeBtn = document.getElementById(`tab-${tabKey}`);
+            activeBtn.setAttribute('aria-selected', 'true');
+            activeBtn.classList.replace('border-transparent', 'border-blue-500');
+            activeBtn.classList.replace('text-slate-400', 'text-blue-400');
+
+            // Hide/Show correct panels
+            const tableContainer = document.getElementById('tableContainer');
+            const copilotPanel = document.getElementById('copilotPanel');
+            const statusWrapper = document.getElementById('viewingStatusWrapper');
+
+            if (tabKey === 'copilot') {
+                tableContainer.classList.add('hidden');
+                copilotPanel.classList.remove('hidden');
+                statusWrapper.classList.add('invisible');
+            } else {
+                tableContainer.classList.remove('hidden');
+                copilotPanel.classList.add('hidden');
+                statusWrapper.classList.remove('invisible');
+                renderTable();
+            }
+        }
+
+        function setCopilotMode(mode) {
+            state.copilotMode = mode;
+            const btnBriefing = document.getElementById('modeBriefingBtn');
+            const btnChat = document.getElementById('modeChatBtn');
+            const briefingConfig = document.getElementById('briefingConfigContainer');
+            const briefingOutput = document.getElementById('briefingOutputContainer');
+            const chatConfig = document.getElementById('chatConfigContainer');
+            const chatOutput = document.getElementById('chatOutputContainer');
+
+            if (mode === 'briefing') {
+                btnBriefing.className = "flex-1 text-center py-1.5 text-xs font-semibold rounded bg-indigo-600 text-white transition-all";
+                btnChat.className = "flex-1 text-center py-1.5 text-xs font-semibold rounded text-slate-400 hover:text-white transition-all";
+                briefingConfig.classList.remove('hidden');
+                briefingOutput.classList.remove('hidden');
+                chatConfig.classList.add('hidden');
+                chatOutput.classList.add('hidden');
+            } else {
+                btnChat.className = "flex-1 text-center py-1.5 text-xs font-semibold rounded bg-indigo-600 text-white transition-all";
+                btnBriefing.className = "flex-1 text-center py-1.5 text-xs font-semibold rounded text-slate-400 hover:text-white transition-all";
+                briefingConfig.classList.add('hidden');
+                briefingOutput.classList.add('hidden');
+                chatConfig.classList.remove('hidden');
+                chatOutput.classList.remove('hidden');
+            }
+        }
+
+        // --- STREAMING_CHUNK: Executing locale-aware sorts... ---
+        function sortData(data) {
+            return data.sort((a, b) => {
+                let valA = (a[state.sortCol] || '').toString();
+                let valB = (b[state.sortCol] || '').toString();
+                
+                return state.sortDir === 'asc' 
+                    ? valA.localeCompare(valB, undefined, { sensitivity: 'base', numeric: true }) 
+                    : valB.localeCompare(valA, undefined, { sensitivity: 'base', numeric: true });
+            });
+        }
+
+        window.handleSort = function(column) {
+            if (state.sortCol === column) {
+                state.sortDir = state.sortDir === 'asc' ? 'desc' : 'asc';
+            } else {
+                state.sortCol = column;
+                state.sortDir = 'asc';
+            }
+            renderTable();
+        };
+
+        // --- STREAMING_CHUNK: Compiling channel access badging... ---
+        function getPlatformBadge(handle, platform) {
+            if (!handle) return '';
+            const labels = {
+                youtube: { text: 'YouTube', color: 'bg-red-950/40 text-red-300 border-red-800/40' },
+                x: { text: 'X', color: 'bg-slate-800 text-slate-300 border-slate-600' },
+                facebook: { text: 'Facebook', color: 'bg-blue-950/40 text-blue-300 border-blue-800/40' },
+                telegram: { text: 'Telegram', color: 'bg-sky-950/40 text-sky-300 border-sky-800/40' }
+            };
+            const config = labels[platform];
+            return `<span class="${config.color} border text-[10px] px-1.5 py-0.5 rounded font-medium tracking-wide inline-flex items-center gap-1">${config.text}: ${handle}</span>`;
+        }
+        
+        function getTypeBadge(type) {
+            const colors = {
+                'Mainstream': 'text-slate-300 border-slate-700 bg-slate-800/40',
+                'Digital-Native': 'text-emerald-400 border-emerald-800/30 bg-emerald-950/10',
+                'State Media': 'text-amber-400 border-amber-800/30 bg-amber-950/10',
+                'Hybrid': 'text-purple-400 border-purple-800/30 bg-purple-950/10',
+                'Gossip': 'text-pink-400 border-pink-800/30 bg-pink-950/10',
+                'Aggregator': 'text-orange-400 border-orange-800/30 bg-orange-950/10',
+                'Tabloid': 'text-rose-400 border-rose-800/30 bg-rose-950/10',
+                'Entertainment': 'text-fuchsia-400 border-fuchsia-800/30 bg-fuchsia-950/10'
+            };
+            const colorClass = colors[type] || 'text-slate-400';
+            return `<span class="text-xs border px-2 py-0.5 rounded-full ${colorClass}">${type}</span>`;
+        }
+
+        function highlightMatch(text) {
+            if (!state.search || !text) return text;
+            const regex = new RegExp(`(${state.search})`, 'gi');
+            return text.toString().replace(regex, '<mark>$1</mark>');
+        }
+
+        function updateSummaryCards() {
+            els.stats.total.textContent = sourcesData.length;
+            els.stats.news.textContent = sourcesData.filter(d => d.category === 'news').length;
+            els.stats.chatter.textContent = sourcesData.filter(d => d.category === 'chatter').length;
+            els.stats.regions.textContent = new Set(sourcesData.map(d => d.region)).size;
+            els.stats.langs.textContent = new Set(sourcesData.map(d => d.language)).size;
+        }
+
+        function updateCopilotSelectedCount() {
+            const filtered = getFilteredData();
+            const countLabel = document.getElementById('copilotSelectedCount');
+            countLabel.textContent = `${filtered.length} sources filtered`;
+        }
+
+        // --- STREAMING_CHUNK: Compiling table rendering routines... ---
+        function renderTable() {
+            const filteredData = getFilteredData();
+            
+            // Tab badges update (counts inside tabs)
+            const newsCount = filteredData.filter(d => d.category === 'news').length;
+            const chatterCount = filteredData.filter(d => d.category === 'chatter').length;
+            
+            els.badges.news.textContent = newsCount;
+            els.badges.chatter.textContent = chatterCount;
+
+            // Active Tab Data Extraction
+            const activeTabData = sortData(filteredData.filter(d => d.category === state.activeTab));
+            
+            // True total count trackers (before filters)
+            const totalNews = sourcesData.filter(d => d.category === 'news').length;
+            const totalChatter = sourcesData.filter(d => d.category === 'chatter').length;
+            
+            if (state.activeTab === 'news') {
+                els.status.innerHTML = `Showing <strong>${activeTabData.length}</strong> of <strong>${totalNews}</strong> News Sources`;
+            } else {
+                els.status.innerHTML = `Showing <strong>${activeTabData.length}</strong> of <strong>${totalChatter}</strong> Chatter Sources`;
+            }
+
+            const pClass = state.density === 'compact' ? 'p-1.5' : 'p-3';
+
+            // Build Header Dynamically
+            const getSortIcon = (col) => {
+                if(state.sortCol !== col) return `<svg class="sort-icon opacity-30" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4"></path></svg>`;
+                return state.sortDir === 'asc' 
+                    ? `<svg class="sort-icon text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"></path></svg>`
+                    : `<svg class="sort-icon text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>`;
+            };
+
+            const headerHtml = `
+                <tr>
+                    <th class="${pClass} w-8"></th>
+                    <th class="${pClass} font-semibold sortable select-none w-1/6" onclick="window.handleSort('country')">Country ${getSortIcon('country')}</th>
+                    <th class="${pClass} font-semibold sortable select-none w-1/4" onclick="window.handleSort('outlet')">Outlet ${getSortIcon('outlet')}</th>
+                    <th class="${pClass} font-semibold sortable select-none w-1/6" onclick="window.handleSort('type')">Type & Platform ${getSortIcon('type')}</th>
+                    <th class="${pClass} font-semibold sortable select-none w-1/6" onclick="window.handleSort('region')">Region ${getSortIcon('region')}</th>
+                    <th class="${pClass} font-semibold sortable select-none w-1/6" onclick="window.handleSort('language')">Language ${getSortIcon('language')}</th>
+                    <th class="${pClass} font-semibold text-right w-20">Link</th>
+                </tr>
+            `;
+            els.tableHeader.innerHTML = headerHtml;
+
+            // Stable key-based toggle routine
+            window.toggleRow = (rowId) => {
+                if (state.expandedRows.has(rowId)) {
+                    state.expandedRows.delete(rowId);
+                } else {
+                    state.expandedRows.add(rowId);
+                }
+                renderTable();
+            };
+
+            // Build Body
+            if (activeTabData.length === 0) {
+                els.tableBody.innerHTML = `
+                    <tr>
+                        <td colspan="7" class="p-8 text-center text-slate-400">
+                            <div class="flex flex-col items-center gap-2">
+                                <svg class="w-8 h-8 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                <span>No sources found for the selected criteria.</span>
+                                <button onclick="window.clearFilters()" class="text-blue-400 hover:text-blue-300 mt-2 text-sm underline">Clear filters</button>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+
+            const rowsHtml = activeTabData.map(row => {
+                const isExpanded = state.expandedRows.has(row.id);
+                const expandIcon = isExpanded 
+                    ? `<svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"></path></svg>`
+                    : `<svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>`;
+
+                // Platform tags generator
+                const platformBadges = Object.entries(row.platforms || {})
+                    .map(([platform, handle]) => getPlatformBadge(handle, platform))
+                    .filter(Boolean)
+                    .join(' ');
+
+                // Display structured metadata inline
+                const noteBlockHtml = (state.density === 'comfortable') 
+                    ? `<div class="text-[11px] text-slate-400 mt-1 truncate max-w-[240px]">${highlightMatch(row.monitoringNotes)}</div>`
+                    : '';
+
+                const displayCountry = row.scope !== 'National' ? `<span>${row.scope}</span>` : highlightMatch(row.country);
+
+                const mainRow = `
+                    <tr class="hover:bg-slate-700/30 transition-colors group cursor-pointer" onclick="window.toggleRow('${row.id}')">
+                        <td class="${pClass} text-center" onclick="event.stopPropagation(); window.toggleRow('${row.id}')">
+                            <button class="p-1 hover:bg-slate-700 rounded transition-colors focus:outline-none" aria-label="Toggle details">
+                                ${expandIcon}
+                            </button>
+                        </td>
+                        <td class="${pClass} font-medium text-slate-200">${displayCountry}</td>
+                        <td class="${pClass}">
+                            <div class="font-semibold text-white group-hover:text-blue-400 transition-colors">${highlightMatch(row.outlet)}</div>
+                            ${noteBlockHtml}
+                        </td>
+                        <td class="${pClass} flex flex-col items-start gap-1 justify-center h-full pt-4">
+                            ${getTypeBadge(row.type)}
+                            <div class="flex flex-wrap gap-1 mt-1">${platformBadges || '<span class="text-[10px] text-slate-500">Website direct</span>'}</div>
+                        </td>
+                        <td class="${pClass} text-slate-300">${row.region}</td>
+                        <td class="${pClass} text-slate-300">${row.language}</td>
+                        <td class="${pClass} text-right" onclick="event.stopPropagation()">
+                            <a href="${row.link}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 text-blue-400 hover:text-blue-300 bg-blue-500/10 hover:bg-blue-500/20 px-3 py-1.5 rounded-lg text-sm font-medium transition-colors">
+                                Open
+                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+                            </a>
+                        </td>
+                    </tr>
+                `;
+                
+                // Detailed structured view
+                const detailRow = isExpanded ? `
+                    <tr class="bg-slate-900/40 border-b border-slate-700/50">
+                        <td colspan="7" class="${pClass} px-10">
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-xs text-slate-300 py-3">
+                                <div>
+                                    <strong class="text-slate-400 block uppercase tracking-wider text-[10px] mb-1.5">Monitoring Profile</strong>
+                                    <p class="leading-relaxed mb-2">${highlightMatch(row.monitoringNotes)}</p>
+                                    <span class="bg-slate-700/60 text-slate-300 px-2 py-0.5 rounded text-[10px] font-medium">Audience: ${row.audience}</span>
+                                </div>
+                                <div>
+                                    <strong class="text-slate-400 block uppercase tracking-wider text-[10px] mb-1.5">Analytical Classification</strong>
+                                    <p class="leading-relaxed">${highlightMatch(row.classNotes)}</p>
+                                </div>
+                                <div>
+                                    <strong class="text-slate-400 block uppercase tracking-wider text-[10px] mb-1.5">Target Web URI</strong>
+                                    <a href="${row.link}" target="_blank" rel="noopener noreferrer" class="text-blue-400 hover:underline break-all block mb-2">${row.link}</a>
+                                    <strong class="text-slate-400 block uppercase tracking-wider text-[10px] mb-1">Geographic Taxonomy</strong>
+                                    <span class="text-slate-300">Coverage: ${row.scope} (${row.region})</span>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                ` : '';
+
+                return mainRow + detailRow;
+            }).join('');
+
+            els.tableBody.innerHTML = rowsHtml;
+        }
+
+        // --- STREAMING_CHUNK: Setting up native Gemini API request methods... ---
+        // Native non-streaming fetch call to the Gemini 3 Flash model
+        async function fetchGeminiAPI(userPrompt, systemInstruction, retries = 3, delay = 1000) {
+            const apiKey = ""; // Canvas runtime injects actual API key here dynamically
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`;
+            
+            const payload = {
+                contents: [
+                    { role: "user", parts: [{ text: userPrompt }] }
+                ],
+                systemInstruction: {
+                    parts: [{ text: systemInstruction }]
+                }
+            };
+
+            try {
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                if (!response.ok) {
+                    if (response.status === 429 && retries > 0) {
+                        // Implement exponential backoff for rate throttling handles
+                        await new Promise(resolve => setTimeout(resolve, delay));
+                        return fetchGeminiAPI(userPrompt, systemInstruction, retries - 1, delay * 2);
+                    }
+                    throw new Error(`Gemini API Error: Status Code ${response.status}`);
+                }
+
+                const result = await response.json();
+                return result.candidates?.[0]?.content?.parts?.[0]?.text || "No response received from the model.";
+            } catch (err) {
+                if (retries > 0) {
+                    await new Promise(resolve => setTimeout(resolve, delay));
+                    return fetchGeminiAPI(userPrompt, systemInstruction, retries - 1, delay * 2);
+                }
+                throw err;
+            }
+        }
+
+        // Simple Regex-based Markdown to HTML renderer for clean UI displays
+        function parseMarkdown(text) {
+            return text
+                .replace(/^### (.*$)/gim, '<h5 class="text-white font-bold text-sm mt-3 mb-1.5 flex items-center gap-1">$1</h5>')
+                .replace(/^## (.*$)/gim, '<h4 class="text-white font-bold text-base mt-4 mb-2 border-b border-slate-800 pb-1 flex items-center gap-2">$1</h4>')
+                .replace(/^# (.*$)/gim, '<h3 class="text-indigo-400 font-extrabold text-lg mt-5 mb-3 border-b border-slate-700 pb-2">$1</h3>')
+                .replace(/\*\*(.*?)\*\*/g, '<strong class="text-white font-semibold">$1</strong>')
+                .replace(/\*(.*?)\*/g, '<em class="text-slate-300">$1</em>')
+                .replace(/`([^`]+)`/g, '<code class="bg-slate-900 text-pink-400 px-1 py-0.5 rounded font-mono text-xs">$1</code>')
+                .replace(/^\s*-\s*(.*$)/gim, '<li class="list-disc ml-5 mt-1 text-slate-300">$1</li>')
+                .replace(/\n/g, '<br>');
+        }
+
+        // --- STREAMING_CHUNK: Launching AI Briefing Synthesis... ---
+        async function triggerAIBriefingSynthesis() {
+            const filteredSources = getFilteredData();
+            if (filteredSources.length === 0) {
+                document.getElementById('briefingContentArea').innerHTML = `
+                    <div class="text-red-400 text-xs text-center py-8">
+                        Error: Cannot generate briefing with 0 active sources selected. Adjust filters to include sources.
+                    </div>
+                `;
+                return;
+            }
+
+            const theme = document.getElementById('briefingTheme').value;
+            let themeDirectives = "";
+            if (theme === 'Custom Analyst Inquiry') {
+                themeDirectives = document.getElementById('customBriefingPrompt').value || "Provide a comprehensive intelligence brief.";
+            } else {
+                themeDirectives = `Draft a strategic, multi-regional intelligence brief focusing specifically on ${theme}.`;
+            }
+
+            // Show Loader
+            const outputArea = document.getElementById('briefingContentArea');
+            outputArea.innerHTML = `
+                <div class="flex flex-col items-center justify-center py-12 text-slate-400 h-full">
+                    <svg class="animate-spin h-8 w-8 text-indigo-500 mb-3" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    <p class="text-xs font-semibold text-indigo-300">Synthesizing intelligence from ${filteredSources.length} sources...</p>
+                    <p class="text-[10px] text-slate-500 mt-1 max-w-xs text-center">Gemini is processing directory parameters, monitoring notes, and operational classification models.</p>
+                </div>
+            `;
+
+            const systemInstruction = `
+                You are a world-class African media intelligence analyst and geopolitical threat modeling expert.
+                Your goal is to build an elite media-monitoring briefing outline based only on the provided directory.
+                Adopt an authoritative, clinical, intelligence-driven tone. Standardize your output structurally.
+            `;
+
+            // Prepare a condensed payload of sources to keep prompt token efficiency optimal
+            const sourcesPayload = filteredSources.map(s => ({
+                outlet: s.outlet,
+                country: s.country,
+                region: s.region,
+                type: s.type,
+                scope: s.scope,
+                notes: s.monitoringNotes,
+                classification: s.classNotes,
+                platforms: Object.keys(s.platforms || {})
+            }));
+
+            const prompt = `
+                Generate a formal media monitoring playbook and intelligence briefing outline.
+                
+                Topic / Theme Objective: ${theme}
+                Directives: ${themeDirectives}
+                
+                We are analyzing the following ${filteredSources.length} curated monitoring sources:
+                ${JSON.stringify(sourcesPayload)}
+
+                Please structure the output exactly as follows:
+                # EXECUTIVE SUMMARY
+                (Provide a high-level assessment of the narrative climate based on these sources)
+
+                # NARRATIVE RISK VECTORS
+                (Outline 3 critical intelligence risk areas or threat loops covered by these specific sources)
+
+                # TARGET ACTION MONITORING PLAN
+                (Provide an operational schedule showing which specific outlets and which specific platform types (Telegram, YouTube, etc.) should be checked first for rapid alerts. Name the actual outlets in bold)
+
+                # ALTERNATING VECTOR CHANNELS
+                (Advise on how to coordinate standard website monitoring with high-velocity alternative channels (such as Twitter handles or Telegram backup pages) for hybrid outlets)
+            `;
+
+            try {
+                const responseText = await fetchGeminiAPI(prompt, systemInstruction);
+                outputArea.innerHTML = `<div class="prose prose-invert max-w-none text-slate-300">${parseMarkdown(responseText)}</div>`;
+            } catch (err) {
+                console.error(err);
+                outputArea.innerHTML = `
+                    <div class="text-red-400 text-xs p-4 bg-red-950/30 border border-red-900 rounded-lg">
+                        <strong>Synthesis Failed:</strong> ${err.message || "An unexpected error occurred."}. Please verify connectivity or adjust your filtered source payload size.
+                    </div>
+                `;
+            }
+        }
+
+        // --- STREAMING_CHUNK: Managing multi-turn interactive chat logs... ---
+        async function triggerAIChatTurn() {
+            const inputEl = document.getElementById('chatInput');
+            const query = inputEl.value.trim();
+            if (!query) return;
+
+            inputEl.value = '';
+            const historyBox = document.getElementById('chatHistoryBox');
+
+            // Render User Turn
+            historyBox.innerHTML += `
+                <div class="self-end bg-indigo-950/30 border border-indigo-900/50 rounded-xl p-3 text-xs text-indigo-300 ml-8 my-1 leading-relaxed">
+                    <strong class="block text-[10px] uppercase text-indigo-400 mb-1">Analyst</strong>
+                    ${query}
+                </div>
+            `;
+            historyBox.scrollTop = historyBox.scrollHeight;
+
+            // Render AI Loading Placeholder
+            const tempId = `ai-loading-${Date.now()}`;
+            historyBox.innerHTML += `
+                <div id="${tempId}" class="self-start bg-slate-900 border border-slate-800 rounded-xl p-3 text-xs text-slate-400 mr-8 my-1 leading-relaxed">
+                    <strong class="block text-[10px] uppercase text-indigo-400 mb-1 flex items-center gap-1">
+                        <svg class="animate-spin h-3.5 w-3.5 text-indigo-400" fill="none" viewBox="0 0 24 24">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        </svg>
+                        Media Intelligence Assistant
+                    </strong>
+                    Analyzing directory variables...
+                </div>
+            `;
+            historyBox.scrollTop = historyBox.scrollHeight;
+
+            // Generate full directory lookup system payload
+            const directoryPayload = sourcesData.map(s => ({
+                id: s.id,
+                outlet: s.outlet,
+                country: s.country,
+                region: s.region,
+                language: s.language,
+                type: s.type,
+                scope: s.scope,
+                audience: s.audience,
+                notes: s.monitoringNotes,
+                classification: s.classNotes
+            }));
+
+            const systemInstruction = `
+                You are a senior African Media Intelligence AI Assistant.
+                You have complete knowledge of our 130+ source directory.
+                Here is the exact dataset you have access to:
+                ${JSON.stringify(directoryPayload)}
+
+                When answering queries:
+                1. Reference specific outlets by their accurate names and cataloged regions.
+                2. Use clear, analytical media-security profiling language.
+                3. Keep answers concise, highly structured, and directly actionable for analysts.
+            `;
+
+            try {
+                const responseText = await fetchGeminiAPI(query, systemInstruction);
+                const loaderEl = document.getElementById(tempId);
+                if (loaderEl) {
+                    loaderEl.id = '';
+                    loaderEl.className = "self-start bg-slate-950 border border-slate-800 rounded-xl p-3 text-xs text-slate-300 mr-8 my-1 leading-relaxed";
+                    loaderEl.innerHTML = `
+                        <strong class="block text-[10px] uppercase text-indigo-400 mb-1">Media Intelligence Assistant</strong>
+                        ${parseMarkdown(responseText)}
+                    `;
+                }
+                historyBox.scrollTop = historyBox.scrollHeight;
+            } catch (err) {
+                console.error(err);
+                const loaderEl = document.getElementById(tempId);
+                if (loaderEl) {
+                    loaderEl.className = "self-start bg-red-950/20 border border-red-900 text-xs text-red-300 mr-8 my-1 p-3 rounded-xl";
+                    loaderEl.innerHTML = `
+                        <strong>System Query Failed:</strong> ${err.message || "Unknown error occurred."}
+                    `;
+                }
+                historyBox.scrollTop = historyBox.scrollHeight;
+            }
+        }
+
+        // --- STREAMING_CHUNK: Clipboard and auxiliary features... ---
+        function copyCopilotResponse() {
+            const contentArea = document.getElementById('briefingContentArea');
+            const textToCopy = contentArea.innerText;
+
+            const tempTextArea = document.createElement("textarea");
+            tempTextArea.value = textToCopy;
+            document.body.appendChild(tempTextArea);
+            tempTextArea.select();
+            try {
+                document.execCommand('copy');
+                const btn = document.getElementById('copyBriefingBtn');
+                const originalText = btn.innerHTML;
+                btn.innerHTML = `<span class="text-emerald-400 flex items-center gap-1"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Copied!</span>`;
+                setTimeout(() => { btn.innerHTML = originalText; }, 2000);
+            } catch (err) {
+                console.error("Clipboard copy failed: ", err);
+            }
+            document.body.removeChild(tempTextArea);
+        }
+
+        // --- STREAMING_CHUNK: Bootstrapping application load... ---
+        const els = {
+            searchBox: document.getElementById('searchInput'),
+            countryFilter: document.getElementById('countryFilter'),
+            regionFilter: document.getElementById('regionFilter'),
+            langFilter: document.getElementById('langFilter'),
+            typeFilter: document.getElementById('typeFilter'),
+            scopeFilter: document.getElementById('scopeFilter'),
+            clearBtn: document.getElementById('clearFiltersBtn'),
+            tabs: {
+                news: document.getElementById('tab-news'),
+                chatter: document.getElementById('tab-chatter'),
+                copilot: document.getElementById('tab-copilot')
+            },
+            badges: {
+                news: document.getElementById('tabBadgeNews'),
+                chatter: document.getElementById('tabBadgeChatter')
+            },
+            stats: {
+                total: document.getElementById('statTotal'),
+                news: document.getElementById('statNews'),
+                chatter: document.getElementById('statChatter'),
+                regions: document.getElementById('statRegions'),
+                langs: document.getElementById('statLanguages')
+            },
+            status: document.getElementById('viewingStatus'),
+            tableHeader: document.getElementById('tableHeader'),
+            tableBody: document.getElementById('tableBody')
+        };
+
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
 </body>
 </html>
