@@ -562,16 +562,34 @@
         };
 
         // --- STREAMING_CHUNK: Compiling channel access badging... ---
+        function getPrimaryLinkBadge(link) {
+            let type = 'Website';
+            let color = 'bg-slate-700 text-slate-200 border-slate-500';
+            
+            if (link.includes('facebook.com')) { type = 'Facebook'; color = 'bg-blue-900/40 text-blue-300 border-blue-800/50'; }
+            else if (link.includes('t.me')) { type = 'Telegram'; color = 'bg-sky-900/40 text-sky-300 border-sky-800/50'; }
+            else if (link.includes('twitter.com') || link.includes('x.com')) { type = 'X'; color = 'bg-slate-800 text-slate-300 border-slate-600'; }
+            else if (link.includes('instagram.com')) { type = 'Instagram'; color = 'bg-pink-900/40 text-pink-300 border-pink-800/50'; }
+            else if (link.includes('youtube.com')) { type = 'YouTube'; color = 'bg-red-950/40 text-red-300 border-red-800/40'; }
+            
+            return `<span class="${color} border text-[10px] px-1.5 py-0.5 rounded font-medium tracking-wide inline-flex items-center gap-1" title="Primary Destination">
+                <svg class="w-3 h-3 opacity-70" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"></path></svg>
+                ${type}
+            </span>`;
+        }
+        
         function getPlatformBadge(handle, platform) {
             if (!handle) return '';
             const labels = {
-                youtube: { text: 'YouTube', color: 'bg-red-950/40 text-red-300 border-red-800/40' },
-                x: { text: 'X', color: 'bg-slate-800 text-slate-300 border-slate-600' },
-                facebook: { text: 'Facebook', color: 'bg-blue-950/40 text-blue-300 border-blue-800/40' },
-                telegram: { text: 'Telegram', color: 'bg-sky-950/40 text-sky-300 border-sky-800/40' }
+                youtube: { text: 'YT', color: 'bg-red-950/20 text-red-400 border-red-900/40' },
+                x: { text: 'X', color: 'bg-slate-800/60 text-slate-400 border-slate-700' },
+                facebook: { text: 'FB', color: 'bg-blue-950/20 text-blue-400 border-blue-900/40' },
+                telegram: { text: 'TG', color: 'bg-sky-950/20 text-sky-400 border-sky-900/40' }
             };
             const config = labels[platform];
-            return `<span class="${config.color} border text-[10px] px-1.5 py-0.5 rounded font-medium tracking-wide inline-flex items-center gap-1">${config.text}: ${handle}</span>`;
+            // Safety guard in case dataset ever includes a new, unmapped platform
+            if (!config) return ''; 
+            return `<span class="${config.color} border text-[10px] px-1.5 py-0.5 rounded font-medium tracking-wide inline-flex items-center gap-1 opacity-90" title="Secondary Feed: ${platform}">${config.text}: ${handle}</span>`;
         }
         
         function getTypeBadge(type) {
@@ -684,7 +702,17 @@
                     : `<svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>`;
 
                 // Platform tags generator
+                const primaryBadge = getPrimaryLinkBadge(row.link);
+                
+                // Filter out redundant badges (If the main link is already FB, don't show an FB handle tag next to it)
                 const platformBadges = Object.entries(row.platforms || {})
+                    .filter(([platform]) => {
+                        if (platform === 'facebook' && row.link.includes('facebook.com')) return false;
+                        if (platform === 'x' && (row.link.includes('twitter.com') || row.link.includes('x.com'))) return false;
+                        if (platform === 'youtube' && row.link.includes('youtube.com')) return false;
+                        if (platform === 'telegram' && row.link.includes('t.me')) return false;
+                        return true;
+                    })
                     .map(([platform, handle]) => getPlatformBadge(handle, platform))
                     .filter(Boolean)
                     .join(' ');
@@ -703,18 +731,20 @@
                                 ${expandIcon}
                             </button>
                         </td>
-                        <td class="${pClass} font-medium text-slate-200">${displayCountry}</td>
-                        <td class="${pClass}">
+                        <td class="${pClass} font-medium text-slate-200 align-middle">${displayCountry}</td>
+                        <td class="${pClass} align-middle">
                             <div class="font-semibold text-white group-hover:text-blue-400 transition-colors">${highlightMatch(row.outlet)}</div>
                             ${noteBlockHtml}
                         </td>
-                        <td class="${pClass} flex flex-col items-start gap-1 justify-center h-full pt-4">
-                            ${getTypeBadge(row.type)}
-                            <div class="flex flex-wrap gap-1 mt-1">${platformBadges || '<span class="text-[10px] text-slate-500">Website direct</span>'}</div>
+                        <td class="${pClass} align-middle">
+                            <div class="flex flex-col items-start gap-1 justify-center py-1">
+                                ${getTypeBadge(row.type)}
+                                <div class="flex flex-wrap gap-1.5 mt-0.5">${primaryBadge} ${platformBadges}</div>
+                            </div>
                         </td>
-                        <td class="${pClass} text-slate-300">${row.region}</td>
-                        <td class="${pClass} text-slate-300">${row.language}</td>
-                        <td class="${pClass} text-right" onclick="event.stopPropagation()">
+                        <td class="${pClass} text-slate-300 align-middle">${row.region}</td>
+                        <td class="${pClass} text-slate-300 align-middle">${row.language}</td>
+                        <td class="${pClass} text-right align-middle" onclick="event.stopPropagation()">
                             <a href="${row.link}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 text-blue-400 hover:text-blue-300 bg-blue-500/10 hover:bg-blue-500/20 px-3 py-1.5 rounded-lg text-sm font-medium transition-colors">
                                 Open
                                 <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
