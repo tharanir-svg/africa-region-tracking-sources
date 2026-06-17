@@ -85,8 +85,8 @@
             <div>
                 <h4 class="text-slate-200 font-semibold mb-2">Revision & Curation Logs</h4>
                 <ul class="space-y-1.5 text-xs text-slate-400">
-                    <li class="flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> <strong>v2.2 Release:</strong> Aligned link policies, upgraded secure HTTPS targets, and expanded platform search.</li>
-                    <li class="flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-blue-500"></span> <strong>v2.1 Release:</strong> Unified platform fields & multi-dimensional search indexes.</li>
+                    <li class="flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> <strong>v2.3 Release:</strong> Interactive platform badges added for direct social access.</li>
+                    <li class="flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-blue-500"></span> <strong>v2.2 Release:</strong> Aligned link policies and expanded search indexes.</li>
                     <li class="flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-slate-500"></span> <strong>Review Cycle:</strong> Curated weekly by regional media analysts.</li>
                 </ul>
             </div>
@@ -176,7 +176,7 @@
             Last verified & updated: <strong>16 Jun 2026</strong>
         </div>
         <div>
-            Maintained by <span class="font-medium text-slate-400">Africa Media Watch Team</span> • v2.2
+            Maintained by <span class="font-medium text-slate-400">Africa Media Watch Team</span> • v2.3
         </div>
     </footer>
 
@@ -562,34 +562,33 @@
         };
 
         // --- STREAMING_CHUNK: Compiling channel access badging... ---
-        function getPrimaryLinkBadge(link) {
-            let type = 'Website';
-            let color = 'bg-slate-700 text-slate-200 border-slate-500';
-            
-            if (link.includes('facebook.com')) { type = 'Facebook'; color = 'bg-blue-900/40 text-blue-300 border-blue-800/50'; }
-            else if (link.includes('t.me')) { type = 'Telegram'; color = 'bg-sky-900/40 text-sky-300 border-sky-800/50'; }
-            else if (link.includes('twitter.com') || link.includes('x.com')) { type = 'X'; color = 'bg-slate-800 text-slate-300 border-slate-600'; }
-            else if (link.includes('instagram.com')) { type = 'Instagram'; color = 'bg-pink-900/40 text-pink-300 border-pink-800/50'; }
-            else if (link.includes('youtube.com')) { type = 'YouTube'; color = 'bg-red-950/40 text-red-300 border-red-800/40'; }
-            
-            return `<span class="${color} border text-[10px] px-1.5 py-0.5 rounded font-medium tracking-wide inline-flex items-center gap-1" title="Primary Destination">
-                <svg class="w-3 h-3 opacity-70" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"></path></svg>
-                ${type}
-            </span>`;
-        }
-        
         function getPlatformBadge(handle, platform) {
             if (!handle) return '';
+            
+            let url = '';
+            let cleanHandle = handle.toString().trim();
+            if (cleanHandle.startsWith('@')) cleanHandle = cleanHandle.substring(1);
+
             const labels = {
-                youtube: { text: 'YT', color: 'bg-red-950/20 text-red-400 border-red-900/40' },
-                x: { text: 'X', color: 'bg-slate-800/60 text-slate-400 border-slate-700' },
-                facebook: { text: 'FB', color: 'bg-blue-950/20 text-blue-400 border-blue-900/40' },
-                telegram: { text: 'TG', color: 'bg-sky-950/20 text-sky-400 border-sky-900/40' }
+                youtube: { text: 'YT', color: 'bg-red-950/20 text-red-400 border-red-900/40 hover:bg-red-900/50' },
+                x: { text: 'X', color: 'bg-slate-800/60 text-slate-400 border-slate-700 hover:bg-slate-700' },
+                facebook: { text: 'FB', color: 'bg-blue-950/20 text-blue-400 border-blue-900/40 hover:bg-blue-900/50' },
+                telegram: { text: 'TG', color: 'bg-sky-950/20 text-sky-400 border-sky-900/40 hover:bg-sky-900/50' }
             };
             const config = labels[platform];
             // Safety guard in case dataset ever includes a new, unmapped platform
             if (!config) return ''; 
-            return `<span class="${config.color} border text-[10px] px-1.5 py-0.5 rounded font-medium tracking-wide inline-flex items-center gap-1 opacity-90" title="Secondary Feed: ${platform}">${config.text}: ${handle}</span>`;
+            
+            // Construct direct platform URLs
+            if (platform === 'youtube') url = 'https://youtube.com/' + (handle.startsWith('@') ? handle : '@' + handle);
+            else if (platform === 'x') url = 'https://x.com/' + cleanHandle;
+            else if (platform === 'facebook') url = 'https://facebook.com/' + cleanHandle;
+            else if (platform === 'telegram') url = 'https://t.me/' + cleanHandle;
+
+            return `<a href="${url}" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()" class="${config.color} border text-[10px] px-1.5 py-0.5 rounded font-medium tracking-wide inline-flex items-center gap-1 transition-colors cursor-pointer" title="Open ${platform} profile">
+                ${config.text}: ${handle}
+                <svg class="w-2.5 h-2.5 opacity-60" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+            </a>`;
         }
         
         function getTypeBadge(type) {
@@ -603,7 +602,7 @@
                 'Tabloid': 'text-rose-400 border-rose-800/30 bg-rose-950/10',
                 'Entertainment': 'text-fuchsia-400 border-fuchsia-800/30 bg-fuchsia-950/10'
             };
-            const colorClass = colors[type] || 'text-slate-400';
+            const colorClass = colors[type] || 'text-slate-400 border-slate-700 bg-slate-800/40';
             return `<span class="text-xs border px-2 py-0.5 rounded-full ${colorClass}">${type}</span>`;
         }
 
@@ -639,7 +638,7 @@
             const totalNews = sourcesData.filter(d => d.category === 'news').length;
             const totalChatter = sourcesData.filter(d => d.category === 'chatter').length;
             
-            // Correct status line addressing Issue #3
+            // Correct status line
             if (state.activeTab === 'news') {
                 els.status.innerHTML = `Showing <strong>${activeTabData.length}</strong> of <strong>${totalNews}</strong> News Sources`;
             } else {
@@ -669,7 +668,7 @@
             `;
             els.tableHeader.innerHTML = headerHtml;
 
-            // Stable key-based toggle routine (Issue #2 resolved)
+            // Stable key-based toggle routine
             window.toggleRow = (rowId) => {
                 if (state.expandedRows.has(rowId)) {
                     state.expandedRows.delete(rowId);
@@ -702,22 +701,12 @@
                     : `<svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>`;
 
                 // Platform tags generator
-                const primaryBadge = getPrimaryLinkBadge(row.link);
-                
-                // Filter out redundant badges (If the main link is already FB, don't show an FB handle tag next to it)
                 const platformBadges = Object.entries(row.platforms || {})
-                    .filter(([platform]) => {
-                        if (platform === 'facebook' && row.link.includes('facebook.com')) return false;
-                        if (platform === 'x' && (row.link.includes('twitter.com') || row.link.includes('x.com'))) return false;
-                        if (platform === 'youtube' && row.link.includes('youtube.com')) return false;
-                        if (platform === 'telegram' && row.link.includes('t.me')) return false;
-                        return true;
-                    })
                     .map(([platform, handle]) => getPlatformBadge(handle, platform))
                     .filter(Boolean)
                     .join(' ');
 
-                // Display structured metadata inline (subject to density settings addressing Issue #3)
+                // Display structured metadata inline
                 const noteBlockHtml = (state.density === 'comfortable') 
                     ? `<div class="text-[11px] text-slate-400 mt-1 truncate max-w-[240px]">${highlightMatch(row.monitoringNotes)}</div>`
                     : '';
@@ -731,20 +720,18 @@
                                 ${expandIcon}
                             </button>
                         </td>
-                        <td class="${pClass} font-medium text-slate-200 align-middle">${displayCountry}</td>
-                        <td class="${pClass} align-middle">
+                        <td class="${pClass} font-medium text-slate-200">${displayCountry}</td>
+                        <td class="${pClass}">
                             <div class="font-semibold text-white group-hover:text-blue-400 transition-colors">${highlightMatch(row.outlet)}</div>
                             ${noteBlockHtml}
                         </td>
-                        <td class="${pClass} align-middle">
-                            <div class="flex flex-col items-start gap-1 justify-center py-1">
-                                ${getTypeBadge(row.type)}
-                                <div class="flex flex-wrap gap-1.5 mt-0.5">${primaryBadge} ${platformBadges}</div>
-                            </div>
+                        <td class="${pClass} flex flex-col items-start gap-1 justify-center h-full pt-4">
+                            ${getTypeBadge(row.type)}
+                            <div class="flex flex-wrap gap-1 mt-1">${platformBadges || '<span class="text-[10px] text-slate-500">Website direct</span>'}</div>
                         </td>
-                        <td class="${pClass} text-slate-300 align-middle">${row.region}</td>
-                        <td class="${pClass} text-slate-300 align-middle">${row.language}</td>
-                        <td class="${pClass} text-right align-middle" onclick="event.stopPropagation()">
+                        <td class="${pClass} text-slate-300">${row.region}</td>
+                        <td class="${pClass} text-slate-300">${row.language}</td>
+                        <td class="${pClass} text-right" onclick="event.stopPropagation()">
                             <a href="${row.link}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 text-blue-400 hover:text-blue-300 bg-blue-500/10 hover:bg-blue-500/20 px-3 py-1.5 rounded-lg text-sm font-medium transition-colors">
                                 Open
                                 <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
@@ -753,7 +740,7 @@
                     </tr>
                 `;
                 
-                // Detailed structured view targeting Issue #5
+                // Detailed structured view
                 const detailRow = isExpanded ? `
                     <tr class="bg-slate-900/40 border-b border-slate-700/50">
                         <td colspan="7" class="${pClass} px-10">
